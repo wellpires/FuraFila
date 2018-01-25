@@ -12,7 +12,7 @@
     </h:head> 
 
     <h:body style="background-color: #B3D7F7">
-        <h:form id="formRedirecionamento">
+        <h:form id="formRedirect">
             <div align="center" style="margin-top: 100px">
                 <p:graphicImage value="#{img.caminhoImagens}#{img.logoFuraFila}" style="width: 40%" />
             </div>
@@ -29,7 +29,7 @@
                 </p:outputLabel>
             </div>
 
-            <p:poll autoStart="true" interval="1" listener="#{logoffBean.contador}" update=":formRedirecionamento:txtMensagem"  >
+            <p:poll autoStart="true" interval="1" listener="#{logoffBean.contador}" update=":formRedirect:txtMensagem"  >
             </p:poll>
             
         </h:form>
