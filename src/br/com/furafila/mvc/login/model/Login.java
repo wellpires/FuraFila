@@ -10,19 +10,19 @@ import br.com.furafila.utils.FuraFilaUtils;
  */
 public class Login {
 
-    private Integer id_login = 0;
+    private Integer idLogin = 0;
     private String usuario = "";
     private String senha = "";
     private Boolean status;
-    private Boolean disponivel_entrega;
+    private Boolean disponivelEntrega;
     private Permissao permissao = new Permissao();
 
-    public Integer getId_login() {
-        return id_login;
+    public Integer getIdLogin() {
+        return idLogin;
     }
 
-    public void setId_login(Integer id_login) {
-        this.id_login = id_login;
+    public void setIdLogin(Integer id_login) {
+        this.idLogin = id_login;
     }
 
     public String getUsuario() {
@@ -70,40 +70,40 @@ public class Login {
     }
 
     public String getDisponivel_entregaExibicao() {
-        return disponivel_entrega ? FuraFilaConstants.DISPONIVEL : FuraFilaConstants.INDISPONIVEL;
+        return disponivelEntrega ? FuraFilaConstants.DISPONIVEL : FuraFilaConstants.INDISPONIVEL;
     }
 
     public Character getDisponivel_entregaSQL() {
-        return disponivel_entrega ? FuraFilaConstants.COD_ATIVO : FuraFilaConstants.COD_INATIVO;
+        return disponivelEntrega ? FuraFilaConstants.COD_ATIVO : FuraFilaConstants.COD_INATIVO;
     }
     
-    public Boolean getDisponivel_entrega() {
-        return disponivel_entrega;
+    public Boolean getDisponivelEntrega() {
+        return disponivelEntrega;
     }
 
-    public void setDisponivel_entrega(Boolean disponivel_entrega) {
-        this.disponivel_entrega = disponivel_entrega;
+    public void setDisponivelEntrega(Boolean disponivel_entrega) {
+        this.disponivelEntrega = disponivel_entrega;
     }
 
     public Login clonar() throws Exception {
 
         Login login = new Login();
 
-        login.setId_login(getId_login());
+        login.setIdLogin(getIdLogin());
         login.setUsuario(getUsuario());
         login.setSenha(getSenha());
         login.setPermissao(getPermissao());
-        login.setDisponivel_entrega(getDisponivel_entrega());
+        login.setDisponivelEntrega(getDisponivelEntrega());
         login.setStatus(getStatus());
 
         return login;
     }
 
     public void zerarObjeto(){
-        this.setId_login((Integer) 0);
+        this.setIdLogin((Integer) 0);
         this.setUsuario("");
         this.setSenha("");
-        this.setDisponivel_entrega(Boolean.FALSE);
+        this.setDisponivelEntrega(Boolean.FALSE);
         this.setStatus(Boolean.FALSE);
         getPermissao().zerarObjeto();
     }

@@ -22,13 +22,13 @@ public class EstabelecimentoBusiness {
                 + "inscricao_estadual, "
                 + "status "
                 + ") VALUES ("
-                + "'" + estabelecimento.getRazao_social() + "',"
+                + "'" + estabelecimento.getRazaoSocial() + "',"
                 + "'" + estabelecimento.getEmail() + "',"
                 + "'" + estabelecimento.getCnpj() + "',"
-                + "'" + estabelecimento.getInscricao_estadual() + "',"
+                + "'" + estabelecimento.getInscricaoEstadual() + "',"
                 + "'" + estabelecimento.getStatusSQL() + "')";
 
-        estabelecimento.setId_estabelecimento(BancoDados.inserirRetornaID(strQuery));
+        estabelecimento.setIdEstabelecimento(BancoDados.inserirRetornaID(strQuery));
 
     }
 
@@ -37,10 +37,10 @@ public class EstabelecimentoBusiness {
         String strQuery = "UPDATE "
                 + "ESTABELECIMENTO"
                 + " SET "
-                + "razao_social = '" + estabelecimento.getRazao_social() + "',"
+                + "razao_social = '" + estabelecimento.getRazaoSocial() + "',"
                 + " cnpj = '" + estabelecimento.getCnpj() + "',"
-                + " inscricao_estadual = '" + estabelecimento.getInscricao_estadual() + "'"
-                + " WHERE id_estabelecimento = " + estabelecimento.getId_estabelecimento();
+                + " inscricao_estadual = '" + estabelecimento.getInscricaoEstadual() + "'"
+                + " WHERE id_estabelecimento = " + estabelecimento.getIdEstabelecimento();
 
         BancoDados.executaComando(strQuery);
 
@@ -51,7 +51,7 @@ public class EstabelecimentoBusiness {
         String strQuery = "UPDATE "
                 + "ESTABELECIMENTO "
                 + "SET status = '" + estabelecimento.getStatusSQL() + "' "
-                + "WHERE id_estabelecimento = " + estabelecimento.getId_estabelecimento();
+                + "WHERE id_estabelecimento = " + estabelecimento.getIdEstabelecimento();
 
         BancoDados.executaComando(strQuery);
 
@@ -82,7 +82,7 @@ public class EstabelecimentoBusiness {
                 + "E.cnpj AS [CNPJ], "
                 + "E.inscricao_estadual AS [INSCRICAO_ESTADUAL], "
                 + "(SELECT I.id_imagem FROM IMAGEM I WHERE I.id_imagem = E.id_imagem_FK) AS [CD IMAGEM]"
-                + " FROM ESTABELECIMENTO E WHERE E.id_estabelecimento = " + estabelecimento.getId_estabelecimento();
+                + " FROM ESTABELECIMENTO E WHERE E.id_estabelecimento = " + estabelecimento.getIdEstabelecimento();
 
         return BancoDados.retornaRegistro(strQuery);
 
@@ -91,7 +91,7 @@ public class EstabelecimentoBusiness {
     public List<String> pegarRazaoSocial(Estabelecimento estabelecimento) throws Exception{
         
         String strQuery = "SELECT E.razao_social AS [RAZAO_SOCIAL] "
-                + "FROM ESTABELECIMENTO E WHERE E.razao_social LIKE '" + estabelecimento.getRazao_social() + "'";
+                + "FROM ESTABELECIMENTO E WHERE E.razao_social LIKE '" + estabelecimento.getRazaoSocial() + "'";
         
         return BancoDados.retornaRegistro(strQuery);
         
@@ -115,7 +115,7 @@ public class EstabelecimentoBusiness {
     public List<String> pegarInscricaoEstadual(Estabelecimento estabelecimento) throws Exception{
         
         String strQuery = "SELECT E.inscricao_estadual AS [IE] "
-                + "FROM ESTABELECIMENTO E WHERE E.inscricao_estadual = " + estabelecimento.getInscricao_estadual();
+                + "FROM ESTABELECIMENTO E WHERE E.inscricao_estadual = " + estabelecimento.getInscricaoEstadual();
         
         return BancoDados.retornaRegistro(strQuery);
         

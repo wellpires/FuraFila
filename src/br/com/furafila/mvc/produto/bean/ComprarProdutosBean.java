@@ -151,7 +151,7 @@ public class ComprarProdutosBean implements Serializable {
                 hmDistancias.put(d.getDistancia(), l);
 
                 LatLng center = new LatLng(l.getLogradouro().getLatitude(), l.getLogradouro().getLongitude());
-                getGeoModel().addOverlay(new Marker(center, l.getConjunto_locker_desc()));
+                getGeoModel().addOverlay(new Marker(center, l.getConjuntoLockerDesc()));
 
             }
 
@@ -172,7 +172,7 @@ public class ComprarProdutosBean implements Serializable {
         PedidoLocker pd = new PedidoLocker();
         pd.setPedidos(p.clonar());
 
-        int posicaoLista = existeProduto(pd.getPedidos().getProduto().getId_produto());
+        int posicaoLista = existeProduto(pd.getPedidos().getProduto().getIdProduto());
 
         if (posicaoLista > -1) {
             getLstCarrinho().get(posicaoLista).getPedidos().somarQtdeProdutos(pd.getPedidos().getQtd());
@@ -210,7 +210,7 @@ public class ComprarProdutosBean implements Serializable {
         int posicaoLista = -1;
 
         for (int i = 0; i < getLstCarrinho().size(); i++) {
-            if (getLstCarrinho().get(i).getPedidos().getProduto().getId_produto() == codigo) {
+            if (getLstCarrinho().get(i).getPedidos().getProduto().getIdProduto() == codigo) {
                 posicaoLista = i;
             }
         }
@@ -255,7 +255,7 @@ public class ComprarProdutosBean implements Serializable {
             Estabelecimento e = getLstCarrinho().get(i).getPedidos().getComanda().getEstabelecimento();
 
             for (Estabelecimento est : getLstEstabelecimentos()) {
-                if (e.getRazao_social().equalsIgnoreCase(est.getRazao_social())) {
+                if (e.getRazaoSocial().equalsIgnoreCase(est.getRazaoSocial())) {
                     estabelecimentoExiste++;
                 }
             }
@@ -295,13 +295,13 @@ public class ComprarProdutosBean implements Serializable {
 
             for (PedidoLocker p : getLstCarrinho()) {
                 pagamento.addItem(
-                        p.getPedidos().getProduto().getId_produto().toString(),
-                        p.getPedidos().getProduto().getProduto_desc(),
+                        p.getPedidos().getProduto().getIdProduto().toString(),
+                        p.getPedidos().getProduto().getProdutoDesc(),
                         p.getPedidos().getQtd(),
-                        new BigDecimal(p.getPedidos().getProduto().getValor_unitario()).setScale(2, RoundingMode.UP),
+                        new BigDecimal(p.getPedidos().getProduto().getValorUnitario()).setScale(2, RoundingMode.UP),
                         0L,
                         new BigDecimal("0.00"));
-                getPedidoLocker().getPedidos().getComanda().setId_comanda(p.getPedidos().getComanda().getId_comanda());
+                getPedidoLocker().getPedidos().getComanda().setIdComanda(p.getPedidos().getComanda().getIdComanda());
             }
 
             Cliente c = pegarDadosSessaoCliente();
@@ -309,8 +309,8 @@ public class ComprarProdutosBean implements Serializable {
             pagamento.setSender(
                     c.getNome(),
                     c.getEmail(),
-                    c.getTel_res().toString().substring(0, 2),
-                    c.getTel_res().toString().substring(2),
+                    c.getTelRes().toString().substring(0, 2),
+                    c.getTelRes().toString().substring(2),
                     DocumentType.CPF,
                     c.getCpfFormatado(),
                     FuraFilaUtils.formataData(c.getDataNascimento(), FuraFilaConstants.PADRAO_DATA_EXIBICAO));
@@ -319,9 +319,9 @@ public class ComprarProdutosBean implements Serializable {
 
             pagamento.setShipping(ShippingType.NOT_SPECIFIED,
                     "BRA",
-                    c.getLogradouro().getBairro().getCidade().getUf().getSigla_uf(),
-                    c.getLogradouro().getBairro().getCidade().getDesc_cidade(),
-                    c.getLogradouro().getBairro().getDesc_bairro(),
+                    c.getLogradouro().getBairro().getCidade().getUf().getSiglaUf(),
+                    c.getLogradouro().getBairro().getCidade().getDescCidade(),
+                    c.getLogradouro().getBairro().getDescBairro(),
                     c.getLogradouro().getNroCepFormatado().replace("-", ""),
                     c.getLogradouro().getLogradouroFormatado(),
                     c.getNroCasa().toString(),
@@ -332,9 +332,9 @@ public class ComprarProdutosBean implements Serializable {
             pagamento.getNotificationURL();
             getPedidoLocker().getPedidos().getComanda().setCodigoPedido(codigoCompra);
 
-            getPedidoLocker().getPedidos().getComanda().getStatus().setId_status(FuraFilaConstants.COD_EM_ANALISE);
+            getPedidoLocker().getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_EM_ANALISE);
             getPedidoLocker().getPedidos().getComanda().setCliente(pegarDadosSessaoCliente().clonar());
-            getPedidoLocker().getPedidos().getComanda().setId_comanda(FuraFilaUtils.gerarCodigoVenda().toString());
+            getPedidoLocker().getPedidos().getComanda().setIdComanda(FuraFilaUtils.gerarCodigoVenda().toString());
 
             FacesContext.getCurrentInstance().getExternalContext().redirect("https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=" + codigoCompra);
             gravarPedidoComanda();
@@ -351,7 +351,7 @@ public class ComprarProdutosBean implements Serializable {
             getComandaBusiness().gravarComanda(getPedidoLocker().getPedidos().getComanda());
 
             for (PedidoLocker pl : getLstCarrinho()) {
-                pl.getPedidos().getComanda().setId_comanda(getPedidoLocker().getPedidos().getComanda().getId_comanda());
+                pl.getPedidos().getComanda().setIdComanda(getPedidoLocker().getPedidos().getComanda().getIdComanda());
                 getPedidoBusiness().gravarPedido(pl.getPedidos());
                 getPedidoLockerBusiness().gravar(pl);
             }
@@ -366,7 +366,7 @@ public class ComprarProdutosBean implements Serializable {
 
         for (PedidoLocker pd : getLstCarrinho()) {
             pd.getPedidos().getComanda().setCliente(pegarDadosSessaoCliente().clonar());
-            pd.getPedidos().getComanda().getStatus().setId_status(FuraFilaConstants.COD_EM_ANALISE);
+            pd.getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_EM_ANALISE);
         }
 
         return Navegacao.irPaginaFinalizarCompra();
@@ -393,11 +393,11 @@ public class ComprarProdutosBean implements Serializable {
                 }
             }
 
-            locker.getStatus().setId_status(FuraFilaConstants.COD_LOCKER_EM_USO);
+            locker.getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_EM_USO);
 
             for (PedidoLocker pd : getLstCarrinho()) {
-                pd.getLocker().setId_locker(locker.getId_locker());
-                pd.getLocker().setLocker_desc(locker.getLocker_desc());
+                pd.getLocker().setIdLocker(locker.getIdLocker());
+                pd.getLocker().setLockerDesc(locker.getLockerDesc());
                 pd.getLocker().setDimensao(locker.getDimensao());
                 pd.getLocker().setConjuntoLocker(getConjuntoLocker());
                 pd.getLocker().setStatus(locker.getStatus());
@@ -444,7 +444,7 @@ public class ComprarProdutosBean implements Serializable {
     public Boolean verificarEstabelecimentoDuplicado(Pedidos p){
         Boolean desativar = false;
         for(PedidoLocker pl : getLstCarrinho()){
-            if(!p.getComanda().getEstabelecimento().getRazao_social().equalsIgnoreCase(pl.getPedidos().getComanda().getEstabelecimento().getRazao_social())){
+            if(!p.getComanda().getEstabelecimento().getRazaoSocial().equalsIgnoreCase(pl.getPedidos().getComanda().getEstabelecimento().getRazaoSocial())){
                 desativar = true;
                 break;
             }

@@ -8,26 +8,26 @@ import br.com.furafila.utils.FuraFilaUtils;
  */
 public class Dimensao {
 
-    private Integer id_dimensao = 0;
-    private String dimensao_desc;
+    private Integer idDimensao = 0;
+    private String dimensaoDesc;
     private Integer altura;
     private Integer largura;
     private Integer profundidade;
 
-    public Integer getId_dimensao() {
-        return id_dimensao;
+    public Integer getIdDimensao() {
+        return idDimensao;
     }
 
-    public void setId_dimensao(Integer id_dimensao) {
-        this.id_dimensao = id_dimensao;
+    public void setIdDimensao(Integer id_dimensao) {
+        this.idDimensao = id_dimensao;
     }
 
-    public String getDimensao_desc() {
-        return dimensao_desc;
+    public String getDimensaoDesc() {
+        return dimensaoDesc;
     }
 
-    public void setDimensao_desc(String dimensao_desc) {
-        this.dimensao_desc = dimensao_desc;
+    public void setDimensaoDesc(String dimensao_desc) {
+        this.dimensaoDesc = dimensao_desc;
     }
 
     public Integer getAltura() {
@@ -65,8 +65,8 @@ public class Dimensao {
         Dimensao d = new Dimensao();
 
         d.setAltura(getAltura());
-        d.setDimensao_desc(getDimensao_desc());
-        d.setId_dimensao(getId_dimensao());
+        d.setDimensaoDesc(getDimensaoDesc());
+        d.setIdDimensao(getIdDimensao());
         d.setLargura(getLargura());
         d.setProfundidade(getProfundidade());
 

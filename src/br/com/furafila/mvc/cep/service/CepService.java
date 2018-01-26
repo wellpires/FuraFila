@@ -34,19 +34,19 @@ public class CepService {
             Element elemento = (Element) i.next();
 
             if (elemento.getQualifiedName().equals(FuraFilaConstants.UF)) {
-                logradouro.getBairro().getCidade().getUf().setSigla_uf(elemento.getText());
+                logradouro.getBairro().getCidade().getUf().setSiglaUf(elemento.getText());
             }
 
             if (elemento.getQualifiedName().equals(FuraFilaConstants.CIDADE)) {
-                logradouro.getBairro().getCidade().setDesc_cidade(elemento.getText());
+                logradouro.getBairro().getCidade().setDescCidade(elemento.getText());
             }
 
             if (elemento.getQualifiedName().equals(FuraFilaConstants.BAIRRO)) {
-                logradouro.getBairro().setDesc_bairro(elemento.getText());
+                logradouro.getBairro().setDescBairro(elemento.getText());
             }
 
             if (elemento.getQualifiedName().equals(FuraFilaConstants.TIPO_LOGRADOURO)) {
-                logradouro.getTipoLogradouro().setDesc_tipo_logradouro(elemento.getText());
+                logradouro.getTipoLogradouro().setDescTipoLogradouro(elemento.getText());
             }
 
             if (elemento.getQualifiedName().equals(FuraFilaConstants.LOGRADOURO)) {

@@ -6,15 +6,15 @@ package br.com.furafila.mvc.motivoEntrada.model;
  * @author Gabriel Sanches Martins
  */
 public class MotivoEntrada {
-    private Integer id_motivo_entrada = 0;
+    private Integer idMotivoEntrada = 0;
     private String motivoEntrada ="";
 
-    public Integer getId_motivo_entrada() {
-        return id_motivo_entrada;
+    public Integer getIdMotivoEntrada() {
+        return idMotivoEntrada;
     }
 
-    public void setId_motivo_entrada(Integer id_motivo_entrada) {
-        this.id_motivo_entrada = id_motivo_entrada;
+    public void setIdMotivoEntrada(Integer id_motivo_entrada) {
+        this.idMotivoEntrada = id_motivo_entrada;
     }
 
     public String getMotivoEntrada() {
@@ -28,7 +28,7 @@ public class MotivoEntrada {
     public MotivoEntrada Clonar(){
         MotivoEntrada me = new MotivoEntrada();
         
-        me.setId_motivo_entrada(getId_motivo_entrada());
+        me.setIdMotivoEntrada(getIdMotivoEntrada());
         me.setMotivoEntrada(me.getMotivoEntrada());
     
         return me;

@@ -15,13 +15,13 @@ import br.com.furafila.utils.FuraFilaUtils;
  */
 public class Cliente {
 
-    private Integer id_cliente = 0;
+    private Integer idCliente = 0;
     private String nome = "";
     private Date dataNascimento;
     private Long cpf = 0L;
     private Character sexo = ' ';
-    private Long tel_res = 0L;
-    private Long tel_com = 0L;
+    private Long telRes = 0L;
+    private Long telCom = 0L;
     private Long celular = 0L;
     private String email = "";
     private Logradouro logradouro = new Logradouro();
@@ -31,12 +31,12 @@ public class Cliente {
     private Login login = new Login();
     private Imagem imagem = new Imagem();
     
-    public Integer getId_cliente() {
-        return id_cliente;
+    public Integer getIdCliente() {
+        return idCliente;
     }
 
-    public void setId_cliente(Integer id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setIdCliente(Integer id_cliente) {
+        this.idCliente = id_cliente;
     }
 
     public String getPrimeiroNome(){
@@ -118,18 +118,18 @@ public class Cliente {
         this.sexo = FuraFilaConstants.MASCULINO.equals(sexo) ? FuraFilaConstants.COD_MASCULINO : FuraFilaConstants.COD_FEMININO;
     }
 
-    public Long getTel_res() {
-        return tel_res;
+    public Long getTelRes() {
+        return telRes;
     }
 
-    public void setTel_res(Long tel_res) {
-        this.tel_res = tel_res;
+    public void setTelRes(Long tel_res) {
+        this.telRes = tel_res;
     }
 
     public String getTel_resFormatado() {
         String telResFormatado = "";
         try {
-            telResFormatado = FuraFilaUtils.formataTelefone(tel_res);
+            telResFormatado = FuraFilaUtils.formataTelefone(telRes);
         } catch (Exception e) {
             FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, e.getMessage());
         }
@@ -141,22 +141,22 @@ public class Cliente {
         if ("".equals(tel_res)) {
             tel_res = "0";
         }
-        this.tel_res = Long.parseLong(tel_res.replaceAll("[(|)|-]", ""));
+        this.telRes = Long.parseLong(tel_res.replaceAll("[(|)|-]", ""));
     }
 
-    public Long getTel_com() {
-        return tel_com;
+    public Long getTelCom() {
+        return telCom;
     }
 
-    public void setTel_com(Long tel_com) {
-        this.tel_com = tel_com;
+    public void setTelCom(Long tel_com) {
+        this.telCom = tel_com;
     }
 
     public String getTel_comFormatado() {
 
         String telComFormatado = "";
         try {
-            telComFormatado = FuraFilaUtils.formataTelefone(tel_com);
+            telComFormatado = FuraFilaUtils.formataTelefone(telCom);
         } catch (Exception ex) {
             FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
         }
@@ -169,7 +169,7 @@ public class Cliente {
         if ("".equals(tel_com)) {
             tel_com = "0";
         }
-        this.tel_com = Long.parseLong(tel_com.replaceAll("[(|)|-]", ""));
+        this.telCom = Long.parseLong(tel_com.replaceAll("[(|)|-]", ""));
     }
 
     public Long getCelular() {
@@ -261,7 +261,7 @@ public class Cliente {
         cliente.setDataNascimento(getDataNascimento());
         cliente.setEmail(getEmail());
         cliente.setLogradouro(getLogradouro());
-        cliente.setId_cliente(getId_cliente());
+        cliente.setIdCliente(getIdCliente());
         cliente.setImagem(getImagem());
         cliente.setSexo(getSexo());
         cliente.setLogin(getLogin());
@@ -269,8 +269,8 @@ public class Cliente {
         cliente.setComplemento(getComplemento());
         cliente.setNroCasa(getNroCasa());
         cliente.setNroApto(getNroApto());
-        cliente.setTel_res(getTel_res());
-        cliente.setTel_com(getTel_com());
+        cliente.setTelRes(getTelRes());
+        cliente.setTelCom(getTelCom());
         cliente.setCelular(getCelular());
 
         return cliente;
@@ -281,7 +281,7 @@ public class Cliente {
         setDataNascimento(null);
         setEmail("");
         getLogradouro().zerarObjeto();
-        setId_cliente(0);
+        setIdCliente(0);
         getImagem().zerarObjeto();
         setSexo(' ');
         getLogin().zerarObjeto();
@@ -289,8 +289,8 @@ public class Cliente {
         setComplemento("");
         setNroCasa(0);
         setNroApto(0);
-        setTel_res(0L);
-        setTel_com(0L);
+        setTelRes(0L);
+        setTelCom(0L);
         setCelular(0L);
     }
 

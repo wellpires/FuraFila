@@ -123,10 +123,10 @@ public class ConjuntoLockerBean implements Serializable {
                 for (Integer i = 0; i < getQtdLockerPequeno(); i++) {
 
                     lockerUnd = new Locker();
-                    lockerUnd.setLocker_desc(String.valueOf((i + 1)));
+                    lockerUnd.setLockerDesc(String.valueOf((i + 1)));
                     lockerUnd.setConjuntoLocker(getConjuntoLocker());
-                    lockerUnd.getDimensao().setId_dimensao(FuraFilaConstants.COD_TIPO_DIMENSAO_LOCKER_PEQUENO);
-                    lockerUnd.getStatus().setId_status(FuraFilaConstants.COD_LOCKER_LIVRE);
+                    lockerUnd.getDimensao().setIdDimensao(FuraFilaConstants.COD_TIPO_DIMENSAO_LOCKER_PEQUENO);
+                    lockerUnd.getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_LIVRE);
 
                     getLockerBusiness().gravar(lockerUnd);
                 }
@@ -136,10 +136,10 @@ public class ConjuntoLockerBean implements Serializable {
                 for (Integer i = 0; i < getQtdLockerMedio(); i++) {
 
                     lockerUnd = new Locker();
-                    lockerUnd.setLocker_desc(String.valueOf((i + 1)));
+                    lockerUnd.setLockerDesc(String.valueOf((i + 1)));
                     lockerUnd.setConjuntoLocker(getConjuntoLocker());
-                    lockerUnd.getDimensao().setId_dimensao(FuraFilaConstants.COD_TIPO_DIMENSAO_LOCKER_MEDIO);
-                    lockerUnd.getStatus().setId_status(FuraFilaConstants.COD_LOCKER_LIVRE);
+                    lockerUnd.getDimensao().setIdDimensao(FuraFilaConstants.COD_TIPO_DIMENSAO_LOCKER_MEDIO);
+                    lockerUnd.getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_LIVRE);
 
                     getLockerBusiness().gravar(lockerUnd);
                 }
@@ -149,10 +149,10 @@ public class ConjuntoLockerBean implements Serializable {
                 for (Integer i = 0; i < getQtdLockerGrande(); i++) {
 
                     lockerUnd = new Locker();
-                    lockerUnd.setLocker_desc(String.valueOf((i + 1)));
+                    lockerUnd.setLockerDesc(String.valueOf((i + 1)));
                     lockerUnd.setConjuntoLocker(getConjuntoLocker());
-                    lockerUnd.getDimensao().setId_dimensao(FuraFilaConstants.COD_TIPO_DIMENSAO_LOCKER_GRANDE);
-                    lockerUnd.getStatus().setId_status(FuraFilaConstants.COD_LOCKER_LIVRE);
+                    lockerUnd.getDimensao().setIdDimensao(FuraFilaConstants.COD_TIPO_DIMENSAO_LOCKER_GRANDE);
+                    lockerUnd.getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_LIVRE);
 
                     getLockerBusiness().gravar(lockerUnd);
                 }

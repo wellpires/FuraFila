@@ -8,24 +8,24 @@ import br.com.furafila.mvc.cidade.model.Cidade;
  */
 public class Bairro {
 
-    private Integer id_bairro = 0;
-    private String desc_bairro = "";
+    private Integer idBairro = 0;
+    private String descBairro = "";
     private Cidade cidade = new Cidade();
 
-    public Integer getId_bairro() {
-        return id_bairro;
+    public Integer getIdBairro() {
+        return idBairro;
     }
 
-    public void setId_bairro(Integer id_bairro) {
-        this.id_bairro = id_bairro;
+    public void setIdBairro(Integer id_bairro) {
+        this.idBairro = id_bairro;
     }
 
-    public String getDesc_bairro() {
-        return desc_bairro;
+    public String getDescBairro() {
+        return descBairro;
     }
 
-    public void setDesc_bairro(String desc_bairro) {
-        this.desc_bairro = desc_bairro;
+    public void setDescBairro(String desc_bairro) {
+        this.descBairro = desc_bairro;
     }
 
     public Cidade getCidade() {
@@ -37,23 +37,20 @@ public class Bairro {
     }
 
     public Bairro clonar() {
-
         Bairro bairro = new Bairro();
-        bairro.setId_bairro(getId_bairro());
-        bairro.setDesc_bairro(getDesc_bairro());
+        bairro.setIdBairro(getIdBairro());
+        bairro.setDescBairro(getDescBairro());
         bairro.setCidade(getCidade());
-
         return bairro;
-
     }
 
     public boolean objetoVazio() {
-        return 0 == getId_bairro() && "".equals(getDesc_bairro()) && getCidade().objetoVazio();
+        return 0 == getIdBairro() && "".equals(getDescBairro()) && getCidade().objetoVazio();
     }
 
     public void zerarObjeto() {
-        setId_bairro(0);
-        setDesc_bairro("");
+        setIdBairro(0);
+        setDescBairro("");
         getCidade().zerarObjeto();
     }
 

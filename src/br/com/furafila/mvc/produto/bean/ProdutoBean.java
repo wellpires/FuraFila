@@ -260,10 +260,10 @@ public class ProdutoBean implements Serializable {
     }
 
     public Boolean verificarPrecoZerado() {
-        if (getEstoqueProdutos().getProduto().getValor_unitario() == null) {
+        if (getEstoqueProdutos().getProduto().getValorUnitario() == null) {
             return true;
         }
-        return getEstoqueProdutos().getProduto().getValor_unitario() != Double.parseDouble("0.0");
+        return getEstoqueProdutos().getProduto().getValorUnitario() != Double.parseDouble("0.0");
     }
 
     public ProdutoBusiness getProdutoBusiness() {

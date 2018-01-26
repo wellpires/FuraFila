@@ -31,8 +31,8 @@ public class Logradouro {
     }
     
     public String getLogradouroFormatadoGoogle() {
-        return getNroCepFormatado() + "+" + getLogradouro().replace(" ", "+") + ",+" + getBairro().getDesc_bairro().replace(" ", "+")
-                + ",+" + getBairro().getCidade().getUf().getSigla_uf() + ",+BR";
+        return getNroCepFormatado() + "+" + getLogradouro().replace(" ", "+") + ",+" + getBairro().getDescBairro().replace(" ", "+")
+                + ",+" + getBairro().getCidade().getUf().getSiglaUf() + ",+BR";
     }
 
     public String getNroCepFormatado() {
@@ -70,18 +70,18 @@ public class Logradouro {
     public void setLogradouroFormatado(String logradouroFormatado) {
 
         if (!"".equals(logradouroFormatado.trim())) {
-            getTipoLogradouro().setDesc_tipo_logradouro(FuraFilaUtils.separarTipoLogradouro(logradouroFormatado).get(0));
+            getTipoLogradouro().setDescTipoLogradouro(FuraFilaUtils.separarTipoLogradouro(logradouroFormatado).get(0));
             setLogradouro(FuraFilaUtils.separarTipoLogradouro(logradouroFormatado).get(1));
         }
 
     }
 
     public String getLogradouroFormatado() {
-        return getTipoLogradouro().getDesc_tipo_logradouro() + " " + getLogradouro();
+        return getTipoLogradouro().getDescTipoLogradouro() + " " + getLogradouro();
     }   
     
     public String getLogradouroCompleto() {
-        return getTipoLogradouro().getDesc_tipo_logradouro() + " " + getLogradouro() + " - " + getBairro().getDesc_bairro() + ", " + getBairro().getCidade().getDesc_cidade() + " - " + getBairro().getCidade().getUf().getSigla_uf() + ", " + getNroCepFormatado();
+        return getTipoLogradouro().getDescTipoLogradouro() + " " + getLogradouro() + " - " + getBairro().getDescBairro() + ", " + getBairro().getCidade().getDescCidade() + " - " + getBairro().getCidade().getUf().getSiglaUf() + ", " + getNroCepFormatado();
     }
 
     public TipoLogradouro getTipoLogradouro() {

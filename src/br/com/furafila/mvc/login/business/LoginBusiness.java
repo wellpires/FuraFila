@@ -30,9 +30,9 @@ public class LoginBusiness {
                 + "'" + login.getSenhaCriptografada()+ "',"
                 + login.getStatusSQL() + ","
                 + login.getDisponivel_entregaSQL() + ","
-                + "'" + login.getPermissao().getId_permissao() + "')";
+                + "'" + login.getPermissao().getIdPermissao() + "')";
         
-        login.setId_login(BancoDados.inserirRetornaID(strQuery));
+        login.setIdLogin(BancoDados.inserirRetornaID(strQuery));
         
     }
     
@@ -43,14 +43,14 @@ public class LoginBusiness {
                 + "SET "
                 + "usuario = '" + login.getUsuario() + "', "
                 + "senha = '" + login.getSenhaCriptografada()+ "' "
-                + "WHERE id_login = " + login.getId_login();
+                + "WHERE id_login = " + login.getIdLogin();
         
         BancoDados.executaComando(strQuery);
     }
     
     public void excluir(Login login) throws Exception{
         
-        String strQuery = "DELETE FROM LOGIN WHERE id_login = " + login.getId_login();
+        String strQuery = "DELETE FROM LOGIN WHERE id_login = " + login.getIdLogin();
         
         BancoDados.executaComando(strQuery);
         
@@ -58,14 +58,14 @@ public class LoginBusiness {
     
     public void alterarStatus(Login login) throws Exception{
         
-        String strQuery = "UPDATE LOGIN SET status = " + login.getStatusSQL() + " WHERE id_login = " + login.getId_login();
+        String strQuery = "UPDATE LOGIN SET status = " + login.getStatusSQL() + " WHERE id_login = " + login.getIdLogin();
         BancoDados.executaComando(strQuery);
         
     }    
     
     public void alterarDisponibilidade(Login login) throws Exception{
         
-        String strQuery = "UPDATE LOGIN SET disponivel_entrega = " + login.getDisponivel_entregaSQL() + " WHERE id_login = " + login.getId_login();
+        String strQuery = "UPDATE LOGIN SET disponivel_entrega = " + login.getDisponivel_entregaSQL() + " WHERE id_login = " + login.getIdLogin();
         BancoDados.executaComando(strQuery);
         
     }
@@ -87,7 +87,7 @@ public class LoginBusiness {
 
     public List<String> obterUsuario(Login login, boolean isAlteracao) throws Exception{
         
-        String complementoQuery = isAlteracao ? " AND id_login <> " + login.getId_login() : "";
+        String complementoQuery = isAlteracao ? " AND id_login <> " + login.getIdLogin() : "";
         
         String strQuery = "SELECT L.usuario AS [USUARIO] FROM LOGIN L WHERE L.usuario LIKE '" + login.getUsuario() + "'" + complementoQuery;
         

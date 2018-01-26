@@ -20,10 +20,10 @@ public class LockerBusiness {
                 + "id_dimensao_FK,"
                 + "id_status_FK"
                 + ") VALUES ("
-                + "'" + locker.getLocker_desc() + "'"
-                + "," + locker.getConjuntoLocker().getId_conjunto_locker()
-                + "," + locker.getDimensao().getId_dimensao()
-                + "," + locker.getStatus().getId_status()
+                + "'" + locker.getLockerDesc() + "'"
+                + "," + locker.getConjuntoLocker().getIdConjuntoLocker()
+                + "," + locker.getDimensao().getIdDimensao()
+                + "," + locker.getStatus().getIdStatus()
                 + ")";
 
         BancoDados.executaComando(strQuery);
@@ -35,8 +35,8 @@ public class LockerBusiness {
                 + "LOCKER "
                 + "SET "
                 + "status = " + locker.getBolStatusSQL()
-                + ",id_dimensao_FK = " + locker.getDimensao().getId_dimensao()
-                + " WHERE id_locker = " + locker.getId_locker();
+                + ",id_dimensao_FK = " + locker.getDimensao().getIdDimensao()
+                + " WHERE id_locker = " + locker.getIdLocker();
         
         BancoDados.executaComando(strQuery);
         
@@ -44,7 +44,7 @@ public class LockerBusiness {
     
     public void alterarStatus(Locker locker) throws Exception {
 
-        String strQuery = "UPDATE LOCKER SET id_status_FK = " + locker.getStatus().getId_status() + " WHERE id_locker = " + locker.getId_locker();
+        String strQuery = "UPDATE LOCKER SET id_status_FK = " + locker.getStatus().getIdStatus() + " WHERE id_locker = " + locker.getIdLocker();
 
         BancoDados.executaComando(strQuery);
 
@@ -61,7 +61,7 @@ public class LockerBusiness {
                 + " id_status_FK AS [STATUS]"
                 + " FROM LOCKER L WHERE L.id_dimensao_FK IN"
                 + " (SELECT D.id_dimensao FROM DIMENSAO D WHERE (D.altura * D.largura * D.profundidade) > " + volumeTotal.toString() + ")  "
-                + "AND L.id_conjunto_locker_FK  = " + conjuntoLocker.getId_conjunto_locker();
+                + "AND L.id_conjunto_locker_FK  = " + conjuntoLocker.getIdConjuntoLocker();
 
         return BancoDados.retorna_N_Registros(strQuery);
     }

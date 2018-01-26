@@ -19,12 +19,12 @@ public class ConjuntoLockerBusiness {
                 + "nro_localizacao,"
                 + "nroCep_FK"
                 + ") VALUES ("
-                + "'" + conjuntoLocker.getConjunto_locker_desc() + "'"
-                + "," + conjuntoLocker.getNro_localizacao()
+                + "'" + conjuntoLocker.getConjuntoLockerDesc() + "'"
+                + "," + conjuntoLocker.getNroLocalizacao()
                 + "," + conjuntoLocker.getLogradouro().getNroCep()
                 + ")";
 
-        conjuntoLocker.setId_conjunto_locker(BancoDados.inserirRetornaID(strQuery));
+        conjuntoLocker.setIdConjuntoLocker(BancoDados.inserirRetornaID(strQuery));
 
     }
 
@@ -33,10 +33,10 @@ public class ConjuntoLockerBusiness {
         String strQuery = "UPDATE "
                 + "CONJUNTO_LOCKER "
                 + "SET "
-                + "conjunto_locker_desc = '" + conjuntoLocker.getConjunto_locker_desc() + "'"
+                + "conjunto_locker_desc = '" + conjuntoLocker.getConjuntoLockerDesc() + "'"
                 + ",nroCep_FK = " + conjuntoLocker.getLogradouro().getNroCep()
-                + ",nro_localizacao = " + conjuntoLocker.getNro_localizacao()
-                + " WHERE id_conjunto_locker = " + conjuntoLocker.getId_conjunto_locker();
+                + ",nro_localizacao = " + conjuntoLocker.getNroLocalizacao()
+                + " WHERE id_conjunto_locker = " + conjuntoLocker.getIdConjuntoLocker();
         
         BancoDados.executaComando(strQuery);
         
@@ -48,7 +48,7 @@ public class ConjuntoLockerBusiness {
                 + "CONJUNTO_LOCKER "
                 + "SET "
                 + "status = '" + conjuntoLocker.getStatusSQL() + "' "
-                + "WHERE id_conjunto_locker = " + conjuntoLocker.getId_conjunto_locker();
+                + "WHERE id_conjunto_locker = " + conjuntoLocker.getIdConjuntoLocker();
 
         BancoDados.executaComando(strQuery);
 
@@ -82,7 +82,7 @@ public class ConjuntoLockerBusiness {
                 + "(SELECT DL.id_dimensao_locker FROM DIMENSOES_LOCKER DL WHERE DL.id_dimensao_locker = L.id_dimensao_locker_FK) AS [CODIGO],"
                 + "(SELECT DL.dimensao_desc FROM DIMENSOES_LOCKER DL WHERE DL.id_dimensao_locker = L.id_dimensao_locker_FK) AS [TIPO],"
                 + "(SELECT S.id_status FROM STATUS S WHERE S.id_status = L.id_status_FK) AS [CD_STATUS],"
-                + "(SELECT S.status FROM STATUS S WHERE S.id_status = L.id_status_FK) AS [STATUS] FROM LOCKER L WHERE L.id_conjunto_locker_FK = " + conjuntoLocker.getId_conjunto_locker();
+                + "(SELECT S.status FROM STATUS S WHERE S.id_status = L.id_status_FK) AS [STATUS] FROM LOCKER L WHERE L.id_conjunto_locker_FK = " + conjuntoLocker.getIdConjuntoLocker();
 
         return BancoDados.retorna_N_Registros(strQuery);
 
@@ -100,7 +100,7 @@ public class ConjuntoLockerBusiness {
                 + "(SELECT D.altura FROM DIMENSAO D WHERE D.id_dimensao = L.id_dimensao_FK) AS [ALTURA],"
                 + "(SELECT D.largura FROM DIMENSAO D WHERE D.id_dimensao = L.id_dimensao_FK) AS [LARGURA],"
                 + "(SELECT D.profundidade FROM DIMENSAO D WHERE D.id_dimensao = L.id_dimensao_FK) AS [PROFUNDIDADE]"
-                + " FROM LOCKER L WHERE (L.id_status_FK = 1 OR L.id_status_FK = 2) AND L.id_conjunto_locker_FK = " + conjuntoLocker.getId_conjunto_locker();
+                + " FROM LOCKER L WHERE (L.id_status_FK = 1 OR L.id_status_FK = 2) AND L.id_conjunto_locker_FK = " + conjuntoLocker.getIdConjuntoLocker();
 
         return BancoDados.retorna_N_Registros(strQuery);
 

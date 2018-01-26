@@ -27,14 +27,14 @@ public class LockerService {
                 int index = 0;
                 Locker l = new Locker();
 
-                l.setId_locker(Integer.parseInt(lstValores.get(index++)));
-                l.setLocker_desc(lstValores.get(index++));
-                l.getConjuntoLocker().setId_conjunto_locker(Integer.parseInt(lstValores.get(index++)));
-                l.getDimensao().setId_dimensao(Integer.parseInt(lstValores.get(index++)));
+                l.setIdLocker(Integer.parseInt(lstValores.get(index++)));
+                l.setLockerDesc(lstValores.get(index++));
+                l.getConjuntoLocker().setIdConjuntoLocker(Integer.parseInt(lstValores.get(index++)));
+                l.getDimensao().setIdDimensao(Integer.parseInt(lstValores.get(index++)));
                 l.getDimensao().setAltura(Integer.parseInt(lstValores.get(index++)));
                 l.getDimensao().setLargura(Integer.parseInt(lstValores.get(index++)));
                 l.getDimensao().setProfundidade(Integer.parseInt(lstValores.get(index++)));
-                l.getStatus().setId_status(Integer.parseInt(lstValores.get(index++)));
+                l.getStatus().setIdStatus(Integer.parseInt(lstValores.get(index++)));
 
                 lstLocker.add(l);
             }

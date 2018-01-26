@@ -6,32 +6,32 @@ package br.com.furafila.mvc.tipoLogradouro.model;
  */
 public class TipoLogradouro {
     
-    private Integer id_tipo_logradouro = 0;
-    private String desc_tipo_logradouro = "";
+    private Integer idTipoLogradouro = 0;
+    private String descTipoLogradouro = "";
 
-    public Integer getId_tipo_logradouro() {
-        return id_tipo_logradouro;
+    public Integer getIdTipoLogradouro() {
+        return idTipoLogradouro;
     }
 
-    public void setId_tipo_logradouro(Integer id_tipo_logradouro) {
-        this.id_tipo_logradouro = id_tipo_logradouro;
+    public void setIdTipoLogradouro(Integer id_tipo_logradouro) {
+        this.idTipoLogradouro = id_tipo_logradouro;
     }
 
-    public String getDesc_tipo_logradouro() {
-        return desc_tipo_logradouro;
+    public String getDescTipoLogradouro() {
+        return descTipoLogradouro;
     }
 
-    public void setDesc_tipo_logradouro(String desc_tipo_logradouro) {
-        this.desc_tipo_logradouro = desc_tipo_logradouro;
+    public void setDescTipoLogradouro(String desc_tipo_logradouro) {
+        this.descTipoLogradouro = desc_tipo_logradouro;
     }
     
     public boolean objetoVazio(){
-        return 0 == getId_tipo_logradouro() && "".equals(getDesc_tipo_logradouro());
+        return 0 == getIdTipoLogradouro() && "".equals(getDescTipoLogradouro());
     }
     
     public void zerarObjeto(){
-        setId_tipo_logradouro(0);
-        setDesc_tipo_logradouro("");
+        setIdTipoLogradouro(0);
+        setDescTipoLogradouro("");
     }
     
 }

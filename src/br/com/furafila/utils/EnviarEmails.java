@@ -16,10 +16,10 @@ public class EnviarEmails {
 
     public static void enviarEmailBoasVindas(Estabelecimento estabelecimento) throws Exception {
 
-        mail.addTo(estabelecimento.getEmail(),estabelecimento.getRazao_social());
+        mail.addTo(estabelecimento.getEmail(),estabelecimento.getRazaoSocial());
         mail.setFrom(FuraFilaConstants.EMAIL_OFICIAL,FuraFilaConstants.TITULO_PROJETO);
-        mail.setSubject(FuraFilaConstants.ASSUNTO_BOAS_VINDAS + estabelecimento.getRazao_social());
-        mail.setContent(TemplateEmail.getEmailBemVindo(estabelecimento.getRazao_social()));
+        mail.setSubject(FuraFilaConstants.ASSUNTO_BOAS_VINDAS + estabelecimento.getRazaoSocial());
+        mail.setContent(TemplateEmail.getEmailBemVindo(estabelecimento.getRazaoSocial()));
         mail.send();
 
     }

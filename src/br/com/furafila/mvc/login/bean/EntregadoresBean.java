@@ -86,8 +86,8 @@ public class EntregadoresBean implements Serializable {
         }
 
         getLogin().setStatus(Boolean.TRUE);
-        getLogin().setDisponivel_entrega(Boolean.TRUE);
-        getLogin().getPermissao().setId_permissao(FuraFilaConstants.CODIGO_PERFIL_4);
+        getLogin().setDisponivelEntrega(Boolean.TRUE);
+        getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_4);
         getLoginBusiness().gravar(getLogin());
 
         FuraFilaUtils.growlInfo(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.INFO_ENTREGADOR_CADASTRADO);
@@ -123,7 +123,7 @@ public class EntregadoresBean implements Serializable {
 
         try {
 
-            getLogin().setDisponivel_entrega(!getLogin().getDisponivel_entrega());
+            getLogin().setDisponivelEntrega(!getLogin().getDisponivelEntrega());
             getLoginBusiness().alterarDisponibilidade(getLogin());
 
         } catch (Exception ex) {
@@ -149,8 +149,8 @@ public class EntregadoresBean implements Serializable {
     }
 
     public String mudarNomeBotaoDisponivel() {
-        if (getLogin().getDisponivel_entrega() != null) {
-            return getLogin().getDisponivel_entrega() ? "Indisponibilizar" : "Disponibilizar";
+        if (getLogin().getDisponivelEntrega() != null) {
+            return getLogin().getDisponivelEntrega() ? "Indisponibilizar" : "Disponibilizar";
         } else {
             return "";
         }

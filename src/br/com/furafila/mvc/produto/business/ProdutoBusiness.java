@@ -22,14 +22,14 @@ public class ProdutoBusiness {
                 + "id_imagem_FK,"
                 + "id_dimensao_FK"
                 + ") VALUES ("
-                + "'" + produto.getProduto_desc() + "',"
+                + "'" + produto.getProdutoDesc() + "',"
                 + produto.getQtdMinima() + ","
-                + produto.getTipoProduto().getId_tipo_produto() + ","
-                + produto.getImagem().getId_imagem() + ","
-                + produto.getDimensao().getId_dimensao()
+                + produto.getTipoProduto().getIdTipoProduto() + ","
+                + produto.getImagem().getIdImagem() + ","
+                + produto.getDimensao().getIdDimensao()
                 + ")";
 
-        produto.setId_produto(BancoDados.inserirRetornaID(strQuery));
+        produto.setIdProduto(BancoDados.inserirRetornaID(strQuery));
 
     }
 
@@ -38,10 +38,10 @@ public class ProdutoBusiness {
         String strQuery = "UPDATE "
                 + "PRODUTO "
                 + "SET "
-                + "produto_desc = '" + produto.getProduto_desc() + "',"
+                + "produto_desc = '" + produto.getProdutoDesc() + "',"
                 + "qtdMinima = " + produto.getQtdMinima() + ", "
-                + "id_tipo_produto_FK = " + produto.getTipoProduto().getId_tipo_produto()
-                + " WHERE id_produto = " + produto.getId_produto();
+                + "id_tipo_produto_FK = " + produto.getTipoProduto().getIdTipoProduto()
+                + " WHERE id_produto = " + produto.getIdProduto();
 
         BancoDados.executaComando(strQuery);
 
@@ -49,7 +49,7 @@ public class ProdutoBusiness {
 
     public void alterarStatus(Produto produto) throws Exception {
 
-        String strQuery = "UPDATE PRODUTO SET " + "status = " + produto.getStatusSQL() + " WHERE id_produto = " + produto.getId_produto();
+        String strQuery = "UPDATE PRODUTO SET " + "status = " + produto.getStatusSQL() + " WHERE id_produto = " + produto.getIdProduto();
 
         BancoDados.executaComando(strQuery);
 
@@ -57,7 +57,7 @@ public class ProdutoBusiness {
 
     public void alterarPreco(Produto produto) throws Exception {
 
-        String strQuery = "UPDATE PRODUTO SET valor_unitario = " + produto.getValor_unitario() + " WHERE id_produto = " + produto.getId_produto();
+        String strQuery = "UPDATE PRODUTO SET valor_unitario = " + produto.getValorUnitario() + " WHERE id_produto = " + produto.getIdProduto();
 
         BancoDados.executaComando(strQuery);
 
@@ -72,7 +72,7 @@ public class ProdutoBusiness {
                 + "FROM PRODUTO P WHERE P.id_tipo_produto_FK IN (SELECT TP.id_tipo_produto FROM TIPO_PRODUTO TP WHERE TP.status = 1)"
                 + " AND P.status = 1"
                 + " AND P.id_produto IN (SELECT EP.id_produto_FK FROM ESTOQUE_PRODUTOS EP WHERE EP.qtdEstoque = 0 "
-                + "AND EP.id_estoque_FK = (SELECT E.id_estoque FROM ESTOQUE E WHERE E.id_estabelecimento_FK = " + estabelecimento.getId_estabelecimento() + "))";
+                + "AND EP.id_estoque_FK = (SELECT E.id_estoque FROM ESTOQUE E WHERE E.id_estabelecimento_FK = " + estabelecimento.getIdEstabelecimento() + "))";
 
         return BancoDados.retorna_N_Registros(strQuery);
 
@@ -83,8 +83,8 @@ public class ProdutoBusiness {
         String orderBy = "";
         String complementoQuery = "";
 
-        if (0 != comprarProduto.getEstabelecimento().getId_estabelecimento()) {
-            complementoQuery += " AND P.id_produto IN (SELECT EP.id_produto_FK FROM ESTOQUE_PRODUTOS EP WHERE EP.id_estoque_FK IN (SELECT E.id_estoque FROM ESTOQUE E WHERE id_estabelecimento_FK = " + comprarProduto.getEstabelecimento().getId_estabelecimento() + "))";
+        if (0 != comprarProduto.getEstabelecimento().getIdEstabelecimento()) {
+            complementoQuery += " AND P.id_produto IN (SELECT EP.id_produto_FK FROM ESTOQUE_PRODUTOS EP WHERE EP.id_estoque_FK IN (SELECT E.id_estoque FROM ESTOQUE E WHERE id_estabelecimento_FK = " + comprarProduto.getEstabelecimento().getIdEstabelecimento() + "))";
         }
         if (!"".equals(comprarProduto.getOrdenarProdutos())) {
             orderBy += " ORDER BY " + comprarProduto.getOrdenarProdutos();

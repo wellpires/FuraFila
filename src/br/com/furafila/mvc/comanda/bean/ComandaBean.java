@@ -76,8 +76,8 @@ public class ComandaBean implements Serializable {
             
             PedidoLocker pl = getComandaService().buscarEstabelecimentoLocker(getPedidoLocker().getPedidos().getComanda());
             
-            pl.getPedidos().getComanda().getStatus().setId_status(FuraFilaConstants.COD_PRODUTO_ENTREGUE);
-            pl.getLocker().getStatus().setId_status(FuraFilaConstants.COD_LOCKER_LIVRE);
+            pl.getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_PRODUTO_ENTREGUE);
+            pl.getLocker().getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_LIVRE);
             getLockerBusiness().alterarStatus(pl.getLocker());
             
             for (Pedidos p : lstProdutos) {
@@ -88,7 +88,7 @@ public class ComandaBean implements Serializable {
                 getEstoqueSaidaBusiness().gravar(es, pl.getPedidos().getComanda().getEstabelecimento());
             }
             
-            FuraFilaUtils.executarJavascript("alert('Pedido nº" + getPedidoLocker().getPedidos().getComanda().getId_comanda() + " entregue!')");
+            FuraFilaUtils.executarJavascript("alert('Pedido nº" + getPedidoLocker().getPedidos().getComanda().getIdComanda() + " entregue!')");
             
             getComandaBusiness().alterarStatusComanda(getPedidoLocker().getPedidos().getComanda());
         } catch (Exception ex) {
@@ -102,8 +102,8 @@ public class ComandaBean implements Serializable {
 
             List<Pedidos> lstProdutos = getComandaService().listarProdutosPorComanda(getPedidoLocker().getPedidos().getComanda());
 
-            if (FuraFilaConstants.COD_EM_ANALISE == getPedidoLocker().getPedidos().getComanda().getStatus().getId_status()) {
-                getPedidoLocker().getPedidos().getComanda().getStatus().setId_status(FuraFilaConstants.COD_EM_SEPARACAO);
+            if (FuraFilaConstants.COD_EM_ANALISE == getPedidoLocker().getPedidos().getComanda().getStatus().getIdStatus()) {
+                getPedidoLocker().getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_EM_SEPARACAO);
 
                 Double total = 0.0;
 
@@ -112,15 +112,15 @@ public class ComandaBean implements Serializable {
                 }
 
                 EnviarEmails.enviarEmailEmSeparacao(getPedidoLocker(), FuraFilaUtils.formatarMoeda(total), lstProdutos);
-            } else if (FuraFilaConstants.COD_EM_SEPARACAO == getPedidoLocker().getPedidos().getComanda().getStatus().getId_status()) {
-                getPedidoLocker().getPedidos().getComanda().getStatus().setId_status(FuraFilaConstants.COD_ENCAMINHADO_LOCKER);
+            } else if (FuraFilaConstants.COD_EM_SEPARACAO == getPedidoLocker().getPedidos().getComanda().getStatus().getIdStatus()) {
+                getPedidoLocker().getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_ENCAMINHADO_LOCKER);
                 getComandaBusiness().atualizarDataVenda(getPedidoLocker().getPedidos().getComanda());
 
                 EnviarEmails.enviarEmailEncaminhadoLocker(getPedidoLocker());
 
-            } else if (FuraFilaConstants.COD_ENCAMINHADO_LOCKER == getPedidoLocker().getPedidos().getComanda().getStatus().getId_status()) {
-                getPedidoLocker().getPedidos().getComanda().getStatus().setId_status(FuraFilaConstants.COD_PRODUTO_ENTREGUE);
-                getPedidoLocker().getLocker().getStatus().setId_status(FuraFilaConstants.COD_LOCKER_LIVRE);
+            } else if (FuraFilaConstants.COD_ENCAMINHADO_LOCKER == getPedidoLocker().getPedidos().getComanda().getStatus().getIdStatus()) {
+                getPedidoLocker().getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_PRODUTO_ENTREGUE);
+                getPedidoLocker().getLocker().getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_LIVRE);
                 getLockerBusiness().alterarStatus(getPedidoLocker().getLocker());
 
                 for (Pedidos p : lstProdutos) {
@@ -131,7 +131,7 @@ public class ComandaBean implements Serializable {
                     getEstoqueSaidaBusiness().gravar(es, getPedidoLocker().getPedidos().getComanda().getEstabelecimento());
                 }
 
-                FuraFilaUtils.executarJavascript("alert('Pedido nº" + getPedidoLocker().getPedidos().getComanda().getId_comanda() + " entregue!')");
+                FuraFilaUtils.executarJavascript("alert('Pedido nº" + getPedidoLocker().getPedidos().getComanda().getIdComanda() + " entregue!')");
 
             }
 

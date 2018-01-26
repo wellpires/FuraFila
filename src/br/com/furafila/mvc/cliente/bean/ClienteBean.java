@@ -80,9 +80,9 @@ public class ClienteBean implements Serializable {
         try {
 
             //GRAVAR LOGIN
-            getCliente().getLogin().getPermissao().setId_permissao(FuraFilaConstants.CODIGO_PERFIL_3);
+            getCliente().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_3);
             getCliente().getLogin().setStatus(Boolean.TRUE);
-            getCliente().getLogin().setDisponivel_entrega(Boolean.FALSE);
+            getCliente().getLogin().setDisponivelEntrega(Boolean.FALSE);
             getLoginBusiness().gravar(getCliente().getLogin());
 
             //GRAVAR IMAGEM
@@ -107,7 +107,7 @@ public class ClienteBean implements Serializable {
 
         try {
             Cliente c = pegarDadosSessaoCliente();
-            getCliente().getImagem().setId_imagem(c.getImagem().getId_imagem());
+            getCliente().getImagem().setIdImagem(c.getImagem().getIdImagem());
             getImagemBusiness().alterar(getCliente().getImagem());
             getClienteBusiness().alterarDadosBasicos(getCliente());
         } catch (Exception e) {

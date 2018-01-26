@@ -76,7 +76,7 @@ public class FuraFilaValidadores {
         
     
     private static boolean razaoSocialVazio(Estabelecimento estabelecimento) {
-        return FuraFilaUtils.valorVazioNulo(estabelecimento.getRazao_social());
+        return FuraFilaUtils.valorVazioNulo(estabelecimento.getRazaoSocial());
     }
 
     private static boolean emailVazio(Estabelecimento estabelecimento) {
@@ -88,7 +88,7 @@ public class FuraFilaValidadores {
     }
 
     private static boolean inscricaoEstadualVazio(Estabelecimento estabelecimento) {
-        return FuraFilaUtils.valorZerado(estabelecimento.getInscricao_estadual());
+        return FuraFilaUtils.valorZerado(estabelecimento.getInscricaoEstadual());
     }
 
     private static boolean razaoSocialExiste(Estabelecimento estabelecimento) throws Exception {

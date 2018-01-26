@@ -24,8 +24,8 @@ public class EstabelecimentoLoginService {
 
             Integer indice = 0;
 
-            estabelecimentoLogin.getEstabelecimento().setId_estabelecimento(Integer.parseInt(lstDados.get(indice++)));
-            estabelecimentoLogin.getEstabelecimento().setRazao_social(lstDados.get(indice++));
+            estabelecimentoLogin.getEstabelecimento().setIdEstabelecimento(Integer.parseInt(lstDados.get(indice++)));
+            estabelecimentoLogin.getEstabelecimento().setRazaoSocial(lstDados.get(indice++));
             estabelecimentoLogin.getEstabelecimento().setStatus(lstDados.get(indice++).charAt(0) == FuraFilaConstants.COD_ATIVO);
 
         }
@@ -50,7 +50,7 @@ public class EstabelecimentoLoginService {
             for (List<String> valores : lstDados) {
 
                 EstabelecimentoLogin el = new EstabelecimentoLogin();
-                el.getLogin().setId_login(Integer.parseInt(valores.get(0)));
+                el.getLogin().setIdLogin(Integer.parseInt(valores.get(0)));
                 el.getLogin().setUsuario(valores.get(1));
                 lstEstabelecimentoLogin.add(el);
 

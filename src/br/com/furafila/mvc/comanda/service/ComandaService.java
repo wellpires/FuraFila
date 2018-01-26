@@ -28,24 +28,24 @@ public class ComandaService {
                 int index = 0;
                 PedidoLocker pl = new PedidoLocker();
 
-                pl.getPedidos().getComanda().setId_comanda(lstValores.get(index++));
+                pl.getPedidos().getComanda().setIdComanda(lstValores.get(index++));
                 pl.getPedidos().getComanda().setCodigoPedido(lstValores.get(index++));
-                pl.getPedidos().getComanda().getStatus().setId_status(Integer.parseInt(lstValores.get(index++)));
+                pl.getPedidos().getComanda().getStatus().setIdStatus(Integer.parseInt(lstValores.get(index++)));
                 pl.getPedidos().getComanda().getStatus().setStatus(lstValores.get(index++));
-                pl.getPedidos().getComanda().getEstabelecimento().setId_estabelecimento(Integer.parseInt(lstValores.get(index++)));
-                pl.getPedidos().getComanda().getEstabelecimento().setRazao_social(lstValores.get(index++));
+                pl.getPedidos().getComanda().getEstabelecimento().setIdEstabelecimento(Integer.parseInt(lstValores.get(index++)));
+                pl.getPedidos().getComanda().getEstabelecimento().setRazaoSocial(lstValores.get(index++));
                 pl.getPedidos().getComanda().getEstabelecimento().setCnpj(Long.parseLong(lstValores.get(index++)));
-                pl.getLocker().getConjuntoLocker().setConjunto_locker_desc(lstValores.get(index++));
-                pl.getLocker().setId_locker(Integer.parseInt(lstValores.get(index++)));
-                pl.getLocker().setLocker_desc(lstValores.get(index++));
-                pl.getLocker().getConjuntoLocker().getLogradouro().getTipoLogradouro().setDesc_tipo_logradouro(lstValores.get(index++));
+                pl.getLocker().getConjuntoLocker().setConjuntoLockerDesc(lstValores.get(index++));
+                pl.getLocker().setIdLocker(Integer.parseInt(lstValores.get(index++)));
+                pl.getLocker().setLockerDesc(lstValores.get(index++));
+                pl.getLocker().getConjuntoLocker().getLogradouro().getTipoLogradouro().setDescTipoLogradouro(lstValores.get(index++));
                 pl.getLocker().getConjuntoLocker().getLogradouro().setNroCep(Integer.parseInt(lstValores.get(index++)));
                 pl.getLocker().getConjuntoLocker().getLogradouro().setLogradouro(lstValores.get(index++));
                 pl.getLocker().getConjuntoLocker().getLogradouro().setLatitude(Double.parseDouble(lstValores.get(index++)));
                 pl.getLocker().getConjuntoLocker().getLogradouro().setLongitude(Double.parseDouble(lstValores.get(index++)));
-                pl.getLocker().getConjuntoLocker().getLogradouro().getBairro().setDesc_bairro(lstValores.get(index++));
-                pl.getLocker().getConjuntoLocker().getLogradouro().getBairro().getCidade().setDesc_cidade(lstValores.get(index++));
-                pl.getLocker().getConjuntoLocker().getLogradouro().getBairro().getCidade().getUf().setSigla_uf(lstValores.get(index++));
+                pl.getLocker().getConjuntoLocker().getLogradouro().getBairro().setDescBairro(lstValores.get(index++));
+                pl.getLocker().getConjuntoLocker().getLogradouro().getBairro().getCidade().setDescCidade(lstValores.get(index++));
+                pl.getLocker().getConjuntoLocker().getLogradouro().getBairro().getCidade().getUf().setSiglaUf(lstValores.get(index++));
                 pl.getPedidos().getComanda().getCliente().setNome(lstValores.get(index++));
                 pl.getPedidos().getComanda().getCliente().setEmail(lstValores.get(index++));
 
@@ -67,9 +67,9 @@ public class ComandaService {
 
                 int index = 0;
                 Pedidos p = new Pedidos();
-                p.getProduto().setId_produto(Integer.parseInt(lstValores.get(index++)));
-                p.getProduto().setProduto_desc(lstValores.get(index++));
-                p.getProduto().setValor_unitario(Double.parseDouble(lstValores.get(index++)));
+                p.getProduto().setIdProduto(Integer.parseInt(lstValores.get(index++)));
+                p.getProduto().setProdutoDesc(lstValores.get(index++));
+                p.getProduto().setValorUnitario(Double.parseDouble(lstValores.get(index++)));
                 p.setQtd(Integer.parseInt(lstValores.get(index++)));
                 lstProdutos.add(p);
 
@@ -86,8 +86,8 @@ public class ComandaService {
 
         if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
             int index = 0;
-            pedidoLocker.getPedidos().getComanda().getEstabelecimento().setId_estabelecimento(Integer.parseInt(lstDados.get(index++)));
-            pedidoLocker.getLocker().setId_locker(Integer.parseInt(lstDados.get(index++)));
+            pedidoLocker.getPedidos().getComanda().getEstabelecimento().setIdEstabelecimento(Integer.parseInt(lstDados.get(index++)));
+            pedidoLocker.getLocker().setIdLocker(Integer.parseInt(lstDados.get(index++)));
 
         }
 

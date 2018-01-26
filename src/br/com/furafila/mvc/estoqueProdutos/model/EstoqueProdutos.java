@@ -10,17 +10,17 @@ import br.com.furafila.mvc.produto.model.Produto;
  */
 public class EstoqueProdutos {
     
-    private Integer id_estoque_produtos;
+    private Integer idEstoqueProdutos;
     private Integer qtdEstoque;
     private Produto produto = new Produto();
     private Estoque estoque = new Estoque();
 
-    public Integer getId_estoque_produtos() {
-        return id_estoque_produtos;
+    public Integer getIdEstoqueProdutos() {
+        return idEstoqueProdutos;
     }
 
-    public void setId_estoque_produtos(Integer id_estoque_produtos) {
-        this.id_estoque_produtos = id_estoque_produtos;
+    public void setIdEstoqueProdutos(Integer id_estoque_produtos) {
+        this.idEstoqueProdutos = id_estoque_produtos;
     }
 
     public Integer getQtdEstoque() {
@@ -51,7 +51,7 @@ public class EstoqueProdutos {
         EstoqueProdutos ep = new EstoqueProdutos();
         
         ep.setEstoque(getEstoque());
-        ep.setId_estoque_produtos(getId_estoque_produtos());
+        ep.setIdEstoqueProdutos(getIdEstoqueProdutos());
         ep.setProduto(getProduto());
         ep.setQtdEstoque(getQtdEstoque());
         

@@ -25,11 +25,11 @@ public class LoginService implements ILoginService{
         if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
             
             int index = 0;
-            l.setId_login(Integer.parseInt(lstDados.get(index++)));
+            l.setIdLogin(Integer.parseInt(lstDados.get(index++)));
             l.setUsuario(lstDados.get(index++));
             l.setSenha(lstDados.get(index++));
-            l.getPermissao().setId_permissao(Integer.parseInt(lstDados.get(index++)));
-            l.getPermissao().setSigla_permissao(lstDados.get(index++));
+            l.getPermissao().setIdPermissao(Integer.parseInt(lstDados.get(index++)));
+            l.getPermissao().setSiglaPermissao(lstDados.get(index++));
             l.getPermissao().setPermissao(lstDados.get(index++));
 
         } else {
@@ -56,10 +56,10 @@ public class LoginService implements ILoginService{
                 
                 int index = 0;
                 Login login = new Login();
-                login.setId_login(Integer.parseInt(lstValores.get(index++)));
+                login.setIdLogin(Integer.parseInt(lstValores.get(index++)));
                 login.setUsuario(lstValores.get(index++));
                 login.setStatus(lstValores.get(index++).charAt(0) == FuraFilaConstants.COD_ATIVO);
-                login.setDisponivel_entrega(lstValores.get(index++).charAt(0) == FuraFilaConstants.COD_ATIVO);
+                login.setDisponivelEntrega(lstValores.get(index++).charAt(0) == FuraFilaConstants.COD_ATIVO);
 
                 lstEntregadores.add(login);
             }

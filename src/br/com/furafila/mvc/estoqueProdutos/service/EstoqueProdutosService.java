@@ -31,18 +31,18 @@ public class EstoqueProdutosService {
                 int index = 0;
                 
                 EstoqueProdutos e = new EstoqueProdutos();
-                e.getProduto().setId_produto(Integer.parseInt(lstValores.get(index++)));
-                e.getProduto().setProduto_desc(lstValores.get(index++));
+                e.getProduto().setIdProduto(Integer.parseInt(lstValores.get(index++)));
+                e.getProduto().setProdutoDesc(lstValores.get(index++));
                 e.getProduto().setQtdMinima(Integer.parseInt(lstValores.get(index++)));
-                e.getProduto().setValor_unitario(Double.parseDouble(lstValores.get(index++)));
+                e.getProduto().setValorUnitario(Double.parseDouble(lstValores.get(index++)));
                 e.getProduto().setStatus(lstValores.get(index++).charAt(0) == FuraFilaConstants.COD_ATIVO);
-                e.getProduto().getTipoProduto().setId_tipo_produto(Integer.parseInt(lstValores.get(index++)));
-                e.getProduto().getTipoProduto().setTipo_produto_desc(lstValores.get(index++));
-                e.getProduto().getDimensao().setId_dimensao(Integer.parseInt(lstValores.get(index++)));
+                e.getProduto().getTipoProduto().setIdTipoProduto(Integer.parseInt(lstValores.get(index++)));
+                e.getProduto().getTipoProduto().setTipoProdutoDesc(lstValores.get(index++));
+                e.getProduto().getDimensao().setIdDimensao(Integer.parseInt(lstValores.get(index++)));
                 e.getProduto().getDimensao().setAltura(Integer.parseInt(lstValores.get(index++)));
                 e.getProduto().getDimensao().setLargura(Integer.parseInt(lstValores.get(index++)));
                 e.getProduto().getDimensao().setProfundidade(Integer.parseInt(lstValores.get(index++)));
-                e.getProduto().getImagem().setId_imagem(Integer.parseInt(lstValores.get(index++)));
+                e.getProduto().getImagem().setIdImagem(Integer.parseInt(lstValores.get(index++)));
                 e.setQtdEstoque(Integer.parseInt(lstValores.get(index++)));
                 
                 lstProdutos.add(e);

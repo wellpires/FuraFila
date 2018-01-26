@@ -19,8 +19,8 @@ public class EstabelecimentoLoginBusiness {
                 + "id_estabelecimento_FK,"
                 + "id_login_FK"
                 + ") VALUES ("
-                + "'" + estabelecimentoLogin.getEstabelecimento().getId_estabelecimento() + "',"
-                + "'" + estabelecimentoLogin.getLogin().getId_login() + "')";
+                + "'" + estabelecimentoLogin.getEstabelecimento().getIdEstabelecimento() + "',"
+                + "'" + estabelecimentoLogin.getLogin().getIdLogin() + "')";
 
         BancoDados.executaComando(strQuery);
 
@@ -28,7 +28,7 @@ public class EstabelecimentoLoginBusiness {
 
     public void excluir(EstabelecimentoLogin estabelecimentoLogin) throws Exception {
         
-        String strQuery = "DELETE FROM ESTABELECIMENTO_LOGIN WHERE id_login_FK = " + estabelecimentoLogin.getLogin().getId_login();
+        String strQuery = "DELETE FROM ESTABELECIMENTO_LOGIN WHERE id_login_FK = " + estabelecimentoLogin.getLogin().getIdLogin();
         
         BancoDados.executaComando(strQuery);
         
@@ -42,7 +42,7 @@ public class EstabelecimentoLoginBusiness {
                 + "E.status AS [STATUS]"
                 + " FROM ESTABELECIMENTO E"
                 + " WHERE E.id_estabelecimento = "
-                + "(SELECT EL.id_estabelecimento_FK FROM ESTABELECIMENTO_LOGIN EL WHERE EL.id_login_FK = " + estabelecimentoLogin.getLogin().getId_login() + ")";
+                + "(SELECT EL.id_estabelecimento_FK FROM ESTABELECIMENTO_LOGIN EL WHERE EL.id_login_FK = " + estabelecimentoLogin.getLogin().getIdLogin() + ")";
 
         return BancoDados.retornaRegistro(strQuery);
 
@@ -54,8 +54,8 @@ public class EstabelecimentoLoginBusiness {
                 +  "(SELECT L.id_login FROM LOGIN L WHERE L.id_login = EL.id_login_FK) AS [CD LOGIN],"
                 + "(SELECT L.usuario FROM LOGIN L WHERE L.id_login = EL.id_login_FK) AS [LOGIN]"
                 + " FROM ESTABELECIMENTO_LOGIN EL "
-                + "WHERE EL.id_estabelecimento_FK = " + estabelecimentoLogin.getEstabelecimento().getId_estabelecimento()
-                + " AND EL.id_login_FK <> " +estabelecimentoLogin.getLogin().getId_login();
+                + "WHERE EL.id_estabelecimento_FK = " + estabelecimentoLogin.getEstabelecimento().getIdEstabelecimento()
+                + " AND EL.id_login_FK <> " +estabelecimentoLogin.getLogin().getIdLogin();
 
         return BancoDados.retorna_N_Registros(strQuery);
         

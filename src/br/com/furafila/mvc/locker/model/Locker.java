@@ -11,28 +11,28 @@ import br.com.furafila.utils.FuraFilaConstants;
  */
 public class Locker {
 
-    private Integer id_locker;
-    private String locker_desc = "";
+    private Integer idLocker;
+    private String lockerDesc = "";
     private Boolean bolStatus;
     private ConjuntoLocker conjuntoLocker = new ConjuntoLocker();
     private Dimensao dimensao = new Dimensao();
     private Status status = new Status();
 
-    public Integer getId_locker() {
-        return id_locker;
+    public Integer getIdLocker() {
+        return idLocker;
     }
 
-    public void setId_locker(Integer id_locker) {
-        this.id_locker = id_locker;
+    public void setIdLocker(Integer id_locker) {
+        this.idLocker = id_locker;
     }
 
-    public String getLocker_desc() {
-        return locker_desc;
+    public String getLockerDesc() {
+        return lockerDesc;
     }
 
-    public void setLocker_desc(String locker_desc) {
+    public void setLockerDesc(String locker_desc) {
         if (!"".equals(locker_desc)) {
-            this.locker_desc = locker_desc;
+            this.lockerDesc = locker_desc;
         }
     }
 
@@ -79,8 +79,8 @@ public class Locker {
     public Locker clonar() {
 
         Locker locker = new Locker();
-        locker.setId_locker(getId_locker());
-        locker.setLocker_desc(getLocker_desc());
+        locker.setIdLocker(getIdLocker());
+        locker.setLockerDesc(getLockerDesc());
         locker.setDimensao(getDimensao());
         locker.setBolStatus(getBolStatus());
 

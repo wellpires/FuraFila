@@ -19,10 +19,10 @@ public class TipoProdutoBusiness {
                 + "("
                 + "tipo_produto_desc"
                 + ") VALUES ("
-                + "'" + tipoProduto.getTipo_produto_desc() + "'"
+                + "'" + tipoProduto.getTipoProdutoDesc() + "'"
                 + ")";
 
-        tipoProduto.setId_tipo_produto(BancoDados.inserirRetornaID(strQuery));
+        tipoProduto.setIdTipoProduto(BancoDados.inserirRetornaID(strQuery));
 
     }
 
@@ -31,8 +31,8 @@ public class TipoProdutoBusiness {
         String strQuery = "UPDATE "
                 + "TIPO_PRODUTO "
                 + "SET "
-                + "tipo_produto_desc = '" + tipoProduto.getTipo_produto_desc() + "' "
-                + "WHERE id_tipo_produto =" + tipoProduto.getId_tipo_produto();
+                + "tipo_produto_desc = '" + tipoProduto.getTipoProdutoDesc() + "' "
+                + "WHERE id_tipo_produto =" + tipoProduto.getIdTipoProduto();
 
         BancoDados.executaComando(strQuery);
 
@@ -44,7 +44,7 @@ public class TipoProdutoBusiness {
                 + "TIPO_PRODUTO "
                 + "SET "
                 + "status = " + tipoProduto.getStatusSQL()
-                + " WHERE id_tipo_produto = " + tipoProduto.getId_tipo_produto();
+                + " WHERE id_tipo_produto = " + tipoProduto.getIdTipoProduto();
 
         BancoDados.executaComando(strQuery);
 
@@ -52,7 +52,7 @@ public class TipoProdutoBusiness {
 
     public List<String> listarTipoProduto(TipoProduto tipoProduto) throws Exception{
         
-        String strQuery = "SELECT TP.tipo_produto_desc FROM TIPO_PRODUTO TP WHERE TP.tipo_produto_desc LIKE '" + tipoProduto.getTipo_produto_desc() + "'";
+        String strQuery = "SELECT TP.tipo_produto_desc FROM TIPO_PRODUTO TP WHERE TP.tipo_produto_desc LIKE '" + tipoProduto.getTipoProdutoDesc() + "'";
         
         return BancoDados.retornaRegistro(strQuery);
         

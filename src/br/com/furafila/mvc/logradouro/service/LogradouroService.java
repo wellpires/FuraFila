@@ -21,7 +21,7 @@ public class LogradouroService {
         if(!FuraFilaUtils.listaVaziaNula(lstDados)){
             logradouro.setNroCep(Integer.parseInt(lstDados.get(0)));
             logradouro.setLogradouro(lstDados.get(1));
-            logradouro.getTipoLogradouro().setDesc_tipo_logradouro(lstDados.get(2));
+            logradouro.getTipoLogradouro().setDescTipoLogradouro(lstDados.get(2));
         }
         else{
             logradouro = new Logradouro();
@@ -47,11 +47,11 @@ public class LogradouroService {
 
            int index = 0;
            logradouro.setNroCep(Integer.parseInt(lstDados.get(index++)));
-           logradouro.getTipoLogradouro().setDesc_tipo_logradouro(lstDados.get(index++));
+           logradouro.getTipoLogradouro().setDescTipoLogradouro(lstDados.get(index++));
            logradouro.setLogradouro(lstDados.get(index++));
-           logradouro.getBairro().setDesc_bairro(lstDados.get(index++));
-           logradouro.getBairro().getCidade().setDesc_cidade(lstDados.get(index++));
-           logradouro.getBairro().getCidade().getUf().setSigla_uf(lstDados.get(index++));
+           logradouro.getBairro().setDescBairro(lstDados.get(index++));
+           logradouro.getBairro().getCidade().setDescCidade(lstDados.get(index++));
+           logradouro.getBairro().getCidade().getUf().setSiglaUf(lstDados.get(index++));
            
        }
         

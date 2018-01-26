@@ -25,7 +25,7 @@ public class DimensaoBusiness  implements Serializable {
                 + dimensao.getProfundidade()
                 + ")";
 
-        dimensao.setId_dimensao(BancoDados.inserirRetornaID(strQuery));
+        dimensao.setIdDimensao(BancoDados.inserirRetornaID(strQuery));
 
     }
 
@@ -36,7 +36,7 @@ public class DimensaoBusiness  implements Serializable {
                 + "altura = " + dimensao.getAltura() + ", "
                 + "largura =  " + dimensao.getLargura()+ ", "
                 + "profundidade = " + dimensao.getProfundidade()
-                + " WHERE id_dimensao = " + dimensao.getId_dimensao();
+                + " WHERE id_dimensao = " + dimensao.getIdDimensao();
         
         BancoDados.executaComando(strQuery);
         

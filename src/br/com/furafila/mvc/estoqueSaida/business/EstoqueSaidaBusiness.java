@@ -12,14 +12,14 @@ public class EstoqueSaidaBusiness {
     
     public void gravar(EstoqueSaida estoqueSaida, Estabelecimento estabelecimento) throws Exception {
         
-        String strQuery = "SELECT * INTO #ESTOQUE_TEMP FROM ESTOQUE E WHERE E.id_estabelecimento_FK = " + estabelecimento.getId_estabelecimento() + ";"
+        String strQuery = "SELECT * INTO #ESTOQUE_TEMP FROM ESTOQUE E WHERE E.id_estabelecimento_FK = " + estabelecimento.getIdEstabelecimento() + ";"
                 +"INSERT INTO ESTOQUE_SAIDA ("
                 + "qtdSaida,"
                 + "id_produto_FK,"
                 + "id_motivo_FK"
                 + ") VALUES ("
                 + estoqueSaida.getQtdSaida() + ","
-                + estoqueSaida.getProduto().getId_produto() + ","
+                + estoqueSaida.getProduto().getIdProduto() + ","
                 + "(SELECT id_motivo FROM MOTIVO_SAIDA MS WHERE MS.motivoSaida = '" + estoqueSaida.getMotivoSaida().getMotivoSaida() + "')"
                 + ")";
         

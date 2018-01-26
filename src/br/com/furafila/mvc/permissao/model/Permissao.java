@@ -7,16 +7,16 @@ package br.com.furafila.mvc.permissao.model;
 
 public class Permissao {
     
-    private Integer id_permissao = 0;
+    private Integer idPermissao = 0;
     private String permissao = ""; 
-    private String sigla_permissao = "";
+    private String siglaPermissao = "";
 
-    public Integer getId_permissao() {
-        return id_permissao;
+    public Integer getIdPermissao() {
+        return idPermissao;
     }
 
-    public void setId_permissao(Integer id_permissao) {
-        this.id_permissao = id_permissao;
+    public void setIdPermissao(Integer id_permissao) {
+        this.idPermissao = id_permissao;
     }
 
     public String getPermissao() {
@@ -27,29 +27,29 @@ public class Permissao {
         this.permissao = permissao;
     }
 
-    public String getSigla_permissao() {
-        return sigla_permissao;
+    public String getSiglaPermissao() {
+        return siglaPermissao;
     }
 
-    public void setSigla_permissao(String sigla_permissao) {
-        this.sigla_permissao = sigla_permissao;
+    public void setSiglaPermissao(String sigla_permissao) {
+        this.siglaPermissao = sigla_permissao;
     }
 
     public Permissao Clonar(){
     
         Permissao permissao = new Permissao();
     
-        permissao.setId_permissao(getId_permissao());
+        permissao.setIdPermissao(getIdPermissao());
         permissao.setPermissao(getPermissao());
-        permissao.setSigla_permissao(getSigla_permissao());
+        permissao.setSiglaPermissao(getSiglaPermissao());
             
     return permissao;
     }
 
     public void zerarObjeto(){
-        setId_permissao(0);
+        setIdPermissao(0);
         setPermissao("");
-        setSigla_permissao("");
+        setSiglaPermissao("");
     }
     
 }

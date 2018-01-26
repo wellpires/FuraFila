@@ -16,15 +16,15 @@ import br.com.furafila.utils.FuraFilaUtils;
  */
 public class Imagem {
 
-    private Integer id_imagem = 0;
+    private Integer idImagem = 0;
     private String imagem = "";
 
-    public Integer getId_imagem() {
-        return id_imagem;
+    public Integer getIdImagem() {
+        return idImagem;
     }
 
-    public void setId_imagem(Integer id_imagem) {
-        this.id_imagem = id_imagem;
+    public void setIdImagem(Integer id_imagem) {
+        this.idImagem = id_imagem;
     }
 
     public String getImagem() {
@@ -84,20 +84,20 @@ public class Imagem {
     }
 
     public boolean objetoVazio() {
-        return FuraFilaUtils.valorZerado(getId_imagem()) && FuraFilaUtils.valorVazioNulo(getImagem());
+        return FuraFilaUtils.valorZerado(getIdImagem()) && FuraFilaUtils.valorVazioNulo(getImagem());
     }
 
     public Imagem clonar() {
         Imagem i = new Imagem();
 
-        i.setId_imagem(getId_imagem());
+        i.setIdImagem(getIdImagem());
         i.setImagem(getImagem());
 
         return i;
     }
     
     public void zerarObjeto(){
-        setId_imagem(0);
+        setIdImagem(0);
         this.imagem = "";
     }
 

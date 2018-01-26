@@ -35,15 +35,15 @@ public class ClienteBusiness {
                 + "'" + cliente.getDataNascimentoSQL() + "',"
                 + "'" + cliente.getCpf() + "',"
                 + "'" + cliente.getSexo() + "',"
-                + cliente.getTel_res() + ","
-                + cliente.getTel_com() + ","
+                + cliente.getTelRes() + ","
+                + cliente.getTelCom() + ","
                 + cliente.getCelular() + ","
                 + "'" + cliente.getEmail() + "',"
                 + "'" + cliente.getComplemento() + "',"
                 + "'" + cliente.getNroCasa() + "',"
                 + "'" + cliente.getNroApto() + "',"
                 + cliente.getLogradouro().getNroCep() + ","
-                + cliente.getLogin().getId_login()
+                + cliente.getLogin().getIdLogin()
                 + ")";
 
         BancoDados.executaComando(strQuery);
@@ -58,10 +58,10 @@ public class ClienteBusiness {
                 + "dataNascimento = '" + cliente.getDataNascimentoSQL() + "',"
                 + "cpf = '" + cliente.getCpf() + "',"
                 + "email = '" + cliente.getEmail() + "', "
-                + "tel_res = '" + cliente.getTel_res() +"', "
-                + "tel_com = '" + cliente.getTel_com() +"', "
+                + "tel_res = '" + cliente.getTelRes() +"', "
+                + "tel_com = '" + cliente.getTelCom() +"', "
                 + "celular = '" + cliente.getCelular()+"' "
-                + "WHERE id_cliente = " + cliente.getId_cliente();
+                + "WHERE id_cliente = " + cliente.getIdCliente();
         
         BancoDados.executaComando(strQuery);
         
@@ -79,7 +79,7 @@ public class ClienteBusiness {
                 + "C.dataNascimento AS [NASCIMENTO],"
                 + "C.id_imagem_FK AS [CD IMAGEM],"
                 + "(SELECT L.usuario FROM LOGIN L WHERE L.id_login = C.id_login_FK) AS [USUARIO]"
-                + " FROM CLIENTE C WHERE C.id_login_FK = " + cliente.getLogin().getId_login();
+                + " FROM CLIENTE C WHERE C.id_login_FK = " + cliente.getLogin().getIdLogin();
 
         return BancoDados.retornaRegistro(strQuery);
 
@@ -107,7 +107,7 @@ public class ClienteBusiness {
                 + "(SELECT CI.desc_cidade FROM CIDADE CI WHERE CI.id_cidade = (SELECT B.id_cidade_FK FROM BAIRRO B WHERE B.id_bairro = (SELECT L.id_bairro_FK FROM LOGRADOURO L WHERE L.nroCep = C.nroCep_FK))) AS [CIDADE],"
                 + "(SELECT U.sigla_uf FROM UF U WHERE U.id_uf = (SELECT CI.id_uf_FK FROM CIDADE CI WHERE CI.id_cidade = (SELECT B.id_cidade_FK FROM BAIRRO B WHERE B.id_bairro = (SELECT L.id_bairro_FK FROM LOGRADOURO L WHERE L.nroCep = C.nroCep_FK)))) AS [UF],"
                 + "(SELECT L.usuario FROM LOGIN L WHERE L.id_login = C.id_login_FK) AS [USUARIO] "
-                + "FROM CLIENTE C WHERE C.id_cliente = " + cliente.getId_cliente() + " OR C.id_login_FK = " + cliente.getLogin().getId_login();
+                + "FROM CLIENTE C WHERE C.id_cliente = " + cliente.getIdCliente() + " OR C.id_login_FK = " + cliente.getLogin().getIdLogin();
 
         return BancoDados.retornaRegistro(strQuery);
     }

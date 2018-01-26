@@ -16,11 +16,11 @@ public class PedidoBusiness {
                 + "qtd,"
                 + "id_comanda_FK"
                 + ") VALUES ("
-                + pedido.getProduto().getId_produto()
+                + pedido.getProduto().getIdProduto()
                 + "," + pedido.getQtd()
-                + "," + pedido.getComanda().getId_comanda()
+                + "," + pedido.getComanda().getIdComanda()
                 + ")";
-        pedido.setId_pedido(BancoDados.inserirRetornaID(strQuery));
+        pedido.setIdPedido(BancoDados.inserirRetornaID(strQuery));
         
     }
     

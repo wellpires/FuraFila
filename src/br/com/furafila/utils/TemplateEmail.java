@@ -268,7 +268,7 @@ public class TemplateEmail {
         for (PedidoLocker pl : lstCarrinho) {
             produtos
                     += "<tr>\n"
-                    + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;\">" + pl.getPedidos().getProduto().getProduto_desc() + "</p></td>\n"
+                    + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;\">" + pl.getPedidos().getProduto().getProdutoDesc() + "</p></td>\n"
                     + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;text-align: right\">" + pl.getPedidos().getProduto().getValor_unitarioExibicao() + "</p></td>\n"
                     + "</tr>";
         }
@@ -277,10 +277,10 @@ public class TemplateEmail {
 
         HashMap<String, String> hmParametros = new HashMap<>();
         hmParametros.put("$NomeCliente", pedidoLocker.getPedidos().getComanda().getCliente().getNome());
-        hmParametros.put("$NomeDestinatario", pedidoLocker.getLocker().getConjuntoLocker().getConjunto_locker_desc());
+        hmParametros.put("$NomeDestinatario", pedidoLocker.getLocker().getConjuntoLocker().getConjuntoLockerDesc());
         hmParametros.put("$EnderecoConjuntoLocker", pedidoLocker.getLocker().getConjuntoLocker().getLogradouro().getLogradouroCompleto());
-        hmParametros.put("$NumeroPedido", pedidoLocker.getPedidos().getComanda().getId_comanda());
-        hmParametros.put("$NomeVendedor", pedidoLocker.getPedidos().getComanda().getEstabelecimento().getRazao_social());
+        hmParametros.put("$NumeroPedido", pedidoLocker.getPedidos().getComanda().getIdComanda());
+        hmParametros.put("$NomeVendedor", pedidoLocker.getPedidos().getComanda().getEstabelecimento().getRazaoSocial());
         hmParametros.put("$Produtos", produtos);
         hmParametros.put("$TotalPedido", total);
 
@@ -304,7 +304,7 @@ public class TemplateEmail {
         for (Pedidos p : lstCarrinho) {
             produtos
                     += "<tr>\n"
-                    + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;\">" + p.getProduto().getProduto_desc() + "</p></td>\n"
+                    + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;\">" + p.getProduto().getProdutoDesc() + "</p></td>\n"
                     + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;text-align: right\">" + p.getProduto().getValor_unitarioExibicao() + "</p></td>\n"
                     + "</tr>";
         }
@@ -313,7 +313,7 @@ public class TemplateEmail {
 
         HashMap<String, String> hmParametros = new HashMap<>();
         hmParametros.put("$NomeDoCliente", pedidoLocker.getPedidos().getComanda().getCliente().getNome());
-        hmParametros.put("$NomeVendedor", pedidoLocker.getPedidos().getComanda().getEstabelecimento().getRazao_social());
+        hmParametros.put("$NomeVendedor", pedidoLocker.getPedidos().getComanda().getEstabelecimento().getRazaoSocial());
         hmParametros.put("$Produtos", produtos);
         hmParametros.put("$TotalCompra", total);
 
@@ -331,10 +331,10 @@ public class TemplateEmail {
 
         HashMap<String, String> hmParametros = new HashMap<>();
         hmParametros.put("$NomeCliente", pedidoLocker.getPedidos().getComanda().getCliente().getNome());
-        hmParametros.put("$NomeDestinatario", pedidoLocker.getLocker().getConjuntoLocker().getConjunto_locker_desc());
+        hmParametros.put("$NomeDestinatario", pedidoLocker.getLocker().getConjuntoLocker().getConjuntoLockerDesc());
         hmParametros.put("$EnderecoConjuntoLocker", pedidoLocker.getLocker().getConjuntoLocker().getLogradouro().getLogradouroCompleto());
-        hmParametros.put("$NumeroLocker", pedidoLocker.getLocker().getLocker_desc());
-        hmParametros.put("$SenhaLocker", pedidoLocker.getPedidos().getComanda().getId_comanda());
+        hmParametros.put("$NumeroLocker", pedidoLocker.getLocker().getLockerDesc());
+        hmParametros.put("$SenhaLocker", pedidoLocker.getPedidos().getComanda().getIdComanda());
 
         for (String chave : hmParametros.keySet()) {
             email = email.replace(chave, hmParametros.get(chave));

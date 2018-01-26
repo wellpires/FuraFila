@@ -26,8 +26,8 @@ public class LogradouroBusiness {
                 + "'" + logradouro.getLogradouro() + "',"
                 + logradouro.getLatitude()  + ","
                 + logradouro.getLongitude()+ ","
-                + "(SELECT TP.id_tipo_logradouro FROM TIPO_LOGRADOURO TP WHERE TP.desc_tipo_logradouro LIKE '" + logradouro.getTipoLogradouro().getDesc_tipo_logradouro() + "'),"
-                + logradouro.getBairro().getId_bairro() + ")";
+                + "(SELECT TP.id_tipo_logradouro FROM TIPO_LOGRADOURO TP WHERE TP.desc_tipo_logradouro LIKE '" + logradouro.getTipoLogradouro().getDescTipoLogradouro() + "'),"
+                + logradouro.getBairro().getIdBairro() + ")";
    
         BancoDados.executaComando(strQuery);
         
@@ -37,7 +37,7 @@ public class LogradouroBusiness {
         
         String strQuery = "SELECT L.nroCep AS [CEP],"
                 + " L.logradouro AS [LOGRADOURO],"
-                + " (SELECT TL.desc_tipo_logradouro FROM TIPO_LOGRADOURO TL WHERE TL.desc_tipo_logradouro LIKE '" + logradouro.getTipoLogradouro().getDesc_tipo_logradouro() +  "') AS [TIPO]"
+                + " (SELECT TL.desc_tipo_logradouro FROM TIPO_LOGRADOURO TL WHERE TL.desc_tipo_logradouro LIKE '" + logradouro.getTipoLogradouro().getDescTipoLogradouro() +  "') AS [TIPO]"
                 + " FROM LOGRADOURO L WHERE L.nroCep = " + logradouro.getNroCep();
         
         return BancoDados.retornaRegistro(strQuery);

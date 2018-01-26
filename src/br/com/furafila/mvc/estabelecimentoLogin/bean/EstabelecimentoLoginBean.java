@@ -57,9 +57,9 @@ public class EstabelecimentoLoginBean implements Serializable {
             
             getEstabelecimentoLogin().setEstabelecimento((Estabelecimento) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO));
             
-            getEstabelecimentoLogin().getLogin().getPermissao().setId_permissao(FuraFilaConstants.CODIGO_PERFIL_2);
+            getEstabelecimentoLogin().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_2);
             getEstabelecimentoLogin().getLogin().setStatus(Boolean.TRUE);
-            getEstabelecimentoLogin().getLogin().setDisponivel_entrega(Boolean.FALSE);
+            getEstabelecimentoLogin().getLogin().setDisponivelEntrega(Boolean.FALSE);
             getLoginBusiness().gravar(getEstabelecimentoLogin().getLogin());
             
             getEstabelecimentoLoginBusiness().gravar(getEstabelecimentoLogin());

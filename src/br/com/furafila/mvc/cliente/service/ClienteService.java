@@ -21,24 +21,24 @@ public class ClienteService {
         
         Cliente c = new Cliente();
         if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
-            c.setId_cliente(Integer.parseInt(lstDados.get(indice++)));
+            c.setIdCliente(Integer.parseInt(lstDados.get(indice++)));
             c.setNome(lstDados.get(indice++));
             c.setDataNascimentoSQL(lstDados.get(indice++));
             c.setCpf(Long.parseLong(lstDados.get(indice++)));
             c.setSexo(lstDados.get(indice++).charAt(0));
-            c.setTel_res(Long.parseLong(lstDados.get(indice++)));
-            c.setTel_com(Long.parseLong(lstDados.get(indice++)));
+            c.setTelRes(Long.parseLong(lstDados.get(indice++)));
+            c.setTelCom(Long.parseLong(lstDados.get(indice++)));
             c.setCelular(Long.parseLong(lstDados.get(indice++)));
             c.setEmail(lstDados.get(indice++));
             c.setComplemento(lstDados.get(indice++));
             c.setNroCasa(Integer.parseInt(lstDados.get(indice++)));
             c.setNroApto(Integer.parseInt(lstDados.get(indice++)));
             c.getLogradouro().setNroCep(Integer.parseInt(lstDados.get(indice++)));
-            c.getLogradouro().getTipoLogradouro().setDesc_tipo_logradouro(lstDados.get(indice++));
+            c.getLogradouro().getTipoLogradouro().setDescTipoLogradouro(lstDados.get(indice++));
             c.getLogradouro().setLogradouro(lstDados.get(indice++));
-            c.getLogradouro().getBairro().setDesc_bairro(lstDados.get(indice++));
-            c.getLogradouro().getBairro().getCidade().setDesc_cidade(lstDados.get(indice++));
-            c.getLogradouro().getBairro().getCidade().getUf().setSigla_uf(lstDados.get(indice++));
+            c.getLogradouro().getBairro().setDescBairro(lstDados.get(indice++));
+            c.getLogradouro().getBairro().getCidade().setDescCidade(lstDados.get(indice++));
+            c.getLogradouro().getBairro().getCidade().getUf().setSiglaUf(lstDados.get(indice++));
             c.getLogin().setUsuario(lstDados.get(indice++));
         }
         
@@ -54,24 +54,24 @@ public class ClienteService {
         Cliente c = new Cliente();
         
         if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
-            c.setId_cliente(Integer.parseInt(lstDados.get(indice++)));
+            c.setIdCliente(Integer.parseInt(lstDados.get(indice++)));
             c.setNome(lstDados.get(indice++));
             c.setDataNascimentoSQL(lstDados.get(indice++));
             c.setCpf(Long.parseLong(lstDados.get(indice++)));
             c.setSexo(lstDados.get(indice++).charAt(0));
-            c.setTel_res(Long.parseLong(lstDados.get(indice++)));
-            c.setTel_com(Long.parseLong(lstDados.get(indice++)));
+            c.setTelRes(Long.parseLong(lstDados.get(indice++)));
+            c.setTelCom(Long.parseLong(lstDados.get(indice++)));
             c.setCelular(Long.parseLong(lstDados.get(indice++)));
             c.setEmail(lstDados.get(indice++));
             c.setComplemento(lstDados.get(indice++));
             c.setNroCasa(Integer.parseInt(lstDados.get(indice++)));
             c.setNroApto(Integer.parseInt(lstDados.get(indice++)));
             c.getLogradouro().setNroCep(Integer.parseInt(lstDados.get(indice++)));
-            c.getLogradouro().getTipoLogradouro().setDesc_tipo_logradouro(lstDados.get(indice++));
+            c.getLogradouro().getTipoLogradouro().setDescTipoLogradouro(lstDados.get(indice++));
             c.getLogradouro().setLogradouro(lstDados.get(indice++));
-            c.getLogradouro().getBairro().setDesc_bairro(lstDados.get(indice++));
-            c.getLogradouro().getBairro().getCidade().setDesc_cidade(lstDados.get(indice++));
-            c.getLogradouro().getBairro().getCidade().getUf().setSigla_uf(lstDados.get(indice++));
+            c.getLogradouro().getBairro().setDescBairro(lstDados.get(indice++));
+            c.getLogradouro().getBairro().getCidade().setDescCidade(lstDados.get(indice++));
+            c.getLogradouro().getBairro().getCidade().getUf().setSiglaUf(lstDados.get(indice++));
             c.getLogin().setUsuario(lstDados.get(indice++));
         }
         

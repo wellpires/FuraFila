@@ -8,24 +8,24 @@ import br.com.furafila.mvc.uf.model.UF;
  */
 public class Cidade {
 
-    private Integer id_cidade = 0;
-    private String desc_cidade = "";
+    private Integer idCidade = 0;
+    private String descCidade = "";
     private UF uf = new UF();
 
-    public Integer getId_cidade() {
-        return id_cidade;
+    public Integer getIdCidade() {
+        return idCidade;
     }
 
-    public void setId_cidade(Integer id_cidade) {
-        this.id_cidade = id_cidade;
+    public void setIdCidade(Integer id_cidade) {
+        this.idCidade = id_cidade;
     }
 
-    public String getDesc_cidade() {
-        return desc_cidade;
+    public String getDescCidade() {
+        return descCidade;
     }
 
-    public void setDesc_cidade(String desc_cidade) {
-        this.desc_cidade = desc_cidade;
+    public void setDescCidade(String desc_cidade) {
+        this.descCidade = desc_cidade;
     }
 
     public UF getUf() {
@@ -39,8 +39,8 @@ public class Cidade {
     public Cidade clonar() {
 
         Cidade cidade = new Cidade();
-        cidade.setId_cidade(getId_cidade());
-        cidade.setDesc_cidade(getDesc_cidade());
+        cidade.setIdCidade(getIdCidade());
+        cidade.setDescCidade(getDescCidade());
         cidade.setUf(getUf());
 
         return cidade;
@@ -48,12 +48,12 @@ public class Cidade {
     }
 
     public boolean objetoVazio() {
-        return 0 == getId_cidade() && "".equals(getDesc_cidade()) && getUf().objetoVazio();
+        return 0 == getIdCidade() && "".equals(getDescCidade()) && getUf().objetoVazio();
     }
 
     public void zerarObjeto() {
-        setId_cidade(0);
-        setDesc_cidade("");
+        setIdCidade(0);
+        setDescCidade("");
         getUf().zerarObjeto();
     }
 

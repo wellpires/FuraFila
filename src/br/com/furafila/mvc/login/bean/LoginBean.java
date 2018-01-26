@@ -48,11 +48,11 @@ public class LoginBean implements Serializable {
             if (getLogin().getUsuario().equals(l.getUsuario()) && getLogin().getSenhaCriptografada().equals(l.getSenha())) {
                 setLogin(l);
                 getLogin().setSenha("");
-                Authentication request = new UsernamePasswordAuthenticationToken(getLogin().getPermissao().getSigla_permissao(), FuraFilaConstants.SENHA_PADRAO);
+                Authentication request = new UsernamePasswordAuthenticationToken(getLogin().getPermissao().getSiglaPermissao(), FuraFilaConstants.SENHA_PADRAO);
                 Authentication result = getAuthenticationManager().authenticate(request);
                 SecurityContextHolder.getContext().setAuthentication(result);
 
-                if (getLogin().getPermissao().getId_permissao() == FuraFilaConstants.CODIGO_PERFIL_2) {
+                if (getLogin().getPermissao().getIdPermissao() == FuraFilaConstants.CODIGO_PERFIL_2) {
 
                     // LOJISTA
                     EstabelecimentoLogin estabelecimentoLogin = new EstabelecimentoLogin();
@@ -69,7 +69,7 @@ public class LoginBean implements Serializable {
                     
                     
                     
-                } else if (getLogin().getPermissao().getId_permissao() == FuraFilaConstants.CODIGO_PERFIL_3) {
+                } else if (getLogin().getPermissao().getIdPermissao() == FuraFilaConstants.CODIGO_PERFIL_3) {
 
                     // CLIENTE
                     Cliente cliente = new Cliente();
@@ -87,7 +87,7 @@ public class LoginBean implements Serializable {
             return "";
         }
 
-        return getLogin().getPermissao().getSigla_permissao();
+        return getLogin().getPermissao().getSiglaPermissao();
 
     }
 

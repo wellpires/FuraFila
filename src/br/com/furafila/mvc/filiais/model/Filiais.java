@@ -9,19 +9,19 @@ import br.com.furafila.mvc.logradouro.model.Logradouro;
  */
 public class Filiais {
 
-    private Integer id_filial = 0;
+    private Integer idFilial = 0;
     private Long telefone = 0L;
-    private Long outro_telefone = 0L;
+    private Long outroTelefone = 0L;
     private String email = "";
     private Logradouro logradouro = new Logradouro();
     private Estabelecimento estabelecimento = new Estabelecimento();
 
-    public Integer getId_filial() {
-        return id_filial;
+    public Integer getIdFilial() {
+        return idFilial;
     }
 
-    public void setId_filial(Integer id_filial) {
-        this.id_filial = id_filial;
+    public void setIdFilial(Integer id_filial) {
+        this.idFilial = id_filial;
     }
 
     public Long getTelefone() {
@@ -32,12 +32,12 @@ public class Filiais {
         this.telefone = telefone;
     }
 
-    public Long getOutro_telefone() {
-        return outro_telefone;
+    public Long getOutroTelefone() {
+        return outroTelefone;
     }
 
-    public void setOutro_telefone(Long outro_telefone) {
-        this.outro_telefone = outro_telefone;
+    public void setOutroTelefone(Long outro_telefone) {
+        this.outroTelefone = outro_telefone;
     }
 
     public String getEmail() {

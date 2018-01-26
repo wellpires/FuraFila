@@ -8,24 +8,24 @@ import br.com.furafila.utils.FuraFilaConstants;
  */
 public class TipoProduto {
 
-    private Integer id_tipo_produto = 0;
-    private String tipo_produto_desc = "";
+    private Integer idTipoProduto = 0;
+    private String tipoProdutoDesc = "";
     private Boolean status;
 
-    public Integer getId_tipo_produto() {
-        return id_tipo_produto;
+    public Integer getIdTipoProduto() {
+        return idTipoProduto;
     }
 
-    public void setId_tipo_produto(Integer id_tipo_produto) {
-        this.id_tipo_produto = id_tipo_produto;
+    public void setIdTipoProduto(Integer id_tipo_produto) {
+        this.idTipoProduto = id_tipo_produto;
     }
 
-    public String getTipo_produto_desc() {
-        return tipo_produto_desc;
+    public String getTipoProdutoDesc() {
+        return tipoProdutoDesc;
     }
 
-    public void setTipo_produto_desc(String tipo_produto_desc) {
-        this.tipo_produto_desc = tipo_produto_desc;
+    public void setTipoProdutoDesc(String tipo_produto_desc) {
+        this.tipoProdutoDesc = tipo_produto_desc;
     }
     
     public Character getStatusSQL() {
@@ -48,8 +48,8 @@ public class TipoProduto {
         
         TipoProduto tp = new TipoProduto();
 
-        tp.setId_tipo_produto(getId_tipo_produto());
-        tp.setTipo_produto_desc(getTipo_produto_desc());
+        tp.setIdTipoProduto(getIdTipoProduto());
+        tp.setTipoProdutoDesc(getTipoProdutoDesc());
         tp.setStatus(getStatus());
 
         return tp;

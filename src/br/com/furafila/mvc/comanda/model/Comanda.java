@@ -17,7 +17,7 @@ public class Comanda implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id_comanda = "";
+    private String idComanda = "";
     private String codigoPedido = "";
     private Integer qtdTotal = 0;
     private Date dataVenda;
@@ -27,12 +27,12 @@ public class Comanda implements Serializable {
     private Cliente cliente = new Cliente();
     private Status status = new Status();
 
-    public String getId_comanda() {
-        return id_comanda;
+    public String getIdComanda() {
+        return idComanda;
     }
 
-    public void setId_comanda(String id_comanda) {
-        this.id_comanda = id_comanda;
+    public void setIdComanda(String id_comanda) {
+        this.idComanda = id_comanda;
     }
 
     public Integer getQtdTotal() {
@@ -99,7 +99,7 @@ public class Comanda implements Serializable {
         comanda.setDataVenda(getDataVenda());
         comanda.setEstabelecimento(getEstabelecimento());
         comanda.setFormaPagamento(getFormaPagamento());
-        comanda.setId_comanda(getId_comanda());
+        comanda.setIdComanda(getIdComanda());
         comanda.setQtdTotal(getQtdTotal());
         comanda.setStatus(getStatus());
 

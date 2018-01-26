@@ -29,13 +29,13 @@ public class EstabelecimentoService {
                 Estabelecimento e = new Estabelecimento();
                 Integer indice = 0;
                 
-                e.setId_estabelecimento(Integer.parseInt(valores.get(indice++)));
-                e.setRazao_social(valores.get(indice++));
+                e.setIdEstabelecimento(Integer.parseInt(valores.get(indice++)));
+                e.setRazaoSocial(valores.get(indice++));
                 e.setCnpj(Long.parseLong(valores.get(indice++)));
-                e.setInscricao_estadual(Long.parseLong(valores.get(indice++)));
+                e.setInscricaoEstadual(Long.parseLong(valores.get(indice++)));
                 e.setStatus(valores.get(indice++).equals(String.valueOf(FuraFilaConstants.COD_ATIVO)));
                 e.setEmail(valores.get(indice++));
-                e.getImagem().setId_imagem(Integer.parseInt(valores.get(indice++) == null ? "0" : valores.get(indice++)));
+                e.getImagem().setIdImagem(Integer.parseInt(valores.get(indice++) == null ? "0" : valores.get(indice++)));
                 e.getImagem().setImagem(FuraFilaUtils.semImagem(e));
                 
                 lstEstabelecimentos.add(e);
@@ -56,12 +56,12 @@ public class EstabelecimentoService {
             
             Integer indice = 0;
             
-            estabelecimento.setId_estabelecimento(Integer.parseInt(lstDados.get(indice++)));
-            estabelecimento.setRazao_social(lstDados.get(indice++));
+            estabelecimento.setIdEstabelecimento(Integer.parseInt(lstDados.get(indice++)));
+            estabelecimento.setRazaoSocial(lstDados.get(indice++));
             estabelecimento.setEmail(lstDados.get(indice++));
             estabelecimento.setCnpj(Long.parseLong(lstDados.get(indice++)));
-            estabelecimento.setInscricao_estadual(Long.parseLong(lstDados.get(indice++)));
-            estabelecimento.getImagem().setId_imagem(Integer.parseInt(lstDados.get(indice++)));
+            estabelecimento.setInscricaoEstadual(Long.parseLong(lstDados.get(indice++)));
+            estabelecimento.getImagem().setIdImagem(Integer.parseInt(lstDados.get(indice++)));
             
         }
         else{
@@ -81,7 +81,7 @@ public class EstabelecimentoService {
                 int index = 0;
                 Pedidos pedido = new Pedidos();
                 
-                pedido.getComanda().getEstabelecimento().setRazao_social(lstValores.get(index++));
+                pedido.getComanda().getEstabelecimento().setRazaoSocial(lstValores.get(index++));
                 pedido.setQtd(Integer.parseInt(lstValores.get(index++)));
                 
                 lstEstabelecimentos.add(pedido);

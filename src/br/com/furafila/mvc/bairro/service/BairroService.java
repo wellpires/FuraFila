@@ -19,8 +19,8 @@ public class BairroService {
         List<String> lstDados = getBairroBusiness().buscarBairro(bairro);
 
         if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
-            bairro.setId_bairro(Integer.parseInt(lstDados.get(0)));
-            bairro.setDesc_bairro(lstDados.get(1));
+            bairro.setIdBairro(Integer.parseInt(lstDados.get(0)));
+            bairro.setDescBairro(lstDados.get(1));
         } else {
             bairro = new Bairro();
         }

@@ -15,8 +15,8 @@ public class PedidoLockerBusiness {
                 + "id_locker_FK,"
                 + "id_pedido_FK"
                 + ") VALUES ("
-                + pedidoLocker.getLocker().getId_locker()
-                + "," + pedidoLocker.getPedidos().getId_pedido()
+                + pedidoLocker.getLocker().getIdLocker()
+                + "," + pedidoLocker.getPedidos().getIdPedido()
                 + ")";
         
         BancoDados.executaComando(strQuery);

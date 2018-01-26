@@ -10,17 +10,17 @@ import br.com.furafila.utils.FuraFilaUtils;
  */
 public class Pedidos {
 
-    private Integer id_pedido = 0;
+    private Integer idPedido = 0;
     private Integer qtd = 0;
     private Produto produto = new Produto();
     private Comanda comanda = new Comanda();
 
-    public Integer getId_pedido() {
-        return id_pedido;
+    public Integer getIdPedido() {
+        return idPedido;
     }
 
-    public void setId_pedido(Integer id_pedido) {
-        this.id_pedido = id_pedido;
+    public void setIdPedido(Integer id_pedido) {
+        this.idPedido = id_pedido;
     }
 
     public Integer getQtd() {
@@ -51,7 +51,7 @@ public class Pedidos {
 
     public Double getSubTotal() {
         if (getQtd() != null && getProduto() != null) {
-            return getQtd() * getProduto().getValor_unitario();
+            return getQtd() * getProduto().getValorUnitario();
         } else {
             return 0.0;
         }
@@ -60,7 +60,7 @@ public class Pedidos {
     public String getSubTotalExibicao() {
 
         if (getQtd() != null && getProduto() != null) {
-            return FuraFilaUtils.formatarMoeda(getQtd() * getProduto().getValor_unitario());
+            return FuraFilaUtils.formatarMoeda(getQtd() * getProduto().getValorUnitario());
         } else {
             return FuraFilaUtils.formatarMoeda(0.0);
         }
@@ -85,7 +85,7 @@ public class Pedidos {
     public Pedidos clonar() {
         Pedidos pedidos = new Pedidos();
 
-        pedidos.setId_pedido(getId_pedido());
+        pedidos.setIdPedido(getIdPedido());
         pedidos.setQtd(getQtd());
         pedidos.setProduto(getProduto().clonar());
         pedidos.setComanda(getComanda().clonar());

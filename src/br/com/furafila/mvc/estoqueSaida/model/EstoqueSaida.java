@@ -11,18 +11,18 @@ import br.com.furafila.mvc.produto.model.Produto;
  * @author Gabriel Sanches Martins
  */
 public class EstoqueSaida {  
-    private Integer id_estoque_saida = 0;
+    private Integer idEstoqueSaida = 0;
     private Integer qtdSaida =0;
     private Date dataSaida;
     private MotivoSaida motivoSaida = new MotivoSaida();
     private Produto produto = new Produto();
 
-    public Integer getId_estoque_saida() {
-        return id_estoque_saida;
+    public Integer getIdEstoqueSaida() {
+        return idEstoqueSaida;
     }
 
-    public void setId_estoque_saida(Integer id_estoque_saida) {
-        this.id_estoque_saida = id_estoque_saida;
+    public void setIdEstoqueSaida(Integer id_estoque_saida) {
+        this.idEstoqueSaida = id_estoque_saida;
     }
 
     public Integer getQtdSaida() {
@@ -60,7 +60,7 @@ public class EstoqueSaida {
     public EstoqueSaida Clonar(){
         EstoqueSaida estoqueS= new EstoqueSaida();
         
-        estoqueS.setId_estoque_saida(getId_estoque_saida());
+        estoqueS.setIdEstoqueSaida(getIdEstoqueSaida());
         estoqueS.setMotivoSaida(getMotivoSaida());
         estoqueS.setProduto(getProduto());
         estoqueS.setDataSaida(getDataSaida());

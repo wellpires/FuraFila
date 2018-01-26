@@ -92,12 +92,12 @@ public class EstabelecimentoBean implements Serializable {
             getEstabelecimento().setStatus(Boolean.FALSE);
             getEstabelecimentoBusiness().gravar(getEstabelecimento());
 
-            getEstabelecimentoLogin().getLogin().getPermissao().setId_permissao(FuraFilaConstants.CODIGO_PERFIL_2);
+            getEstabelecimentoLogin().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_2);
             getEstabelecimentoLogin().getLogin().setStatus(Boolean.TRUE);
-            getEstabelecimentoLogin().getLogin().setDisponivel_entrega(Boolean.FALSE);
+            getEstabelecimentoLogin().getLogin().setDisponivelEntrega(Boolean.FALSE);
             getLoginBusiness().gravar(getEstabelecimentoLogin().getLogin());
 
-            getEstabelecimentoLogin().getEstabelecimento().setId_estabelecimento(getEstabelecimento().getId_estabelecimento());
+            getEstabelecimentoLogin().getEstabelecimento().setIdEstabelecimento(getEstabelecimento().getIdEstabelecimento());
             getEstabelecimentoLoginBusiness().gravar(getEstabelecimentoLogin());
 
         } catch (Exception ex) {
@@ -119,7 +119,7 @@ public class EstabelecimentoBean implements Serializable {
             getEstabelecimentoBusiness().alterar(getEstabelecimento());
             
             getEstabelecimentoLoginSessao().getEstabelecimento().setImagem(getEstabelecimento().getImagem());
-            getEstabelecimentoLoginSessao().getEstabelecimento().setRazao_social(getEstabelecimento().getRazao_social());
+            getEstabelecimentoLoginSessao().getEstabelecimento().setRazaoSocial(getEstabelecimento().getRazaoSocial());
             
         } catch (Exception ex) {
             FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());

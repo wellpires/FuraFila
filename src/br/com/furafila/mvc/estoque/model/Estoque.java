@@ -8,15 +8,15 @@ import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
  * @author Gabriel Sanches Martins
  */
 public class Estoque {
-    private Integer id_estoque = 0;
+    private Integer idEstoque = 0;
     private Estabelecimento estabelecimento = new Estabelecimento();
 
-    public Integer getId_estoque() {
-        return id_estoque;
+    public Integer getIdEstoque() {
+        return idEstoque;
     }
 
-    public void setId_estoque(Integer id_estoque) {
-        this.id_estoque = id_estoque;
+    public void setIdEstoque(Integer id_estoque) {
+        this.idEstoque = id_estoque;
     }
 
     public Estabelecimento getEstabelecimento() {
@@ -31,7 +31,7 @@ public class Estoque {
         Estoque estoque = new Estoque();
         
         estoque.setEstabelecimento(getEstabelecimento());
-        estoque.setId_estoque(getId_estoque());
+        estoque.setIdEstoque(getIdEstoque());
         
         return estoque;
     }

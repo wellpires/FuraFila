@@ -7,15 +7,15 @@ import br.com.furafila.utils.FuraFilaConstants;
  * @author Gabriel Sanches Martins
  */
 public class Status {
-    private Integer id_status= 0;
+    private Integer idStatus= 0;
     private String status = "";
 
-    public Integer getId_status() {
-        return id_status;
+    public Integer getIdStatus() {
+        return idStatus;
     }
 
-    public void setId_status(Integer id_status) {
-        this.id_status = id_status;
+    public void setIdStatus(Integer id_status) {
+        this.idStatus = id_status;
     }
 
     public String getStatus() {
@@ -24,7 +24,7 @@ public class Status {
 
     public String getStatusFormatado(){
         
-        switch(getId_status()){
+        switch(getIdStatus()){
             
             case FuraFilaConstants.COD_LOCKER_EM_USO        : return FuraFilaConstants.LOCKER_EM_USO;
             case FuraFilaConstants.COD_LOCKER_LIVRE         : return FuraFilaConstants.LOCKER_LIVRE;
@@ -46,7 +46,7 @@ public class Status {
     
     public Status clonar(){
         Status s = new Status();
-        s.setId_status(getId_status());
+        s.setIdStatus(getIdStatus());
         s.setStatus(getStatus());
         return s;
     }

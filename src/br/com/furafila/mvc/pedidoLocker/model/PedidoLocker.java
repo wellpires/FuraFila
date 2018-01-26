@@ -9,16 +9,16 @@ import br.com.furafila.mvc.pedidos.model.Pedidos;
  */
 public class PedidoLocker {
     
-    private Integer id_pedido_locker;
+    private Integer idPedidoLocker;
     private Locker locker = new Locker();
     private Pedidos pedidos = new Pedidos();
 
-    public Integer getId_pedido_locker() {
-        return id_pedido_locker;
+    public Integer getIdPedidoLocker() {
+        return idPedidoLocker;
     }
 
-    public void setId_pedido_locker(Integer id_pedido_locker) {
-        this.id_pedido_locker = id_pedido_locker;
+    public void setIdPedidoLocker(Integer id_pedido_locker) {
+        this.idPedidoLocker = id_pedido_locker;
     }
 
     public Locker getLocker() {

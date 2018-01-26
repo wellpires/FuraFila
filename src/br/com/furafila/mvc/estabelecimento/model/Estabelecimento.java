@@ -10,36 +10,36 @@ import br.com.furafila.utils.FuraFilaUtils;
  */
 public class Estabelecimento {
 
-    private Integer id_estabelecimento = 0;
-    private String razao_social = "";
-    private Long inscricao_estadual;
+    private Integer idEstabelecimento = 0;
+    private String razaoSocial = "";
+    private Long inscricaoEstadual;
     private Long cnpj = 0L;
     private Boolean status;
     private String email = "";
     private Imagem imagem = new Imagem();
 
-    public Integer getId_estabelecimento() {
-        return id_estabelecimento;
+    public Integer getIdEstabelecimento() {
+        return idEstabelecimento;
     }
 
-    public void setId_estabelecimento(Integer id_estabelecimento) {
-        this.id_estabelecimento = id_estabelecimento;
+    public void setIdEstabelecimento(Integer id_estabelecimento) {
+        this.idEstabelecimento = id_estabelecimento;
     }
 
-    public String getRazao_social() {
-        return razao_social;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setRazao_social(String razao_social) {
-        this.razao_social = razao_social;
+    public void setRazaoSocial(String razao_social) {
+        this.razaoSocial = razao_social;
     }
 
-    public Long getInscricao_estadual() {
-        return inscricao_estadual;
+    public Long getInscricaoEstadual() {
+        return inscricaoEstadual;
     }
 
-    public void setInscricao_estadual(Long inscricao_estadual) {
-        this.inscricao_estadual = inscricao_estadual;
+    public void setInscricaoEstadual(Long inscricao_estadual) {
+        this.inscricaoEstadual = inscricao_estadual;
     }
 
     public Long getCnpj() {
@@ -103,9 +103,9 @@ public class Estabelecimento {
     }
 
     public boolean objetoVazio() {
-        return FuraFilaUtils.valorZerado(getId_estabelecimento())
-                && FuraFilaUtils.valorVazioNulo(getRazao_social())
-                && FuraFilaUtils.valorZerado(getInscricao_estadual())
+        return FuraFilaUtils.valorZerado(getIdEstabelecimento())
+                && FuraFilaUtils.valorVazioNulo(getRazaoSocial())
+                && FuraFilaUtils.valorZerado(getInscricaoEstadual())
                 && FuraFilaUtils.valorZerado(getCnpj())
                 && FuraFilaUtils.valorVazioNulo(getEmail())
                 && getImagem().objetoVazio();
@@ -118,9 +118,9 @@ public class Estabelecimento {
 
         e.setCnpj(getCnpj());
         e.setEmail(getEmail());
-        e.setInscricao_estadual(getInscricao_estadual());
-        e.setRazao_social(getRazao_social());
-        e.setId_estabelecimento(getId_estabelecimento());
+        e.setInscricaoEstadual(getInscricaoEstadual());
+        e.setRazaoSocial(getRazaoSocial());
+        e.setIdEstabelecimento(getIdEstabelecimento());
         e.setImagem(getImagem());
         e.setStatus(getStatus());
 
@@ -128,9 +128,9 @@ public class Estabelecimento {
     }
 
     public void zerarObjeto() {
-        this.id_estabelecimento = 0;
-        this.razao_social = "";
-        this.inscricao_estadual = 0L;
+        this.idEstabelecimento = 0;
+        this.razaoSocial = "";
+        this.inscricaoEstadual = 0L;
         this.cnpj = 0L;
         this.status = null;
         this.email = "";

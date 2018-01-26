@@ -355,14 +355,14 @@ public class FuraFilaUtils {
 
             nome = cliente.getNome().replace(" ", "_");
             perfil = cliente.getLogin().getPermissao().getPermissao();
-            identificador = cliente.getId_cliente() + "_" + nome;
+            identificador = cliente.getIdCliente() + "_" + nome;
 
             caminhoFormado += perfil + barraDupla + identificador + barraDupla + FuraFilaConstants.DIRETORIO_IMAGENS_PERFIL;
         } else if (lojista != null) {
 
-            nome = lojista.getEstabelecimento().getRazao_social().replace(" ", "_");
+            nome = lojista.getEstabelecimento().getRazaoSocial().replace(" ", "_");
             perfil = lojista.getLogin().getPermissao().getPermissao();
-            identificador = lojista.getEstabelecimento().getId_estabelecimento() + "_" + nome;
+            identificador = lojista.getEstabelecimento().getIdEstabelecimento() + "_" + nome;
 
             caminhoFormado += perfil + barraDupla + identificador + barraDupla + (isProduto ? FuraFilaConstants.DIRETORIO_IMAGENS_PRODUTOS : FuraFilaConstants.DIRETORIO_IMAGENS_PERFIL);
         }
@@ -379,13 +379,13 @@ public class FuraFilaUtils {
         String nomeImagem = "";
 
         if (cliente != null) {
-            nomeImagem = cliente.getId_cliente() + "_" + cliente.getNome().replace(" ", "_");
+            nomeImagem = cliente.getIdCliente() + "_" + cliente.getNome().replace(" ", "_");
         } else if (lojista != null) {
 
             if (isProduto) {
-                nomeImagem = lojista.getEstoque().getEstabelecimento().getId_estabelecimento() + "_" + lojista.getProduto().getProduto_desc().replace(" ", "_");
+                nomeImagem = lojista.getEstoque().getEstabelecimento().getIdEstabelecimento() + "_" + lojista.getProduto().getProdutoDesc().replace(" ", "_");
             } else {
-                nomeImagem = lojista.getEstoque().getEstabelecimento().getId_estabelecimento() + "_" + lojista.getEstoque().getEstabelecimento().getRazao_social().replace(" ", "_");
+                nomeImagem = lojista.getEstoque().getEstabelecimento().getIdEstabelecimento() + "_" + lojista.getEstoque().getEstabelecimento().getRazaoSocial().replace(" ", "_");
             }
 
         }

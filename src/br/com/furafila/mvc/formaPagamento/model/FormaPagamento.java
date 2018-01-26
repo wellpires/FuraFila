@@ -6,15 +6,15 @@ package br.com.furafila.mvc.formaPagamento.model;
  * @author Gabriel Sanches Martins
  */
 public class FormaPagamento {
-    private Integer id_forma_pagamento = 0;
+    private Integer idFormaPagamento = 0;
     private String forma_pagamento = "";
 
-    public Integer getId_forma_pagamento() {
-        return id_forma_pagamento;
+    public Integer getIdFormaPagamento() {
+        return idFormaPagamento;
     }
 
-    public void setId_forma_pagamento(Integer id_forma_pagamento) {
-        this.id_forma_pagamento = id_forma_pagamento;
+    public void setIdFormaPagamento(Integer id_forma_pagamento) {
+        this.idFormaPagamento = id_forma_pagamento;
     }
 
     public String getForma_pagamento() {
@@ -28,7 +28,7 @@ public class FormaPagamento {
     public FormaPagamento Clonar(){
     FormaPagamento forma = new FormaPagamento();
         
-        forma.setId_forma_pagamento(getId_forma_pagamento());
+        forma.setIdFormaPagamento(getIdFormaPagamento());
         forma.setForma_pagamento(getForma_pagamento());
        
         return forma;

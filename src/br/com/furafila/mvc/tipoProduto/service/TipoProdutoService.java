@@ -30,8 +30,8 @@ public class TipoProdutoService implements ITipoProdutoService{
                 tipoProduto = new TipoProduto();
                 int indice = 0;
 
-                tipoProduto.setId_tipo_produto(Integer.parseInt(valor.get(indice++)));
-                tipoProduto.setTipo_produto_desc(valor.get(indice++));
+                tipoProduto.setIdTipoProduto(Integer.parseInt(valor.get(indice++)));
+                tipoProduto.setTipoProdutoDesc(valor.get(indice++));
                 tipoProduto.setStatus(valor.get(indice++).charAt(0) == FuraFilaConstants.COD_ATIVO);
 
                 lstTipoProdutos.add(tipoProduto);

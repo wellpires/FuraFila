@@ -19,10 +19,10 @@ public class CidadeBusiness {
                 + "id_uf_FK"
                 + ") "
                 + "VALUES "
-                + "('" + cidade.getDesc_cidade() + "',"
-                + " (SELECT U.id_uf FROM UF U WHERE U.sigla_uf LIKE '" + cidade.getUf().getSigla_uf() + "'))";
+                + "('" + cidade.getDescCidade() + "',"
+                + " (SELECT U.id_uf FROM UF U WHERE U.sigla_uf LIKE '" + cidade.getUf().getSiglaUf() + "'))";
         
-        cidade.setId_cidade(BancoDados.inserirRetornaID(strQuery));
+        cidade.setIdCidade(BancoDados.inserirRetornaID(strQuery));
 
     }
     
@@ -30,7 +30,7 @@ public class CidadeBusiness {
         
         String strQuery = "SELECT C.id_cidade AS [CD],"
                 + " C.desc_cidade AS [CIDADE]"
-                + " FROM CIDADE C WHERE C.desc_cidade LIKE '" + cidade.getDesc_cidade() + "'";
+                + " FROM CIDADE C WHERE C.desc_cidade LIKE '" + cidade.getDescCidade() + "'";
         
         return BancoDados.retornaRegistro(strQuery);
         

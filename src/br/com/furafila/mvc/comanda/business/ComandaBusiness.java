@@ -20,11 +20,11 @@ public class ComandaBusiness {
                 + "id_cliente_FK,"
                 + "id_status_FK"
                 + ") VALUES ("
-                + comanda.getId_comanda()
+                + comanda.getIdComanda()
                 + ",'" + comanda.getCodigoPedido() + "'"
-                + "," + comanda.getEstabelecimento().getId_estabelecimento()
-                + "," + comanda.getCliente().getId_cliente()
-                + "," + comanda.getStatus().getId_status()
+                + "," + comanda.getEstabelecimento().getIdEstabelecimento()
+                + "," + comanda.getCliente().getIdCliente()
+                + "," + comanda.getStatus().getIdStatus()
                 + ")";
 
         BancoDados.executaComando(strQuery);
@@ -32,7 +32,7 @@ public class ComandaBusiness {
 
     public void alterarStatusComanda(Comanda comanda) throws Exception {
 
-        String strQuery = "UPDATE COMANDA SET id_status_FK = " + comanda.getStatus().getId_status() + " WHERE id_comanda = " + comanda.getId_comanda();
+        String strQuery = "UPDATE COMANDA SET id_status_FK = " + comanda.getStatus().getIdStatus() + " WHERE id_comanda = " + comanda.getIdComanda();
 
         BancoDados.executaComando(strQuery);
 
@@ -40,7 +40,7 @@ public class ComandaBusiness {
 
     public void atualizarDataVenda(Comanda comanda) throws Exception {
 
-        String strQuery = "UPDATE COMANDA SET dataConfirmacao = GETDATE() WHERE id_comanda = " + comanda.getId_comanda();
+        String strQuery = "UPDATE COMANDA SET dataConfirmacao = GETDATE() WHERE id_comanda = " + comanda.getIdComanda();
 
         BancoDados.executaComando(strQuery);
 
@@ -52,9 +52,9 @@ public class ComandaBusiness {
                 + " P.id_produto AS [CODIGO_PRODUTO],"
                 + " P.produto_desc  AS [DESC_PRODUTO],"
                 + " P.valor_unitario AS [PRECO],"
-                + " (SELECT PE.qtd FROM PEDIDOS PE WHERE PE.id_produto_FK = P.id_produto  AND PE.id_comanda_FK = " + comanda.getId_comanda() + ") AS [QTD]"
+                + " (SELECT PE.qtd FROM PEDIDOS PE WHERE PE.id_produto_FK = P.id_produto  AND PE.id_comanda_FK = " + comanda.getIdComanda() + ") AS [QTD]"
                 + " FROM PRODUTO P "
-                + " WHERE P.id_produto IN (SELECT PE.id_produto_FK FROM PEDIDOS PE WHERE PE.id_comanda_FK = " + comanda.getId_comanda() + ")";
+                + " WHERE P.id_produto IN (SELECT PE.id_produto_FK FROM PEDIDOS PE WHERE PE.id_comanda_FK = " + comanda.getIdComanda() + ")";
         
         return BancoDados.retorna_N_Registros(strQuery);
         
@@ -62,9 +62,9 @@ public class ComandaBusiness {
     
     public List<String> buscarEstabelecimentoLocker(Comanda comanda) throws Exception{
         
-        String strQuery = "SELECT (SELECT E.id_estabelecimento FROM ESTABELECIMENTO E WHERE E.id_estabelecimento IN (SELECT C.id_estabelecimento_FK FROM COMANDA C WHERE C.id_comanda = " + comanda.getId_comanda() + ")) AS ESTABELECIMENTO,"
-                + " (SELECT id_locker FROM LOCKER L WHERE L.id_locker IN (SELECT PL.id_pedido_FK FROM PEDIDO_LOCKER PL WHERE PL.id_pedido_FK IN (SELECT P.id_pedido FROM PEDIDOS P WHERE P.id_comanda_FK = " + comanda.getId_comanda() + ")))"
-                + " AS [ID_LOCKER] FROM PEDIDO_LOCKER PL WHERE PL.id_pedido_FK IN (SELECT P.id_pedido FROM PEDIDOS P WHERE P.id_comanda_FK = " + comanda.getId_comanda() + ")";
+        String strQuery = "SELECT (SELECT E.id_estabelecimento FROM ESTABELECIMENTO E WHERE E.id_estabelecimento IN (SELECT C.id_estabelecimento_FK FROM COMANDA C WHERE C.id_comanda = " + comanda.getIdComanda() + ")) AS ESTABELECIMENTO,"
+                + " (SELECT id_locker FROM LOCKER L WHERE L.id_locker IN (SELECT PL.id_pedido_FK FROM PEDIDO_LOCKER PL WHERE PL.id_pedido_FK IN (SELECT P.id_pedido FROM PEDIDOS P WHERE P.id_comanda_FK = " + comanda.getIdComanda() + ")))"
+                + " AS [ID_LOCKER] FROM PEDIDO_LOCKER PL WHERE PL.id_pedido_FK IN (SELECT P.id_pedido FROM PEDIDOS P WHERE P.id_comanda_FK = " + comanda.getIdComanda() + ")";
         
         return BancoDados.retornaRegistro(strQuery);
         

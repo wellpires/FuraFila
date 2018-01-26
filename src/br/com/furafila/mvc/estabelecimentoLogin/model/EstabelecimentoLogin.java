@@ -10,16 +10,16 @@ import br.com.furafila.mvc.login.model.Login;
 
 public class EstabelecimentoLogin {
     
-    private Integer id_estabelecimento_login;
+    private Integer idEstabelecimentoLogin;
     private Estabelecimento estabelecimento = new Estabelecimento();
     private Login login = new Login();
 
-    public Integer getId_estabelecimento_login() {
-        return id_estabelecimento_login;
+    public Integer getIdEstabelecimentoLogin() {
+        return idEstabelecimentoLogin;
     }
 
-    public void setId_estabelecimento_login(Integer id_estabelecimento_login) {
-        this.id_estabelecimento_login = id_estabelecimento_login;
+    public void setIdEstabelecimentoLogin(Integer id_estabelecimento_login) {
+        this.idEstabelecimentoLogin = id_estabelecimento_login;
     }
 
     public Estabelecimento getEstabelecimento() {
@@ -42,7 +42,7 @@ public class EstabelecimentoLogin {
         
         EstabelecimentoLogin el = new EstabelecimentoLogin();
         
-        el.setId_estabelecimento_login(getId_estabelecimento_login());
+        el.setIdEstabelecimentoLogin(getIdEstabelecimentoLogin());
         el.setEstabelecimento(getEstabelecimento());
         el.setLogin(getLogin());
         

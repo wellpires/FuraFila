@@ -35,7 +35,7 @@ public class EstoqueService {
         List<String> lstDados = getEstoqueBusiness().buscarCodigoEstoque(estoque);
 
         if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
-            estoque.setId_estoque(Integer.parseInt(lstDados.get(0)));
+            estoque.setIdEstoque(Integer.parseInt(lstDados.get(0)));
         }
 
     }

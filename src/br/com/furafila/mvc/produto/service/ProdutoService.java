@@ -28,10 +28,10 @@ public class ProdutoService {
                 
                 int index = 0;
                 Produto p = new Produto();
-                p.setId_produto(Integer.parseInt(lstValores.get(index++)));
-                p.setProduto_desc(lstValores.get(index++));
-                p.setValor_unitario(Double.parseDouble(lstValores.get(index++)));
-                p.getTipoProduto().setTipo_produto_desc(lstValores.get(index++));
+                p.setIdProduto(Integer.parseInt(lstValores.get(index++)));
+                p.setProdutoDesc(lstValores.get(index++));
+                p.setValorUnitario(Double.parseDouble(lstValores.get(index++)));
+                p.getTipoProduto().setTipoProdutoDesc(lstValores.get(index++));
                 
                 lstProdutos.add(p);
                 
@@ -53,11 +53,11 @@ public class ProdutoService {
                 int index = 0;
                 Pedidos p = new Pedidos();
                 
-                p.getProduto().setId_produto(Integer.parseInt(lstValor.get(index++)));
-                p.getProduto().setProduto_desc(lstValor.get(index++));
-                p.getProduto().setValor_unitario(Double.parseDouble(lstValor.get(index++)));
-                p.getComanda().getEstabelecimento().setId_estabelecimento(Integer.parseInt(lstValor.get(index++)));
-                p.getComanda().getEstabelecimento().setRazao_social(lstValor.get(index++));
+                p.getProduto().setIdProduto(Integer.parseInt(lstValor.get(index++)));
+                p.getProduto().setProdutoDesc(lstValor.get(index++));
+                p.getProduto().setValorUnitario(Double.parseDouble(lstValor.get(index++)));
+                p.getComanda().getEstabelecimento().setIdEstabelecimento(Integer.parseInt(lstValor.get(index++)));
+                p.getComanda().getEstabelecimento().setRazaoSocial(lstValor.get(index++));
                 p.getProduto().getDimensao().setAltura(Integer.parseInt(lstValor.get(index++)));
                 p.getProduto().getDimensao().setLargura(Integer.parseInt(lstValor.get(index++)));
                 p.getProduto().getDimensao().setProfundidade(Integer.parseInt(lstValor.get(index++)));

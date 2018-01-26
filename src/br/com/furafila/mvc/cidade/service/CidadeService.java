@@ -19,8 +19,8 @@ public class CidadeService {
         List<String> lstDados = getCidadeBusiness().buscarCidade(cidade);
         
         if(!FuraFilaUtils.listaVaziaNula(lstDados)){
-            cidade.setId_cidade(Integer.parseInt(lstDados.get(0)));
-            cidade.setDesc_cidade(lstDados.get(1));
+            cidade.setIdCidade(Integer.parseInt(lstDados.get(0)));
+            cidade.setDescCidade(lstDados.get(1));
         }
         else{
             cidade = new Cidade();

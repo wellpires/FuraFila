@@ -21,11 +21,11 @@ public class EstoqueProdutosBusiness {
                 + "id_estoque_FK"
                 + ") VALUES ("
                 + estoqueProdutos.getQtdEstoque() + ","
-                + estoqueProdutos.getProduto().getId_produto() + ","
-                + estoqueProdutos.getEstoque().getId_estoque()
+                + estoqueProdutos.getProduto().getIdProduto() + ","
+                + estoqueProdutos.getEstoque().getIdEstoque()
                 + ")";
 
-        estoqueProdutos.setId_estoque_produtos(BancoDados.inserirRetornaID(strQuery));
+        estoqueProdutos.setIdEstoqueProdutos(BancoDados.inserirRetornaID(strQuery));
 
     }
 
@@ -46,7 +46,7 @@ public class EstoqueProdutosBusiness {
                 + "(SELECT I.id_imagem FROM IMAGEM I WHERE I.id_imagem = P.id_imagem_FK) AS [CD_IMAGEM],"
                 + "(SELECT EP.qtdEstoque FROM ESTOQUE_PRODUTOS EP WHERE EP.id_produto_FK = P.id_produto) AS [QTD_ESTOQUE]"
                 + " FROM PRODUTO P WHERE P.id_tipo_produto_FK IN (SELECT TP.id_tipo_produto FROM TIPO_PRODUTO TP WHERE TP.status = 1)"
-                + " AND P.id_produto IN (SELECT EP.id_produto_FK FROM ESTOQUE_PRODUTOS EP WHERE EP.id_estoque_FK = (SELECT E.id_estoque FROM ESTOQUE E WHERE E.id_estabelecimento_FK = " + estabelecimento.getId_estabelecimento() + "))";
+                + " AND P.id_produto IN (SELECT EP.id_produto_FK FROM ESTOQUE_PRODUTOS EP WHERE EP.id_estoque_FK = (SELECT E.id_estoque FROM ESTOQUE E WHERE E.id_estabelecimento_FK = " + estabelecimento.getIdEstabelecimento() + "))";
 
         return BancoDados.retorna_N_Registros(strQuery);
 
@@ -59,7 +59,7 @@ public class EstoqueProdutosBusiness {
                 + " (SELECT P.valor_unitario FROM PRODUTO P WHERE P.id_produto = EP.id_produto_FK) AS [VL_UNITARIO],"
                 + "EP.qtdEstoque AS [QTD_ESTOQUE],"
                 + "(SELECT TP.tipo_produto_desc FROM TIPO_PRODUTO TP WHERE TP.id_tipo_produto IN (SELECT P.id_tipo_produto_FK FROM PRODUTO P WHERE P.id_produto = EP.id_produto_FK)) AS [TIPO_PRODUTO] "
-                + "FROM ESTOQUE_PRODUTOS EP WHERE EP.id_estoque_FK = (SELECT E.id_estoque FROM ESTOQUE E WHERE E.id_estabelecimento_FK = " + ep.getEstoque().getEstabelecimento().getId_estabelecimento() + ")";
+                + "FROM ESTOQUE_PRODUTOS EP WHERE EP.id_estoque_FK = (SELECT E.id_estoque FROM ESTOQUE E WHERE E.id_estabelecimento_FK = " + ep.getEstoque().getEstabelecimento().getIdEstabelecimento() + ")";
         
         return BancoDados.retorna_N_Registros(strQuery);
         
