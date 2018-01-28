@@ -8,7 +8,7 @@ import br.com.furafila.mvc.principal.connectionFactory.BancoDados;
 
 /**
  *
- * @author Wellington Gon�alves Pires
+ * @author Wellington Gonçalves Pires
  */
 public class BairroBusiness  implements Serializable {
 

@@ -1,6 +1,6 @@
 /**
  *
- * @author: Wellington Gon�alves Pires - Foursys
+ * @author: Wellington Gonçalves Pires - Foursys
  *
  *
  */

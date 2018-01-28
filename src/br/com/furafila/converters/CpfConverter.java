@@ -9,7 +9,7 @@ import br.com.furafila.utils.FuraFilaUtils;
 
 /**
  *
- * @author Wellington Gon�alves Pires
+ * @author Wellington Gonçalves Pires
  */
 public class CpfConverter implements Converter {
 
