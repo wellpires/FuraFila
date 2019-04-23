@@ -165,6 +165,22 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- EXCITE-BIKE THEME -->
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>excite-bike</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>primefaces-repo</id>
+			<url>http://repository.primefaces.org/</url>
+		</repository>
+	</repositories>
+
+
 
 </project>
