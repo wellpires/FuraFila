@@ -13,7 +13,7 @@ import br.com.furafila.utils.FuraFilaConstants;
 
 public class LoginBusiness {
     
-    public void gravar(Login login) throws Exception{
+    public int gravar(Login login) throws Exception{
         
         String strQuery = "INSERT INTO "
                 + "LOGIN "
@@ -32,7 +32,11 @@ public class LoginBusiness {
                 + login.getDisponivel_entregaSQL() + ","
                 + "'" + login.getPermissao().getIdPermissao() + "')";
         
-        login.setIdLogin(BancoDados.inserirRetornaID(strQuery));
+        BancoDados.executaComando(strQuery);
+        
+        List<String> registro = BancoDados.retornaRegistro(String.format("select l.id_login from login l where l.usuario ='%s'", login.getUsuario()));
+        
+        return Integer.parseInt(registro.get(0));
         
     }
     

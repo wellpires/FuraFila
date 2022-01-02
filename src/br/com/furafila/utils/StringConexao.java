@@ -29,7 +29,8 @@ public class StringConexao {
         senha = propriedades.getProperty("senha");
         server = propriedades.getProperty("servidor");
 
-        caminho = "jdbc:sqlserver://" + server + ";databaseName=" + nomeBancoDados;
+//        caminho = "jdbc:sqlserver://" + server + ";databaseName=" + nomeBancoDados;
+        caminho = String.format("jdbc:postgresql://%s:%s/%s", server, "5432", nomeBancoDados);
 
     }
 

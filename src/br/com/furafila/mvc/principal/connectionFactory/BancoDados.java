@@ -17,10 +17,11 @@ import br.com.furafila.utils.StringConexao;
 
 public class BancoDados {
 
-    private static Statement sta;
+    private static final String REGEX = "\\sAS\\s\\[[A-Z\\s_]*\\]";
+	private static Statement sta;
     private static ResultSet rs;
     private static Connection con = null;
-    private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static final String DRIVER = "org.postgresql.Driver";
     private static String caminho; //Outro computador: jdbc:sqlserver://localhost:8089;databaseName=GSFIEO
     private static String usuario;
     private static String senha;
@@ -54,7 +55,7 @@ public class BancoDados {
         try {
             conexao();
 
-            sta.executeUpdate(sql);
+            sta.executeUpdate(sql.replaceAll(REGEX, ""));
         } catch (ClassNotFoundException | SQLException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -163,7 +164,7 @@ public class BancoDados {
 
             conexao();
 
-            rs = sta.executeQuery(sql);
+            rs = sta.executeQuery(sql.replaceAll(REGEX, ""));
 
             int coluna = rs.getMetaData().getColumnCount();
 
@@ -188,6 +189,7 @@ public class BancoDados {
 
     }
 
+    
     public static List<String> retornaRegistro(String sql) throws ClassNotFoundException, SQLException, Exception {
 
         //RETORNA UM REGISTRO
@@ -196,7 +198,7 @@ public class BancoDados {
 
             conexao();
 
-            rs = sta.executeQuery(sql);
+            rs = sta.executeQuery(sql.replaceAll(REGEX, ""));
 
             int coluna = rs.getMetaData().getColumnCount();
 
@@ -220,6 +222,7 @@ public class BancoDados {
 
     }
 
+    
     private static void fecharConexoes() throws SQLException, Exception {
 
         fecharResultSet();

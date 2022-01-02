@@ -36,284 +36,280 @@ import net.sf.jasperreports.engine.JRException;
 @SessionScoped
 public class EstabelecimentoBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    private List<Estabelecimento> lstEstabelecimentos = new ArrayList<>();
-
-    private Estabelecimento estabelecimento = new Estabelecimento();
-    private EstabelecimentoLogin estabelecimentoLogin = new EstabelecimentoLogin();
-    private Estoque estoque = new Estoque();
-
-    private EstabelecimentoBusiness estabelecimentoBusiness = new EstabelecimentoBusiness();
-    private LoginBusiness loginBusiness = new LoginBusiness();
-    private EstabelecimentoLoginBusiness estabelecimentoLoginBusiness = new EstabelecimentoLoginBusiness();
-    private ImagemBusiness imagemBusiness = new ImagemBusiness();
-    private EstoqueBusiness estoqueBusiness = new EstoqueBusiness();
+	private static final long serialVersionUID = 1L;
 
-    private EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
-    private EstoqueService estoqueService = new EstoqueService();
+	private List<Estabelecimento> lstEstabelecimentos = new ArrayList<>();
 
-    public void listarEstabelecimentos() {
-        try {
-            setEstabelecimento(new Estabelecimento());
-            setLstEstabelecimentos(getEstabelecimentoService().listarEstabelecimentos());
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-    }
+	private Estabelecimento estabelecimento = new Estabelecimento();
+	private EstabelecimentoLogin estabelecimentoLogin = new EstabelecimentoLogin();
+	private Estoque estoque = new Estoque();
 
-    public void gerarRelatorio(ActionEvent ae){
+	private EstabelecimentoBusiness estabelecimentoBusiness = new EstabelecimentoBusiness();
+	private LoginBusiness loginBusiness = new LoginBusiness();
+	private EstabelecimentoLoginBusiness estabelecimentoLoginBusiness = new EstabelecimentoLoginBusiness();
+	private ImagemBusiness imagemBusiness = new ImagemBusiness();
+	private EstoqueBusiness estoqueBusiness = new EstoqueBusiness();
 
-        try {
-            FuraFilaUtils.gerarRelatorios("estabelecimentoVendas", getEstabelecimentoService().listarEstabelecimentoMaisVendem(), "ESTABELECIMENTOS_VENDAS");
-        } catch (JRException ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        } catch (IOException ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	private EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
+	private EstoqueService estoqueService = new EstoqueService();
 
-    }
-    
-    public String gravar() {
+	public void listarEstabelecimentos() {
+		try {
+			setEstabelecimento(new Estabelecimento());
+			setLstEstabelecimentos(getEstabelecimentoService().listarEstabelecimentos());
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
+	}
 
-        try {
-            
-//            if(!FuraFilaValidadores.validarEstabelecimento(getEstabelecimento())){
-//                return "";
-//            }
-//            if(!FuraFilaValidadores.validarLogin(getEstabelecimentoLogin().getLogin())){
-//                return "";
-//            }
-            
-//            getImagemBusiness().gravar(getEstabelecimento().getImagem());
+	public void gerarRelatorio(ActionEvent ae) {
 
-            getEstabelecimento().setStatus(Boolean.FALSE);
-            getEstabelecimentoBusiness().gravar(getEstabelecimento());
+		try {
+			FuraFilaUtils.gerarRelatorios("estabelecimentoVendas",
+					getEstabelecimentoService().listarEstabelecimentoMaisVendem(), "ESTABELECIMENTOS_VENDAS");
+		} catch (JRException ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		} catch (IOException ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-            getEstabelecimentoLogin().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_2);
-            getEstabelecimentoLogin().getLogin().setStatus(Boolean.TRUE);
-            getEstabelecimentoLogin().getLogin().setDisponivelEntrega(Boolean.FALSE);
-            getLoginBusiness().gravar(getEstabelecimentoLogin().getLogin());
+	}
 
-            getEstabelecimentoLogin().getEstabelecimento().setIdEstabelecimento(getEstabelecimento().getIdEstabelecimento());
-            getEstabelecimentoLoginBusiness().gravar(getEstabelecimentoLogin());
+	public String gravar() {
 
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+		try {
 
-        zerarLogin();
-        zerarEstabelecimento();
-        return Navegacao.irIndex();
+			getEstabelecimento().setStatus(Boolean.FALSE);
+			int estabelecimentoId = getEstabelecimentoBusiness().gravar(getEstabelecimento());
 
-    }
+			estabelecimento.setIdEstabelecimento(estabelecimentoId);
+			getEstabelecimentoLogin().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_2);
+			getEstabelecimentoLogin().getLogin().setStatus(Boolean.TRUE);
+			getEstabelecimentoLogin().getLogin().setDisponivelEntrega(Boolean.FALSE);
+			int loginId = getLoginBusiness().gravar(getEstabelecimentoLogin().getLogin());
+			getEstabelecimentoLogin().getLogin().setIdLogin(loginId);
 
-    public void alterar(ActionEvent ae) {
+			getEstabelecimentoLogin().getEstabelecimento()
+					.setIdEstabelecimento(getEstabelecimento().getIdEstabelecimento());
+			getEstabelecimentoLoginBusiness().gravar(getEstabelecimentoLogin());
 
-        try {
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-            getImagemBusiness().alterar(getEstabelecimento().getImagem());
+		zerarLogin();
+		zerarEstabelecimento();
+		return Navegacao.irIndex();
 
-            getEstabelecimentoBusiness().alterar(getEstabelecimento());
-            
-            getEstabelecimentoLoginSessao().getEstabelecimento().setImagem(getEstabelecimento().getImagem());
-            getEstabelecimentoLoginSessao().getEstabelecimento().setRazaoSocial(getEstabelecimento().getRazaoSocial());
-            
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	}
 
-    }
+	public void alterar(ActionEvent ae) {
 
-    public String ativarEmpresa() {
+		try {
 
-        try {
-            alterarStatus(Boolean.TRUE);
+			getImagemBusiness().alterar(getEstabelecimento().getImagem());
 
-            getEstoque().setEstabelecimento(getEstabelecimento());
+			getEstabelecimentoBusiness().alterar(getEstabelecimento());
 
-            if (!getEstoqueService().estoqueExiste(getEstoque())) {
-                getEstoque().setEstabelecimento(getEstabelecimento());
-                getEstoqueBusiness().gravar(getEstoque());
-            }
+			getEstabelecimentoLoginSessao().getEstabelecimento().setImagem(getEstabelecimento().getImagem());
+			getEstabelecimentoLoginSessao().getEstabelecimento().setRazaoSocial(getEstabelecimento().getRazaoSocial());
 
-            EnviarEmails.enviarEmailBoasVindas(getEstabelecimento());
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	}
 
-        return Navegacao.irEstabelecimentosCadastrados();
+	public String ativarEmpresa() {
 
-    }
+		try {
+			alterarStatus(Boolean.TRUE);
 
-    public String desativarEmpresa() {
+			getEstoque().setEstabelecimento(getEstabelecimento());
 
-        try {
-            alterarStatus(Boolean.FALSE);
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+			if (!getEstoqueService().estoqueExiste(getEstoque())) {
+				getEstoque().setEstabelecimento(getEstabelecimento());
+				getEstoqueBusiness().gravar(getEstoque());
+			}
 
-        return Navegacao.irEstabelecimentosCadastrados();
+			EnviarEmails.enviarEmailBoasVindas(getEstabelecimento());
 
-    }
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public void alterarStatus(Boolean status) throws Exception {
+		return Navegacao.irEstabelecimentosCadastrados();
 
-        getEstabelecimento().setStatus(status);
+	}
 
-        getEstabelecimentoBusiness().alterarStatus(getEstabelecimento());
+	public String desativarEmpresa() {
 
-    }
+		try {
+			alterarStatus(Boolean.FALSE);
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public void iniciarTabelaEstabelecimentos(ActionEvent ae) {
+		return Navegacao.irEstabelecimentosCadastrados();
 
-        try {
-            setLstEstabelecimentos(getEstabelecimentoService().listarEstabelecimentos());
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	}
 
-    }
+	public void alterarStatus(Boolean status) throws Exception {
 
-    public void listarInfoEstabelecimento() {
+		getEstabelecimento().setStatus(status);
 
-        try {
-            setEstabelecimento(pegarEstabelecimentoSessao());
+		getEstabelecimentoBusiness().alterarStatus(getEstabelecimento());
 
-            getEstabelecimentoService().buscarInformacaoEstabelecimento(getEstabelecimento());
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-    }
+	}
 
-    public void carregar(FileUploadEvent event) {
+	public void iniciarTabelaEstabelecimentos(ActionEvent ae) {
 
-        try {
+		try {
+			setLstEstabelecimentos(getEstabelecimentoService().listarEstabelecimentos());
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-            EstoqueProdutos ep = new EstoqueProdutos();
-            ep.getEstoque().setEstabelecimento(getEstabelecimento());
+	}
 
-            String ext[] = event.getFile().getFileName().split("\\.");
+	public void listarInfoEstabelecimento() {
 
-            String caminho = FuraFilaUtils.montarCaminho(null, getEstabelecimentoLoginSessao(), false);
-            String nomeImagem = FuraFilaUtils.montarNomeImagem(null, ep, false) + "." + ext[ext.length - 1];
+		try {
+			setEstabelecimento(pegarEstabelecimentoSessao());
 
-            getEstabelecimento().getImagem().setImagem(FuraFilaUtils.copiarArquivo(caminho + nomeImagem, event.getFile().getInputstream()));
+			getEstabelecimentoService().buscarInformacaoEstabelecimento(getEstabelecimento());
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
+	}
 
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	public void carregar(FileUploadEvent event) {
 
-    }
+		try {
 
-    private Estabelecimento pegarEstabelecimentoSessao() {
-        return (Estabelecimento) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO);
-    }
+			EstoqueProdutos ep = new EstoqueProdutos();
+			ep.getEstoque().setEstabelecimento(getEstabelecimento());
 
-    public EstabelecimentoLogin getEstabelecimentoLoginSessao() {
-        return (EstabelecimentoLogin) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO_LOGIN);
-    }
+			String ext[] = event.getFile().getFileName().split("\\.");
 
-    public void zerarEstabelecimento() {
-        getEstabelecimento().zerarObjeto();
-    }
-    
-    public void zerarLogin() {
-        getEstabelecimentoLogin().getLogin().setUsuario("");
-    }
+			String caminho = FuraFilaUtils.montarCaminho(null, getEstabelecimentoLoginSessao(), false);
+			String nomeImagem = FuraFilaUtils.montarNomeImagem(null, ep, false) + "." + ext[ext.length - 1];
 
-    public EstabelecimentoBusiness getEstabelecimentoBusiness() {
-        return estabelecimentoBusiness;
-    }
+			getEstabelecimento().getImagem()
+					.setImagem(FuraFilaUtils.copiarArquivo(caminho + nomeImagem, event.getFile().getInputstream()));
 
-    public void setEstabelecimentoBusiness(EstabelecimentoBusiness estabelecimentoBusiness) {
-        this.estabelecimentoBusiness = estabelecimentoBusiness;
-    }
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public LoginBusiness getLoginBusiness() {
-        return loginBusiness;
-    }
+	}
 
-    public void setLoginBusiness(LoginBusiness loginBusiness) {
-        this.loginBusiness = loginBusiness;
-    }
+	private Estabelecimento pegarEstabelecimentoSessao() {
+		return (Estabelecimento) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO);
+	}
 
-    public Estabelecimento getEstabelecimento() {
-        return estabelecimento;
-    }
+	public EstabelecimentoLogin getEstabelecimentoLoginSessao() {
+		return (EstabelecimentoLogin) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO_LOGIN);
+	}
 
-    public void setEstabelecimento(Estabelecimento estabelecimento) {
-        if (estabelecimento != null && !estabelecimento.objetoVazio()) {
-            this.estabelecimento = estabelecimento;
-        }
-    }
+	public void zerarEstabelecimento() {
+		getEstabelecimento().zerarObjeto();
+	}
 
-    public List<Estabelecimento> getLstEstabelecimentos() {
-        return lstEstabelecimentos;
-    }
+	public void zerarLogin() {
+		getEstabelecimentoLogin().getLogin().setUsuario("");
+	}
 
-    public void setLstEstabelecimentos(List<Estabelecimento> lstEstabelecimentos) {
-        this.lstEstabelecimentos = lstEstabelecimentos;
-    }
+	public EstabelecimentoBusiness getEstabelecimentoBusiness() {
+		return estabelecimentoBusiness;
+	}
 
-    public EstabelecimentoService getEstabelecimentoService() {
-        return estabelecimentoService;
-    }
+	public void setEstabelecimentoBusiness(EstabelecimentoBusiness estabelecimentoBusiness) {
+		this.estabelecimentoBusiness = estabelecimentoBusiness;
+	}
 
-    public void setEstabelecimentoService(EstabelecimentoService estabelecimentoService) {
-        this.estabelecimentoService = estabelecimentoService;
-    }
+	public LoginBusiness getLoginBusiness() {
+		return loginBusiness;
+	}
 
-    public EstabelecimentoLogin getEstabelecimentoLogin() {
-        return estabelecimentoLogin;
-    }
+	public void setLoginBusiness(LoginBusiness loginBusiness) {
+		this.loginBusiness = loginBusiness;
+	}
 
-    public void setEstabelecimentoLogin(EstabelecimentoLogin estabelecimentoLogin) {
-        this.estabelecimentoLogin = estabelecimentoLogin;
-    }
+	public Estabelecimento getEstabelecimento() {
+		return estabelecimento;
+	}
 
-    public EstabelecimentoLoginBusiness getEstabelecimentoLoginBusiness() {
-        return estabelecimentoLoginBusiness;
-    }
+	public void setEstabelecimento(Estabelecimento estabelecimento) {
+		if (estabelecimento != null && !estabelecimento.objetoVazio()) {
+			this.estabelecimento = estabelecimento;
+		}
+	}
 
-    public void setEstabelecimentoLoginBusiness(EstabelecimentoLoginBusiness estabelecimentoLoginBusiness) {
-        this.estabelecimentoLoginBusiness = estabelecimentoLoginBusiness;
-    }
+	public List<Estabelecimento> getLstEstabelecimentos() {
+		return lstEstabelecimentos;
+	}
 
-    public ImagemBusiness getImagemBusiness() {
-        return imagemBusiness;
-    }
+	public void setLstEstabelecimentos(List<Estabelecimento> lstEstabelecimentos) {
+		this.lstEstabelecimentos = lstEstabelecimentos;
+	}
 
-    public void setImagemBusiness(ImagemBusiness imagemBusiness) {
-        this.imagemBusiness = imagemBusiness;
-    }
+	public EstabelecimentoService getEstabelecimentoService() {
+		return estabelecimentoService;
+	}
 
-    public EstoqueBusiness getEstoqueBusiness() {
-        return estoqueBusiness;
-    }
+	public void setEstabelecimentoService(EstabelecimentoService estabelecimentoService) {
+		this.estabelecimentoService = estabelecimentoService;
+	}
 
-    public void setEstoqueBusiness(EstoqueBusiness estoqueBusiness) {
-        this.estoqueBusiness = estoqueBusiness;
-    }
+	public EstabelecimentoLogin getEstabelecimentoLogin() {
+		return estabelecimentoLogin;
+	}
 
-    public Estoque getEstoque() {
-        return estoque;
-    }
+	public void setEstabelecimentoLogin(EstabelecimentoLogin estabelecimentoLogin) {
+		this.estabelecimentoLogin = estabelecimentoLogin;
+	}
 
-    public void setEstoque(Estoque estoque) {
-        this.estoque = estoque;
-    }
+	public EstabelecimentoLoginBusiness getEstabelecimentoLoginBusiness() {
+		return estabelecimentoLoginBusiness;
+	}
 
-    public EstoqueService getEstoqueService() {
-        return estoqueService;
-    }
+	public void setEstabelecimentoLoginBusiness(EstabelecimentoLoginBusiness estabelecimentoLoginBusiness) {
+		this.estabelecimentoLoginBusiness = estabelecimentoLoginBusiness;
+	}
 
-    public void setEstoqueService(EstoqueService estoqueService) {
-        this.estoqueService = estoqueService;
-    }
+	public ImagemBusiness getImagemBusiness() {
+		return imagemBusiness;
+	}
+
+	public void setImagemBusiness(ImagemBusiness imagemBusiness) {
+		this.imagemBusiness = imagemBusiness;
+	}
+
+	public EstoqueBusiness getEstoqueBusiness() {
+		return estoqueBusiness;
+	}
+
+	public void setEstoqueBusiness(EstoqueBusiness estoqueBusiness) {
+		this.estoqueBusiness = estoqueBusiness;
+	}
+
+	public Estoque getEstoque() {
+		return estoque;
+	}
+
+	public void setEstoque(Estoque estoque) {
+		this.estoque = estoque;
+	}
+
+	public EstoqueService getEstoqueService() {
+		return estoqueService;
+	}
+
+	public void setEstoqueService(EstoqueService estoqueService) {
+		this.estoqueService = estoqueService;
+	}
 
 }
