@@ -3,13 +3,16 @@ package br.com.furafila.mvc.produto.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
+
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 
 import br.com.furafila.mvc.dimensao.business.DimensaoBusiness;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
@@ -42,399 +45,403 @@ import br.com.furafila.utils.Navegacao;
 @SessionScoped
 public class ProdutoBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Produto produtos = new Produto();
-    private EstoqueProdutos estoqueProdutos = new EstoqueProdutos();
-    private Pedidos pedidos = new Pedidos();
+	private Produto produtos = new Produto();
+	private EstoqueProdutos estoqueProdutos = new EstoqueProdutos();
+	private Pedidos pedidos = new Pedidos();
 
-    private ProdutoBusiness produtoBusiness = new ProdutoBusiness();
-    private ImagemBusiness imagemBusiness = new ImagemBusiness();
-    private DimensaoBusiness dimensaoBusiness = new DimensaoBusiness();
-    private EstoqueBusiness estoqueBusiness = new EstoqueBusiness();
-    private EstoqueProdutosBusiness estoqueProdutosBusiness = new EstoqueProdutosBusiness();
-    private EstoqueEntradaBusiness estoqueEntradaBusiness = new EstoqueEntradaBusiness();
-    private EstoqueSaidaBusiness estoqueSaidaBusiness = new EstoqueSaidaBusiness();
+	private ProdutoBusiness produtoBusiness = new ProdutoBusiness();
+	private ImagemBusiness imagemBusiness = new ImagemBusiness();
+	private DimensaoBusiness dimensaoBusiness = new DimensaoBusiness();
+	private EstoqueBusiness estoqueBusiness = new EstoqueBusiness();
+	private EstoqueProdutosBusiness estoqueProdutosBusiness = new EstoqueProdutosBusiness();
+	private EstoqueEntradaBusiness estoqueEntradaBusiness = new EstoqueEntradaBusiness();
+	private EstoqueSaidaBusiness estoqueSaidaBusiness = new EstoqueSaidaBusiness();
 
-    private TipoProdutoService tipoProdutoService = new TipoProdutoService();
-    private ProdutoService produtoService = new ProdutoService();
-    private EstoqueService estoqueService = new EstoqueService();
-    private EstoqueProdutosService estoqueProdutosService = new EstoqueProdutosService();
+	private TipoProdutoService tipoProdutoService = new TipoProdutoService();
+	private ProdutoService produtoService = new ProdutoService();
+	private EstoqueService estoqueService = new EstoqueService();
+	private EstoqueProdutosService estoqueProdutosService = new EstoqueProdutosService();
 
-    private List<TipoProduto> lstTipoProduto = new ArrayList<>();
-    private List<EstoqueProdutos> lstProdutos = new ArrayList<>();
-    private List<Produto> lstCardapio = new ArrayList<>();
-    private StreamedContent imagem;
-    private boolean flgBotoes = true;
-    private Integer qtdeEstoqueAntiga = 0;
-    private String tituloPagina = "";
+	private List<TipoProduto> lstTipoProduto = new ArrayList<>();
+	private List<EstoqueProdutos> lstProdutos = new ArrayList<>();
+	private List<Produto> lstCardapio = new ArrayList<>();
+	private StreamedContent imagem;
+	private boolean flgBotoes = true;
+	private Integer qtdeEstoqueAntiga = 0;
+	private String tituloPagina = "";
 
-    public void popularTipoProduto() {
-        try {
-            setLstTipoProduto(getTipoProdutoService().listarTipoProduto(false));
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-    }
 
-    public void popularProdutos() {
-        try {
-            setLstProdutos(getEstoqueProdutosService().listarProdutosPorCodigoEstabelecimento(pegarSessaoEstabelecimento()));
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-    }
+	public void popularTipoProduto() {
+		try {
+			setLstTipoProduto(getTipoProdutoService().listarTipoProduto(false));
 
-    public void popularCardapio() {
-        try {
-            setLstCardapio(getProdutoService().buscarCardapio(pegarSessaoEstabelecimento()));
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-    }
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
+	}
 
-    public void gravar(ActionEvent ae) {
+	public void popularProdutos() {
+		try {
+			setLstProdutos(
+					getEstoqueProdutosService().listarProdutosPorCodigoEstabelecimento(pegarSessaoEstabelecimento()));
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
+	}
 
-        try {
+	public void popularCardapio() {
+		try {
+			setLstCardapio(getProdutoService().buscarCardapio(pegarSessaoEstabelecimento()));
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
+	}
 
-            getImagemBusiness().gravar(getProdutos().getImagem());
+	public void gravar(ActionEvent ae) {
 
-            getDimensaoBusiness().gravar(getProdutos().getDimensao());
+		try {
 
-            getProdutoBusiness().gravar(getProdutos());
+			getImagemBusiness().gravar(getProdutos().getImagem());
 
-            EstoqueEntrada estoqueEntrada = new EstoqueEntrada();
-            estoqueEntrada.setQtdEntrada(0);
-            estoqueEntrada.setProduto(getProdutos());
-            estoqueEntrada.getMotivoEntrada().setMotivoEntrada(FuraFilaConstants.MOTIVO_ENTRADA_INICIAL);
+			getDimensaoBusiness().gravar(getProdutos().getDimensao());
 
-            getEstoqueEntradaBusiness().gravar(estoqueEntrada, pegarSessaoEstabelecimento().clonar());
-            
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+			getProdutoBusiness().gravar(getProdutos());
 
-    }
+			EstoqueEntrada estoqueEntrada = new EstoqueEntrada();
+			estoqueEntrada.setQtdEntrada(0);
+			estoqueEntrada.setProduto(getProdutos());
+			estoqueEntrada.getMotivoEntrada().setMotivoEntrada(FuraFilaConstants.MOTIVO_ENTRADA_INICIAL);
 
-    public void alterar(ActionEvent ae) {
+			getEstoqueEntradaBusiness().gravar(estoqueEntrada, pegarSessaoEstabelecimento().clonar());
 
-        try {
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-            getProdutoBusiness().alterar(getEstoqueProdutos().getProduto());
+	}
 
-            getImagemBusiness().alterar(getEstoqueProdutos().getProduto().getImagem());
+	public void alterar(ActionEvent ae) {
 
-            getDimensaoBusiness().alterar(getEstoqueProdutos().getProduto().getDimensao());
+		try {
 
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+			getProdutoBusiness().alterar(getEstoqueProdutos().getProduto());
 
-    }
+			getImagemBusiness().alterar(getEstoqueProdutos().getProduto().getImagem());
 
-    public void alterarStatus(ActionEvent ae) {
+			getDimensaoBusiness().alterar(getEstoqueProdutos().getProduto().getDimensao());
 
-        try {
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-            Produto p = getEstoqueProdutos().getProduto().clonar();
-            p.setStatus(!p.getStatus());
+	}
 
-            getProdutoBusiness().alterarStatus(p);
+	public void alterarStatus(ActionEvent ae) {
 
-            if (!p.getStatus()) {
-                EstoqueSaida es = new EstoqueSaida();
-                es.setProduto(p);
-                es.setQtdSaida(0);
-                es.getMotivoSaida().setMotivoSaida(FuraFilaConstants.MOTIVO_SAIDA_CORRECAO);
+		try {
 
-                getEstoqueSaidaBusiness().gravar(es, pegarSessaoEstabelecimento());
-            }
+			Produto p = getEstoqueProdutos().getProduto().clonar();
+			p.setStatus(!p.getStatus());
 
-            atualizarPagina();
+			getProdutoBusiness().alterarStatus(p);
 
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+			if (!p.getStatus()) {
+				EstoqueSaida es = new EstoqueSaida();
+				es.setProduto(p);
+				es.setQtdSaida(0);
+				es.getMotivoSaida().setMotivoSaida(FuraFilaConstants.MOTIVO_SAIDA_CORRECAO);
 
-    }
+				getEstoqueSaidaBusiness().gravar(es, pegarSessaoEstabelecimento());
+			}
 
-    public void entradaProdutos(ActionEvent ae) {
+			atualizarPagina();
 
-        try {
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-            if (getQtdeEstoqueAntiga() > getEstoqueProdutos().getQtdEstoque()) {
-                //ENTRADA PRODUTOS
+	}
 
-                EstoqueEntrada ee = new EstoqueEntrada();
-                ee.setProduto(getEstoqueProdutos().getProduto());
-                ee.setQtdEntrada(getQtdeEstoqueAntiga());
-                ee.getMotivoEntrada().setMotivoEntrada(FuraFilaConstants.MOTIVO_ENTRADA_ENTRADA);
+	public void entradaProdutos(ActionEvent ae) {
 
-                getEstoqueEntradaBusiness().gravar(ee, pegarSessaoEstabelecimento());
+		try {
 
-            }
+			if (getQtdeEstoqueAntiga() > getEstoqueProdutos().getQtdEstoque()) {
+				// ENTRADA PRODUTOS
 
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-    }
+				EstoqueEntrada ee = new EstoqueEntrada();
+				ee.setProduto(getEstoqueProdutos().getProduto());
+				ee.setQtdEntrada(getQtdeEstoqueAntiga());
+				ee.getMotivoEntrada().setMotivoEntrada(FuraFilaConstants.MOTIVO_ENTRADA_ENTRADA);
 
-    public void alterarPreco(ActionEvent ae) {
-        try {
-            getProdutoBusiness().alterarPreco(getEstoqueProdutos().getProduto());
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+				getEstoqueEntradaBusiness().gravar(ee, pegarSessaoEstabelecimento());
 
-    }
+			}
 
-    public void carregarImagem(FileUploadEvent event) {
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
+	}
 
-        try {
+	public void alterarPreco(ActionEvent ae) {
+		try {
+			getProdutoBusiness().alterarPreco(getEstoqueProdutos().getProduto());
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-            EstoqueProdutos ep = new EstoqueProdutos();
-            ep.setProduto(getProdutos());
-            ep.getEstoque().setEstabelecimento(pegarSessaoEstabelecimento());
+	}
 
-            String ext[] = event.getFile().getFileName().split("\\.");
-            String caminho = FuraFilaUtils.montarCaminho(null, pegarEstabelecimentoLoginSessao(), true);
-            String nomeImagem = FuraFilaUtils.gerarNumeroAleatorio().toString() + "." + ext[ext.length - 1];
+	public void carregarImagem(FileUploadEvent event) {
 
-            getProdutos().getImagem().setImagem(FuraFilaUtils.copiarArquivo(caminho + nomeImagem, event.getFile().getInputstream()));
+		try {
 
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+			EstoqueProdutos ep = new EstoqueProdutos();
+			ep.setProduto(getProdutos());
+			ep.getEstoque().setEstabelecimento(pegarSessaoEstabelecimento());
 
-    }
+			String ext[] = event.getFile().getFileName().split("\\.");
+			String caminho = FuraFilaUtils.montarCaminho(null, pegarEstabelecimentoLoginSessao(), true);
+			String nomeImagem = FuraFilaUtils.gerarNumeroAleatorio().toString() + "." + ext[ext.length - 1];
 
-    public String atualizarPagina() {
-        setProdutos(new Produto());
-        return Navegacao.irEstoque();
-    }
+			getProdutos().getImagem()
+					.setImagem(FuraFilaUtils.copiarArquivo(caminho + nomeImagem, event.getFile().getInputstream()));
 
-    public String atualizarCardapio() {
-        return Navegacao.irCardapio();
-    }
+		} catch (Exception ex) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public String atualizarPaginaComprarProduto() {
-        return Navegacao.irPaginaComprarProduto();
-    }
+	}
 
-    public String pesquisarEnter(){
-        return atualizarPaginaComprarProduto();
-    }
-    
-    public Estabelecimento pegarSessaoEstabelecimento() {
-        return (Estabelecimento) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO);
-    }
+	public String atualizarPagina() {
+		setProdutos(new Produto());
+		return Navegacao.irEstoque();
+	}
 
-    private EstabelecimentoLogin pegarEstabelecimentoLoginSessao() {
-        return (EstabelecimentoLogin) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO_LOGIN);
-    }
+	public String atualizarCardapio() {
+		return Navegacao.irCardapio();
+	}
 
-    public void habilitarBotoes(SelectEvent event) {
-        manipularBotoes(false);
-    }
+	public String atualizarPaginaComprarProduto() {
+		return Navegacao.irPaginaComprarProduto();
+	}
 
-    public void desabilitarBotoes(UnselectEvent event) {
-        manipularBotoes(true);
-    }
+	public String pesquisarEnter() {
+		return atualizarPaginaComprarProduto();
+	}
 
-    private void manipularBotoes(boolean status) {
-        setFlgBotoes(status);
-    }
+	public Estabelecimento pegarSessaoEstabelecimento() {
+		return (Estabelecimento) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO);
+	}
 
-    public String nomeBotaoAtivarDesativar() {
-        if (getEstoqueProdutos().getProduto().getStatus() == null) {
-            return FuraFilaConstants.ATIVAR;
-        }
-        return getEstoqueProdutos().getProduto().getStatus() ? FuraFilaConstants.DESATIVAR : FuraFilaConstants.ATIVAR;
-    }
+	private EstabelecimentoLogin pegarEstabelecimentoLoginSessao() {
+		return (EstabelecimentoLogin) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO_LOGIN);
+	}
 
-    public Boolean verificarEstoque() {
-        if (getEstoqueProdutos().getQtdEstoque() == null) {
-            return true;
-        }
-        return getEstoqueProdutos().getQtdEstoque() != 0;
-    }
+	public void habilitarBotoes(SelectEvent event) {
+		manipularBotoes(false);
+	}
 
-    public Boolean verificarPrecoZerado() {
-        if (getEstoqueProdutos().getProduto().getValorUnitario() == null) {
-            return true;
-        }
-        return getEstoqueProdutos().getProduto().getValorUnitario() != Double.parseDouble("0.0");
-    }
+	public void desabilitarBotoes(UnselectEvent event) {
+		manipularBotoes(true);
+	}
 
-    public ProdutoBusiness getProdutoBusiness() {
-        return produtoBusiness;
-    }
+	private void manipularBotoes(boolean status) {
+		setFlgBotoes(status);
+	}
 
-    public void setProdutoBusiness(ProdutoBusiness produtoBusiness) {
-        this.produtoBusiness = produtoBusiness;
-    }
+	public String nomeBotaoAtivarDesativar() {
+		if (getEstoqueProdutos().getProduto().getStatus() == null) {
+			return FuraFilaConstants.ATIVAR;
+		}
+		return getEstoqueProdutos().getProduto().getStatus() ? FuraFilaConstants.DESATIVAR : FuraFilaConstants.ATIVAR;
+	}
 
-    public Produto getProdutos() {
-        return produtos;
-    }
+	public Boolean verificarEstoque() {
+		if (getEstoqueProdutos().getQtdEstoque() == null) {
+			return true;
+		}
+		return getEstoqueProdutos().getQtdEstoque() != 0;
+	}
 
-    public void setProdutos(Produto produtos) {
-        this.produtos = produtos;
-    }
+	public Boolean verificarPrecoZerado() {
+		if (getEstoqueProdutos().getProduto().getValorUnitario() == null) {
+			return true;
+		}
+		return getEstoqueProdutos().getProduto().getValorUnitario() != Double.parseDouble("0.0");
+	}
 
-    public List<TipoProduto> getLstTipoProduto() {
-        return lstTipoProduto;
-    }
+	public ProdutoBusiness getProdutoBusiness() {
+		return produtoBusiness;
+	}
 
-    public void setLstTipoProduto(List<TipoProduto> lstTipoProduto) {
-        this.lstTipoProduto = lstTipoProduto;
-    }
+	public void setProdutoBusiness(ProdutoBusiness produtoBusiness) {
+		this.produtoBusiness = produtoBusiness;
+	}
 
-    public TipoProdutoService getTipoProdutoService() {
-        return tipoProdutoService;
-    }
+	public Produto getProdutos() {
+		return produtos;
+	}
 
-    public void setTipoProdutoService(TipoProdutoService tipoProdutoService) {
-        this.tipoProdutoService = tipoProdutoService;
-    }
+	public void setProdutos(Produto produtos) {
+		this.produtos = produtos;
+	}
 
-    public StreamedContent getImagem() {
-        return imagem;
-    }
+	public List<TipoProduto> getLstTipoProduto() {
+		return lstTipoProduto;
+	}
 
-    public void setImagem(StreamedContent imagem) {
-        this.imagem = imagem;
-    }
+	public void setLstTipoProduto(List<TipoProduto> lstTipoProduto) {
+		this.lstTipoProduto = lstTipoProduto;
+	}
 
-    public ImagemBusiness getImagemBusiness() {
-        return imagemBusiness;
-    }
+	public TipoProdutoService getTipoProdutoService() {
+		return tipoProdutoService;
+	}
 
-    public void setImagemBusiness(ImagemBusiness imagemBusiness) {
-        this.imagemBusiness = imagemBusiness;
-    }
+	public void setTipoProdutoService(TipoProdutoService tipoProdutoService) {
+		this.tipoProdutoService = tipoProdutoService;
+	}
 
-    public DimensaoBusiness getDimensaoBusiness() {
-        return dimensaoBusiness;
-    }
+	public StreamedContent getImagem() {
+		return imagem;
+	}
 
-    public void setDimensaoBusiness(DimensaoBusiness dimensaoBusiness) {
-        this.dimensaoBusiness = dimensaoBusiness;
-    }
+	public void setImagem(StreamedContent imagem) {
+		this.imagem = imagem;
+	}
 
-    public List<EstoqueProdutos> getLstProdutos() {
-        return lstProdutos;
-    }
+	public ImagemBusiness getImagemBusiness() {
+		return imagemBusiness;
+	}
 
-    public void setLstProdutos(List<EstoqueProdutos> lstProdutos) {
-        this.lstProdutos = lstProdutos;
-    }
+	public void setImagemBusiness(ImagemBusiness imagemBusiness) {
+		this.imagemBusiness = imagemBusiness;
+	}
 
-    public ProdutoService getProdutoService() {
-        return produtoService;
-    }
+	public DimensaoBusiness getDimensaoBusiness() {
+		return dimensaoBusiness;
+	}
 
-    public void setProdutoService(ProdutoService produtoService) {
-        this.produtoService = produtoService;
-    }
-
-    public EstoqueBusiness getEstoqueBusiness() {
-        return estoqueBusiness;
-    }
-
-    public void setEstoqueBusiness(EstoqueBusiness estoqueBusiness) {
-        this.estoqueBusiness = estoqueBusiness;
-    }
-
-    public EstoqueService getEstoqueService() {
-        return estoqueService;
-    }
-
-    public void setEstoqueService(EstoqueService estoqueService) {
-        this.estoqueService = estoqueService;
-    }
-
-    public EstoqueProdutosBusiness getEstoqueProdutosBusiness() {
-        return estoqueProdutosBusiness;
-    }
-
-    public void setEstoqueProdutosBusiness(EstoqueProdutosBusiness estoqueProdutosBusiness) {
-        this.estoqueProdutosBusiness = estoqueProdutosBusiness;
-    }
-
-    public EstoqueProdutosService getEstoqueProdutosService() {
-        return estoqueProdutosService;
-    }
-
-    public void setEstoqueProdutosService(EstoqueProdutosService estoqueProdutosService) {
-        this.estoqueProdutosService = estoqueProdutosService;
-    }
-
-    public EstoqueProdutos getEstoqueProdutos() {
-        return estoqueProdutos;
-    }
-
-    public void setEstoqueProdutos(EstoqueProdutos estoqueProdutos) {
-        if (estoqueProdutos != null) {
-            setQtdeEstoqueAntiga(estoqueProdutos.getQtdEstoque());
-            this.estoqueProdutos = estoqueProdutos;
-        }
-    }
-
-    public boolean getFlgBotoes() {
-        return flgBotoes;
-    }
-
-    public void setFlgBotoes(boolean flgBotoes) {
-        this.flgBotoes = flgBotoes;
-    }
-
-    public Integer getQtdeEstoqueAntiga() {
-        return qtdeEstoqueAntiga;
-    }
-
-    public void setQtdeEstoqueAntiga(Integer qtdeEstoqueAntiga) {
-        this.qtdeEstoqueAntiga = qtdeEstoqueAntiga;
-    }
-
-    public EstoqueEntradaBusiness getEstoqueEntradaBusiness() {
-        return estoqueEntradaBusiness;
-    }
-
-    public void setEstoqueEntradaBusiness(EstoqueEntradaBusiness estoqueEntradaBusiness) {
-        this.estoqueEntradaBusiness = estoqueEntradaBusiness;
-    }
-
-    public EstoqueSaidaBusiness getEstoqueSaidaBusiness() {
-        return estoqueSaidaBusiness;
-    }
-
-    public void setEstoqueSaidaBusiness(EstoqueSaidaBusiness estoqueSaidaBusiness) {
-        this.estoqueSaidaBusiness = estoqueSaidaBusiness;
-    }
-
-    public List<Produto> getLstCardapio() {
-        return lstCardapio;
-    }
-
-    public void setLstCardapio(List<Produto> lstCardapio) {
-        this.lstCardapio = lstCardapio;
-    }
-
-    public String getTituloPagina() {
-        return tituloPagina;
-    }
-
-    public void setTituloPagina(String tituloPagina) {
-        this.tituloPagina = tituloPagina;
-    }
-
-    public Pedidos getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(Pedidos pedidos) {
-        this.pedidos = pedidos;
-    }
+	public void setDimensaoBusiness(DimensaoBusiness dimensaoBusiness) {
+		this.dimensaoBusiness = dimensaoBusiness;
+	}
+
+	public List<EstoqueProdutos> getLstProdutos() {
+		return lstProdutos;
+	}
+
+	public void setLstProdutos(List<EstoqueProdutos> lstProdutos) {
+		this.lstProdutos = lstProdutos;
+	}
+
+	public ProdutoService getProdutoService() {
+		return produtoService;
+	}
+
+	public void setProdutoService(ProdutoService produtoService) {
+		this.produtoService = produtoService;
+	}
+
+	public EstoqueBusiness getEstoqueBusiness() {
+		return estoqueBusiness;
+	}
+
+	public void setEstoqueBusiness(EstoqueBusiness estoqueBusiness) {
+		this.estoqueBusiness = estoqueBusiness;
+	}
+
+	public EstoqueService getEstoqueService() {
+		return estoqueService;
+	}
+
+	public void setEstoqueService(EstoqueService estoqueService) {
+		this.estoqueService = estoqueService;
+	}
+
+	public EstoqueProdutosBusiness getEstoqueProdutosBusiness() {
+		return estoqueProdutosBusiness;
+	}
+
+	public void setEstoqueProdutosBusiness(EstoqueProdutosBusiness estoqueProdutosBusiness) {
+		this.estoqueProdutosBusiness = estoqueProdutosBusiness;
+	}
+
+	public EstoqueProdutosService getEstoqueProdutosService() {
+		return estoqueProdutosService;
+	}
+
+	public void setEstoqueProdutosService(EstoqueProdutosService estoqueProdutosService) {
+		this.estoqueProdutosService = estoqueProdutosService;
+	}
+
+	public EstoqueProdutos getEstoqueProdutos() {
+		return estoqueProdutos;
+	}
+
+	public void setEstoqueProdutos(EstoqueProdutos estoqueProdutos) {
+		if (estoqueProdutos != null) {
+			setQtdeEstoqueAntiga(estoqueProdutos.getQtdEstoque());
+			this.estoqueProdutos = estoqueProdutos;
+		}
+	}
+
+	public boolean getFlgBotoes() {
+		return flgBotoes;
+	}
+
+	public void setFlgBotoes(boolean flgBotoes) {
+		this.flgBotoes = flgBotoes;
+	}
+
+	public Integer getQtdeEstoqueAntiga() {
+		return qtdeEstoqueAntiga;
+	}
+
+	public void setQtdeEstoqueAntiga(Integer qtdeEstoqueAntiga) {
+		this.qtdeEstoqueAntiga = qtdeEstoqueAntiga;
+	}
+
+	public EstoqueEntradaBusiness getEstoqueEntradaBusiness() {
+		return estoqueEntradaBusiness;
+	}
+
+	public void setEstoqueEntradaBusiness(EstoqueEntradaBusiness estoqueEntradaBusiness) {
+		this.estoqueEntradaBusiness = estoqueEntradaBusiness;
+	}
+
+	public EstoqueSaidaBusiness getEstoqueSaidaBusiness() {
+		return estoqueSaidaBusiness;
+	}
+
+	public void setEstoqueSaidaBusiness(EstoqueSaidaBusiness estoqueSaidaBusiness) {
+		this.estoqueSaidaBusiness = estoqueSaidaBusiness;
+	}
+
+	public List<Produto> getLstCardapio() {
+		return lstCardapio;
+	}
+
+	public void setLstCardapio(List<Produto> lstCardapio) {
+		this.lstCardapio = lstCardapio;
+	}
+
+	public String getTituloPagina() {
+		return tituloPagina;
+	}
+
+	public void setTituloPagina(String tituloPagina) {
+		this.tituloPagina = tituloPagina;
+	}
+
+	public Pedidos getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(Pedidos pedidos) {
+		this.pedidos = pedidos;
+	}
 
 }

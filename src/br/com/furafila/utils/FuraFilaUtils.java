@@ -24,6 +24,7 @@ import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
@@ -32,11 +33,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.text.MaskFormatter;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import org.apache.commons.io.IOUtils;
 import org.primefaces.context.RequestContext;
 
@@ -55,6 +52,11 @@ import br.com.furafila.mvc.estoqueProdutos.model.EstoqueProdutos;
 import br.com.furafila.mvc.logradouro.business.LogradouroBusiness;
 import br.com.furafila.mvc.logradouro.model.Logradouro;
 import br.com.furafila.mvc.logradouro.service.LogradouroService;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 /**
  *
@@ -305,14 +307,16 @@ public class FuraFilaUtils {
         Cidade cidade = cidadeService.buscarCidade(logradouro.getBairro().getCidade());
 
         if (cidade.objetoVazio()) {
-            cidadeBusiness.gravar(logradouro.getBairro().getCidade());
+            int cidadeId = cidadeBusiness.gravar(logradouro.getBairro().getCidade());
+            logradouro.getBairro().getCidade().setIdCidade(cidadeId);
         }
 
         //GRAVAR BAIRRO
         Bairro bairro = bairroService.buscarBairro(logradouro.getBairro());
 
         if (bairro.objetoVazio()) {
-            bairroBusiness.gravar(logradouro.getBairro());
+            int bairroId = bairroBusiness.gravar(logradouro.getBairro());
+            logradouro.getBairro().setIdBairro(bairroId);
         }
 
         //GRAVAR LOGRADOURO
@@ -344,7 +348,10 @@ public class FuraFilaUtils {
 
     public static String montarCaminho(Cliente cliente, EstabelecimentoLogin lojista, boolean isProduto) throws Exception {
 
-        String caminhoFormado = FuraFilaConstants.UNIDADE + FuraFilaConstants.DIRETORIO_IMAGENS;
+    	String caminhoFormado = "/home/wellington/Fura_Fila_Imagens/";
+//    	String caminhoFormado = FuraFilaConstants.UNIDADE + FuraFilaConstants.DIRETORIO_IMAGENS;
+        
+        
         String barraDupla = "//";
 
         String nome;

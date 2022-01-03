@@ -23,7 +23,7 @@ public class DimensaoBusiness  implements Serializable {
                 + dimensao.getAltura() + ","
                 + dimensao.getLargura() + ","
                 + dimensao.getProfundidade()
-                + ")";
+                + ") RETURNING id_dimensao;";
 
         dimensao.setIdDimensao(BancoDados.inserirRetornaID(strQuery));
 

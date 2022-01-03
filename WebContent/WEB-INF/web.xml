@@ -41,6 +41,11 @@
         <param-value>excite-bike</param-value>
     </context-param>
     
+    <context-param>
+  		<param-name>primefaces.UPLOADER</param-name>
+  		<param-value>commons</param-value>
+	</context-param>
+    
     <!-- CONFIGURATION FILES both Bean definition and security -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -69,5 +74,18 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <!-- Enable Spring Filter End -->
+
+<filter>
+<filter-name>PrimeFaces FileUpload Filter</filter-name>
+ <filter-class>
+org.primefaces.webapp.filter.FileUploadFilter
+</filter-class>
+</filter>
+<filter-mapping>
+<filter-name>PrimeFaces FileUpload Filter</filter-name>
+<servlet-name>Faces Servlet</servlet-name>
+</filter-mapping>
+
+
 
 </web-app>

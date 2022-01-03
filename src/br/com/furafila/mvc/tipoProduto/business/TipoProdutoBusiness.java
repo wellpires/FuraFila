@@ -21,9 +21,8 @@ public class TipoProdutoBusiness {
                 + ") VALUES ("
                 + "'" + tipoProduto.getTipoProdutoDesc() + "'"
                 + ")";
-
-        tipoProduto.setIdTipoProduto(BancoDados.inserirRetornaID(strQuery));
-
+        
+        BancoDados.executaComando(strQuery);
     }
 
     public void alterar(TipoProduto tipoProduto) throws Exception {

@@ -2,11 +2,15 @@ package br.com.furafila.mvc.tipoProduto.bean;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
+
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import br.com.furafila.mvc.tipoProduto.business.TipoProdutoBusiness;
 import br.com.furafila.mvc.tipoProduto.model.TipoProduto;
@@ -24,152 +28,162 @@ import br.com.furafila.utils.Navegacao;
 @SessionScoped
 public class TipoProdutoBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(TipoProdutoBean.class);
+	
+	private static final long serialVersionUID = 1L;
 
-    private TipoProduto tipoProduto = null;
+	private TipoProduto tipoProduto = null;
 
-    private List<TipoProduto> lstTipoProduto = null;
+	private List<TipoProduto> lstTipoProduto = null;
 
-    private TipoProdutoBusiness tipoProdutoBusiness = null;
-    
-    private ITipoProdutoService iTipoProdutoService = null;
+	private TipoProdutoBusiness tipoProdutoBusiness = null;
 
-    private Boolean flgBotoes = null;
+	private ITipoProdutoService iTipoProdutoService = null;
 
-    public String inicializarTipoProduto() {
+	private Boolean flgBotoes = null;
 
-        try {
-            this.tipoProdutoBusiness = new TipoProdutoBusiness();
-            this.iTipoProdutoService = new TipoProdutoService();
-            this.tipoProduto = new TipoProduto();
-            this.flgBotoes = true;
-            setLstTipoProduto(this.iTipoProdutoService.listarTipoProduto(true));
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	public String inicializarTipoProduto() {
 
-        return Navegacao.irTipoProduto();
-    }
-    
-    public String inicializarNovoTipoProduto() {
+		try {
+			this.tipoProdutoBusiness = new TipoProdutoBusiness();
+			this.iTipoProdutoService = new TipoProdutoService();
+			this.tipoProduto = new TipoProduto();
+			this.flgBotoes = true;
+			setLstTipoProduto(this.iTipoProdutoService.listarTipoProduto(true));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-        try {
-            this.tipoProduto = new TipoProduto();
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+		return Navegacao.irTipoProduto();
+	}
 
-        return Navegacao.irNovoTipoProduto();
-    }
-    
-    public void gravar(ActionEvent ae) {
+	public String inicializarNovoTipoProduto() {
 
-        try {
-            if(tipoProdutoExiste()){
-                FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_TIPO_PRODUTO_EXISTE);
-                return;
-            }
-            getTipoProdutoBusiness().gravar(getTipoProduto());
-            
-            FuraFilaUtils.growlInfo(FuraFilaConstants.INFO_GROWL_TITULO, FuraFilaConstants.INFO_TIPO_PRODUTO_CADASTRADO);
-            
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+		try {
+			this.tipoProduto = new TipoProduto();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-        FuraFilaUtils.executarJavascript("PF('wgdNovoTipoProduto').hide()");
-        setTipoProduto(new TipoProduto());
-        
-    }
+		return Navegacao.irNovoTipoProduto();
+	}
 
-    public String editar() {
+	public void gravar(ActionEvent ae) {
 
-        try {
-            getTipoProdutoBusiness().alterar(getTipoProduto());
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+		try {
+			if (tipoProdutoExiste()) {
+				FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO,
+						FuraFilaConstants.AVISO_TIPO_PRODUTO_EXISTE);
+				return;
+			}
+			getTipoProdutoBusiness().gravar(getTipoProduto());
 
-        return Navegacao.irTipoProduto();
+			FuraFilaUtils.growlInfo(FuraFilaConstants.INFO_GROWL_TITULO,
+					FuraFilaConstants.INFO_TIPO_PRODUTO_CADASTRADO);
 
-    }
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public String alterarStatus() {
+		FuraFilaUtils.executarJavascript("PF('wgdNovoTipoProduto').hide()");
+		setTipoProduto(new TipoProduto());
 
-        try {
-            getTipoProduto().setStatus(!getTipoProduto().getStatus());
+	}
 
-            getTipoProdutoBusiness().alterarStatusTipoProduto(getTipoProduto());
+	public String editar() {
 
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-        
-        return Navegacao.irTipoProduto();
-    }
+		try {
+			getTipoProdutoBusiness().alterar(getTipoProduto());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public String nomeBotaoAtivarDesativar() {
-        if (getLstTipoProduto().size() > 0 && null != getTipoProduto().getStatus()) {
-            return getTipoProduto().getStatus() ? FuraFilaConstants.DESATIVAR : FuraFilaConstants.ATIVAR;
-        } else {
-            return FuraFilaConstants.ATIVAR;
-        }
-    }
+		return Navegacao.irTipoProduto();
 
-    public void habilitarBotoes(SelectEvent event) {
-        setFlgBotoes(false);
-    }
+	}
 
-    public void desabilitarBotoes(UnselectEvent event) {
-        setFlgBotoes(true);
-    }
-    
-    private boolean tipoProdutoExiste(){
-        
-        boolean tipoProdutoExiste = false;
-        
-        try {
-            tipoProdutoExiste = this.iTipoProdutoService.pegarTipoProduto(getTipoProduto()) > 0;
-        } catch (Exception ex) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-        
-        return tipoProdutoExiste;
-        
-    }
-    
-    public TipoProduto getTipoProduto() {
-        return tipoProduto;
-    }
+	public String alterarStatus() {
 
-    public void setTipoProduto(TipoProduto tipoProduto) {
-        if (tipoProduto != null) {
-            this.tipoProduto = tipoProduto;
-        }
-    }
+		try {
+			getTipoProduto().setStatus(!getTipoProduto().getStatus());
 
-    public List<TipoProduto> getLstTipoProduto() {
-        return lstTipoProduto;
-    }
+			getTipoProdutoBusiness().alterarStatusTipoProduto(getTipoProduto());
 
-    public void setLstTipoProduto(List<TipoProduto> lstTipoProduto) {
-        this.lstTipoProduto = lstTipoProduto;
-    }
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public TipoProdutoBusiness getTipoProdutoBusiness() {
-        return tipoProdutoBusiness;
-    }
+		return Navegacao.irTipoProduto();
+	}
 
-    public void setTipoProdutoBusiness(TipoProdutoBusiness tipoProdutoBusiness) {
-        this.tipoProdutoBusiness = tipoProdutoBusiness;
-    }
+	public String nomeBotaoAtivarDesativar() {
+		if (getLstTipoProduto().size() > 0 && null != getTipoProduto().getStatus()) {
+			return getTipoProduto().getStatus() ? FuraFilaConstants.DESATIVAR : FuraFilaConstants.ATIVAR;
+		} else {
+			return FuraFilaConstants.ATIVAR;
+		}
+	}
 
-    public Boolean getFlgBotoes() {
-        return flgBotoes;
-    }
+	public void habilitarBotoes(SelectEvent event) {
+		setFlgBotoes(false);
+	}
 
-    public void setFlgBotoes(Boolean flgBotoes) {
-        this.flgBotoes = flgBotoes;
-    }
+	public void desabilitarBotoes(UnselectEvent event) {
+		setFlgBotoes(true);
+	}
+
+	private boolean tipoProdutoExiste() {
+
+		boolean tipoProdutoExiste = false;
+
+		try {
+			tipoProdutoExiste = this.iTipoProdutoService.pegarTipoProduto(getTipoProduto()) > 0;
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
+
+		return tipoProdutoExiste;
+
+	}
+
+	public TipoProduto getTipoProduto() {
+		return tipoProduto;
+	}
+
+	public void setTipoProduto(TipoProduto tipoProduto) {
+		if (tipoProduto != null) {
+			this.tipoProduto = tipoProduto;
+		}
+	}
+
+	public List<TipoProduto> getLstTipoProduto() {
+		return lstTipoProduto;
+	}
+
+	public void setLstTipoProduto(List<TipoProduto> lstTipoProduto) {
+		this.lstTipoProduto = lstTipoProduto;
+	}
+
+	public TipoProdutoBusiness getTipoProdutoBusiness() {
+		return tipoProdutoBusiness;
+	}
+
+	public void setTipoProdutoBusiness(TipoProdutoBusiness tipoProdutoBusiness) {
+		this.tipoProdutoBusiness = tipoProdutoBusiness;
+	}
+
+	public Boolean getFlgBotoes() {
+		return flgBotoes;
+	}
+
+	public void setFlgBotoes(Boolean flgBotoes) {
+		this.flgBotoes = flgBotoes;
+	}
 
 }

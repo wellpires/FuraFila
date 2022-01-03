@@ -60,7 +60,8 @@ public class EstabelecimentoLoginBean implements Serializable {
             getEstabelecimentoLogin().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_2);
             getEstabelecimentoLogin().getLogin().setStatus(Boolean.TRUE);
             getEstabelecimentoLogin().getLogin().setDisponivelEntrega(Boolean.FALSE);
-            getLoginBusiness().gravar(getEstabelecimentoLogin().getLogin());
+            int idLogin = getLoginBusiness().gravar(getEstabelecimentoLogin().getLogin());
+            getEstabelecimentoLogin().getLogin().setIdLogin(idLogin);
             
             getEstabelecimentoLoginBusiness().gravar(getEstabelecimentoLogin());
             

@@ -42,7 +42,7 @@ public class Produto {
         return valorUnitario;
     }
 
-    public String getValor_unitarioExibicao(){
+    public String getValorUnitarioExibicao(){
         return FuraFilaUtils.formatarMoeda(getValorUnitario());
     }
     

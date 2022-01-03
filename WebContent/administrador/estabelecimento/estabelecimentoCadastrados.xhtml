@@ -23,7 +23,7 @@
                              var="estabelecimento"
                              selectionMode="single"
                              selection="#{estabelecimentoBean.estabelecimento}"
-                             rowKey="#{estabelecimento.id_estabelecimento}"
+                             rowKey="#{estabelecimento.idEstabelecimento}"
                              emptyMessage="#{msg.rotuloSemRegistros}">
 
                     <p:ajax event="rowSelect" oncomplete="PF('wdgEmpresa').show()" update=":formPrincipal:pnDadosEmpresa :formPrincipal:btnValidar :formPrincipal:btnRecusar">
@@ -31,7 +31,7 @@
                     </p:ajax>
 
                     <p:column headerText="#{msg.rotuloRazaoSocial}">
-                        #{estabelecimento.razao_social}
+                        #{estabelecimento.razaoSocial}
                     </p:column>
 
                     <p:column headerText="#{msg.rotuloCNPJ}">
@@ -56,14 +56,14 @@
                         <p:outputPanel id="pnDadosEmpresa">
                             <h:panelGrid columns="2" width="100%">
                                 <p:outputLabel value="#{msg.rotuloRazaoSocial}:" />
-                                <p:inputText value="#{estabelecimentoBean.estabelecimento.razao_social}" disabled="true" />
+                                <p:inputText value="#{estabelecimentoBean.estabelecimento.razaoSocial}" disabled="true" />
                                 <p:outputLabel value="#{msg.rotuloEmail}:" />
                                 <p:inputText value="#{estabelecimentoBean.estabelecimento.email}" disabled="true" />
 
                                 <p:outputLabel value="#{msg.rotuloCNPJ}:" />
                                 <p:inputText value="#{estabelecimentoBean.estabelecimento.cnpjFormatado}" disabled="true" />
                                 <p:outputLabel value="#{msg.rotuloIE}:" />
-                                <p:inputText value="#{estabelecimentoBean.estabelecimento.inscricao_estadual}" disabled="true" />
+                                <p:inputText value="#{estabelecimentoBean.estabelecimento.inscricaoEstadual}" disabled="true" />
                                 <p:outputLabel value="#{msg.rotuloStatus}:" />
                                 <p:inputText value="#{estabelecimentoBean.estabelecimento.statusFormatado}" disabled="true" />
                             </h:panelGrid>

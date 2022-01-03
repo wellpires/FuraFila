@@ -17,14 +17,14 @@
 
                 <p:dataTable id="dgvCarrinho" value="#{comprarProdutosBean.lstCarrinho}" var="carrinho" stickyHeader="true">
                     <p:column headerText="#{msg.rotuloPaginaCarrinhoColunaEstabelecimento}">
-                        #{carrinho.pedidos.comanda.estabelecimento.razao_social}
+                        #{carrinho.pedidos.comanda.estabelecimento.razaoSocial}
                     </p:column>
                     <p:column headerText="#{msg.rotuloPaginaCarrinhoColunaProduto}">
-                        #{carrinho.pedidos.produto.produto_desc}
+                        #{carrinho.pedidos.produto.produtoDesc}
                     </p:column>
                     <p:column headerText="#{msg.rotuloPaginaCarrinhoColunaPreco}">
                         <div style="text-align: right">
-                            #{carrinho.pedidos.produto.valor_unitarioExibicao}
+                            #{carrinho.pedidos.produto.valorUnitarioExibicao}
                         </div>
                     </p:column>
                     <p:column headerText="#{msg.rotuloPaginaCarrinhoColunaQtd}" >

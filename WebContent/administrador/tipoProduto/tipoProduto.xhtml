@@ -5,13 +5,13 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <ui:composition template="../template.xhtml" >
         <ui:define name="corpo">
             <h:form id="formPrincipal">
                 <div align="center" class="ui-paginator-page ui-state-default ui-state-active ui-corner-all tituloPagina">
-                    <h:outputLabel value="Tipo de Produto"  styleClass="labelTitulo" />
+                    <h:outputLabel value="Tipo de Produto O EDITAR NÃO EXISTE"  styleClass="labelTitulo" />
                 </div>
                 <p:separator styleClass="separador" />
                 <p:growl id="grTipoProduto" showDetail="true" />
@@ -22,7 +22,7 @@
                                  selectionMode="single"
                                  value="#{tipoProdutoBean.lstTipoProduto}"
                                  selection="#{tipoProdutoBean.tipoProduto}"
-                                 rowKey="#{tipoProduto.id_tipo_produto}"
+                                 rowKey="#{tipoProduto.idTipoProduto}"
                                  scrollable="true"
                                  scrollHeight="550"
                                  stickyHeader="true">
@@ -31,7 +31,7 @@
                         <p:ajax event="rowUnselect" update=":formPrincipal:btnEditar :formPrincipal:btnExcluir"   listener="#{tipoProdutoBean.desabilitarBotoes}"/>
 
                         <p:column headerText="#{msg.rotuloTemplateAdministadorTipoProduto}">
-                            #{tipoProduto.tipo_produto_desc}
+                            #{tipoProduto.tipoProdutoDesc}
                         </p:column>
 
                         <p:column headerText="#{msg.rotuloTipoProdutoAdministradorStatusTipoProduto}">

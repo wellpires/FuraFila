@@ -76,9 +76,7 @@ public class BancoDados {
 
             conexao();
 
-            sta.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-
-            rs = sta.getGeneratedKeys();
+            rs = sta.executeQuery(sql);
 
             while (rs.next()) {
                 ID = Integer.parseInt(rs.getObject(1).toString());
@@ -98,7 +96,7 @@ public class BancoDados {
 
     public static Integer inserirImagem(String img) throws SQLException, FileNotFoundException, Exception, ClassNotFoundException {
 
-        Integer ID = 0;
+        Integer imagemId = 0;
         try {
 
             conexao();
@@ -107,14 +105,13 @@ public class BancoDados {
             File file = new File(img);
             FileInputStream fis = new FileInputStream(file);
             int len = (int) file.length();
-            String query = "INSERT INTO IMAGEM VALUES(?)";
-            pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            String query = "INSERT INTO IMAGEM (imagem) VALUES(?) RETURNING id_imagem;";
+            pstmt = con.prepareStatement(query);
             pstmt.setBinaryStream(1, fis, len);
-            pstmt.executeUpdate();
+            ResultSet rs = pstmt.executeQuery();
 
-            ResultSet resultSetImage = pstmt.getGeneratedKeys();
-            if (resultSetImage != null && resultSetImage.next()) {
-                ID = resultSetImage.getInt(1);
+            if (rs != null && rs.next()) {
+            	imagemId = rs.getInt(1);
             }
 
         } catch (ClassNotFoundException | SQLException | FileNotFoundException ex) {
@@ -125,7 +122,7 @@ public class BancoDados {
             fecharConexoes();
         }
 
-        return ID;
+        return imagemId;
 
     }
 

@@ -24,7 +24,6 @@ public class FuraFilaPaginas {
     public static final String PAGINA_ESTOQUE = "estoque.xhtml" + FACES_REDIRECT;
     
     public static final String PAGINA_CARDAPIO = "cardapio.xhtml" + FACES_REDIRECT;
-    public static final String PAGINA_GERENCIAR_LOCKER = "gerenciarLockers.xhtml" + FACES_REDIRECT;
     
     public static final String PAGINA_PRINCIPAL_CLIENTE = "/cliente/paginaPrincipal.xhtml" + FACES_REDIRECT;
     public static final String PAGINA_LOGOFF = "logoff.xhtml" + FACES_REDIRECT;
@@ -47,6 +46,7 @@ public class FuraFilaPaginas {
     // --> TIPO DE PRODUTO
     public static final String PAGINA_TIPO_PRODUTO = "/administrador/tipoProduto/tipoProduto.xhtml" + FACES_REDIRECT;
     public static final String PAGINA_NOVO_TIPO_PRODUTO = "/administrador/tipoProduto/novoTipoProduto.xhtml" + FACES_REDIRECT;
+    public static final String PAGINA_GERENCIAR_LOCKER = "/administrador/gerenciarLockers.xhtml" + FACES_REDIRECT;
     
     // --> ESTABELECIMENTO CADASTRADOS
     public static final String PAGINA_ESTABELECIMENTOS_CADASTRADOS = "/administrador/estabelecimento/estabelecimentoCadastrados.xhtml" + FACES_REDIRECT;

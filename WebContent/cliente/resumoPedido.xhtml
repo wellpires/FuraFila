@@ -15,21 +15,21 @@
         <h:panelGrid columns="4">
             <div style="float: left;width: 50%">
                 <p:panel header="Estabelecimento" >
-                    <p:outputLabel value="#{comprarProdutosBean.pedidoLocker.pedidos.comanda.estabelecimento.razao_social}" />
+                    <p:outputLabel value="#{comprarProdutosBean.pedidoLocker.pedidos.comanda.estabelecimento.razaoSocial}" />
                 </p:panel>
             </div>
             <div style="float: right;width: 50%">
                 <p:panel header="Produtos">
                     <p:dataTable id="dgvCarrinho" value="#{comprarProdutosBean.lstCarrinho}" var="carrinho">
                         <p:column headerText="#{msg.rotuloPaginaCarrinhoColunaProduto}">
-                            #{carrinho.pedidos.produto.produto_desc}
+                            #{carrinho.pedidos.produto.produtoDesc}
                         </p:column>
                         <p:column headerText="#{msg.rotuloPaginaCarrinhoColunaQtd}" >
                             #{carrinho.pedidos.qtd}
                         </p:column>
                         <p:column headerText="#{msg.rotuloPaginaCarrinhoColunaPreco}">
                             <div style="text-align: right">
-                                #{carrinho.pedidos.produto.valor_unitarioExibicao}
+                                #{carrinho.pedidos.produto.valorUnitarioExibicao}
                             </div>
                         </p:column>
                     </p:dataTable>
@@ -57,15 +57,15 @@
 
                 <h:panelGrid columns="3" styleClass="panelGridCliente">
                     <h:panelGroup>
-                        <p:inputText id="txtBairro" value="#{comprarProdutosBean.pedidoLocker.locker.conjuntoLocker.logradouro.bairro.desc_bairro}" disabled="true"/>
+                        <p:inputText id="txtBairro" value="#{comprarProdutosBean.pedidoLocker.locker.conjuntoLocker.logradouro.bairro.descBairro}" disabled="true"/>
                     </h:panelGroup>
 
                     <h:panelGroup>
-                        <p:inputText id="txtCidade" value="#{comprarProdutosBean.pedidoLocker.locker.conjuntoLocker.logradouro.bairro.cidade.desc_cidade}" disabled="true"/>
+                        <p:inputText id="txtCidade" value="#{comprarProdutosBean.pedidoLocker.locker.conjuntoLocker.logradouro.bairro.cidade.descCidade}" disabled="true"/>
                     </h:panelGroup>
 
                     <h:panelGroup>
-                        <p:inputText id="txtEstado" value="#{comprarProdutosBean.pedidoLocker.locker.conjuntoLocker.logradouro.bairro.cidade.uf.desc_uf}" disabled="true"/>
+                        <p:inputText id="txtEstado" value="#{comprarProdutosBean.pedidoLocker.locker.conjuntoLocker.logradouro.bairro.cidade.uf.descUf}" disabled="true"/>
                     </h:panelGroup>
                 </h:panelGrid>
             </p:outputPanel>

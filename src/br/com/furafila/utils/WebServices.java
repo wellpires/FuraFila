@@ -41,7 +41,7 @@ public class WebServices {
     }
     
     public URL webServiceGoogle(String parametros) throws MalformedURLException{
-        return new URL("https://maps.googleapis.com/maps/api/geocode/xml?address=" + parametros + "&key=AIzaSyCpX-QQkdG87XNvBMq4PSgV16Gcfu1dmy0");
+        return new URL("https://maps.googleapis.com/maps/api/geocode/xml?address=" + parametros + "&key=AIzaSyCrlcHPX91G41ZFLKg9hm7dcLaqAH_yROk");
     }
     
     private Document getDocumento(URL url) throws DocumentException {

@@ -12,7 +12,7 @@ import br.com.furafila.mvc.principal.connectionFactory.BancoDados;
  */
 public class ConjuntoLockerBusiness {
 
-    public void gravar(ConjuntoLocker conjuntoLocker) throws Exception {
+    public int gravar(ConjuntoLocker conjuntoLocker) throws Exception {
 
         String strQuery = "INSERT INTO CONJUNTO_LOCKER("
                 + "conjunto_locker_desc,"
@@ -24,8 +24,16 @@ public class ConjuntoLockerBusiness {
                 + "," + conjuntoLocker.getLogradouro().getNroCep()
                 + ")";
 
-        conjuntoLocker.setIdConjuntoLocker(BancoDados.inserirRetornaID(strQuery));
-
+        
+        BancoDados.executaComando(strQuery);
+        
+		List<String> conjuntoLockerId = BancoDados.retornaRegistro(String.format(
+				"select * from conjunto_locker cl where  cl.conjunto_locker_desc = '%s' and cl.nro_localizacao = %d and nroCep_FK = %d;",
+				conjuntoLocker.getConjuntoLockerDesc(), conjuntoLocker.getNroLocalizacao(),
+				conjuntoLocker.getLogradouro().getNroCep()));
+        
+        return Integer.parseInt(conjuntoLockerId.get(0));
+        
     }
 
     public void alterar(ConjuntoLocker conjuntoLocker) throws Exception {

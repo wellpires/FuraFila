@@ -105,7 +105,7 @@ public class LoginBusiness {
                 + "L.id_login AS [CD],"
                 + " L.usuario AS [USUARIO],"
                 + " L.status AS [STATUS],"
-                + " L.disponivel_entrega [DISPONIVEL] "
+                + " L.disponivel_entrega AS [DISPONIVEL] "
                 + "FROM LOGIN L"
                 + " WHERE L.id_permissao_FK = (SELECT P.id_permissao FROM PERMISSAO P WHERE P.sigla_permissao = '" + FuraFilaConstants.SIGLA_PERFIL_4 + "')";
         

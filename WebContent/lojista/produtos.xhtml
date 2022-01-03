@@ -5,7 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:head></h:head>
 
@@ -20,18 +20,18 @@
                         <f:event type="preRenderView" listener="#{produtoBean.popularTipoProduto()}" />  
                     </f:metadata> 
 
-                    <p:inputText id="txtProduto" value="#{produtoBean.produtos.produto_desc}" >
+                    <p:inputText id="txtProduto" value="#{produtoBean.produtos.produtoDesc}" >
                     </p:inputText>
                     <p:watermark for="txtProduto" value="#{msg.rotuloProduto}" />
                     
                     <p:inputText id="txtQtdMinima" value="#{produtoBean.produtos.qtdMinima}"/>
                     <p:watermark for="txtQtdMinima" value="#{msg.rotuloLojistaEstoqueMinimo}" />
 
-                    <p:selectOneMenu id="cbTipoProduto" value="#{produtoBean.produtos.tipoProduto.id_tipo_produto}" style="width: 100%" >
+                    <p:selectOneMenu id="cbTipoProduto" value="#{produtoBean.produtos.tipoProduto.idTipoProduto}" style="width: 100%" >
                         <f:selectItem itemLabel="#{msg.rotuloSelecione}"/>
                         <f:selectItems var="tipoProduto" 
-                                       itemLabel="#{tipoProduto.tipo_produto_desc}" 
-                                       itemValue="#{tipoProduto.id_tipo_produto}" 
+                                       itemLabel="#{tipoProduto.tipoProdutoDesc}" 
+                                       itemValue="#{tipoProduto.idTipoProduto}" 
                                        value="#{produtoBean.lstTipoProduto}" />
                     </p:selectOneMenu>
                     <p:watermark for="cbTipoProduto"  value="#{msg.rotuloTipoProduto}" />

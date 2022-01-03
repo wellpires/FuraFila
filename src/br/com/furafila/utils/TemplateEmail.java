@@ -269,7 +269,7 @@ public class TemplateEmail {
             produtos
                     += "<tr>\n"
                     + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;\">" + pl.getPedidos().getProduto().getProdutoDesc() + "</p></td>\n"
-                    + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;text-align: right\">" + pl.getPedidos().getProduto().getValor_unitarioExibicao() + "</p></td>\n"
+                    + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;text-align: right\">" + pl.getPedidos().getProduto().getValorUnitarioExibicao() + "</p></td>\n"
                     + "</tr>";
         }
 
@@ -305,7 +305,7 @@ public class TemplateEmail {
             produtos
                     += "<tr>\n"
                     + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;\">" + p.getProduto().getProdutoDesc() + "</p></td>\n"
-                    + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;text-align: right\">" + p.getProduto().getValor_unitarioExibicao() + "</p></td>\n"
+                    + "<td style=\"padding: 5px;\" ><p style=\"font-style: normal;font-weight: 400;font-size: 15px;line-height: 24px;font-family: sans-serif;color: #60666d;text-align: right\">" + p.getProduto().getValorUnitarioExibicao() + "</p></td>\n"
                     + "</tr>";
         }
 

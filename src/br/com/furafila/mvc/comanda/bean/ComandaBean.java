@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ComponentSystemEvent;
 
 import br.com.furafila.mvc.comanda.business.ComandaBusiness;
 import br.com.furafila.mvc.comanda.service.ComandaService;
@@ -40,7 +41,7 @@ public class ComandaBean implements Serializable {
 
     private PedidoLocker pedidoLocker = new PedidoLocker();
 
-    public void popularComandasAprovadas() {
+    public void popularComandasAprovadas(ComponentSystemEvent cse) {
 
         try {
             setLstComandasAprovadas(getComandaService().listarComandasAprovadas(" WHERE C.id_status_FK <> " + FuraFilaConstants.COD_PRODUTO_ENTREGUE + " AND C.id_status_FK <> " + FuraFilaConstants.COD_ENCAMINHADO_LOCKER));
@@ -136,7 +137,7 @@ public class ComandaBean implements Serializable {
             }
 
             getComandaBusiness().alterarStatusComanda(getPedidoLocker().getPedidos().getComanda());
-            popularComandasAprovadas();
+            popularComandasAprovadas(null);
         } catch (Exception ex) {
             FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
         }

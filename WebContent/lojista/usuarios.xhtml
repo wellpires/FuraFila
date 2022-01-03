@@ -29,7 +29,7 @@
                                      stickyHeader="true"
                                      selectionMode="single"
                                      selection="#{estabelecimentoLoginBean.estabelecimentoLogin}"
-                                     rowKey="#{estabelecimentoLogin.login.id_login}">
+                                     rowKey="#{estabelecimentoLogin.login.idLogin}">
 
                             <p:ajax event="rowSelect" listener="#{estabelecimentoLoginBean.habilitarBotaoExcluir}" update=":formUsuario:btnEditar :formUsuario:btnExcluir" >
                                 <f:setPropertyActionListener target="#{estabelecimentoLoginBean.estabelecimentoLogin}" value="#{estabelecimentoLogin.clonar()}" />

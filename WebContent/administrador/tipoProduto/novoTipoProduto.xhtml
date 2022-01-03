@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <ui:composition template="../template.xhtml" >
         <ui:define name="corpo">
@@ -19,7 +19,7 @@
                 <div style="width: 100%" align="center">
                     <p:panel style="width: 20%">
                         <p:inputText id="txtTipoProduto" 
-                                     value="#{tipoProdutoBean.tipoProduto.tipo_produto_desc}"
+                                     value="#{tipoProdutoBean.tipoProduto.tipoProdutoDesc}"
                                      required="true"
                                      requiredMessage="#{msg.mensagemTipoProdutoVazio}"/>
                         <p:watermark value="#{msg.rotuloTemplateAdministadorTipoProduto}*" for="txtTipoProduto" />

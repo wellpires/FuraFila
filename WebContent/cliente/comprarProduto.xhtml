@@ -25,12 +25,12 @@
                                         <h:panelGroup style="width: 100%">
                                             <h:panelGrid style="width: 100%">
                                                 <p:outputLabel value="#{msg.tituloCadastroEstabelecimento}:" />
-                                                <p:selectOneMenu value="#{comprarProdutosBean.comprarProduto.estabelecimento.id_estabelecimento}" style="width: 100%">
+                                                <p:selectOneMenu value="#{comprarProdutosBean.comprarProduto.estabelecimento.idEstabelecimento}" style="width: 100%">
                                                     <f:selectItem itemLabel="#{msg.rotuloSelecione}" itemValue="0" />
                                                     <f:selectItems value="#{comprarProdutosBean.lstEstabelecimentosFiltro}" 
                                                                    var="estabelecimento" 
-                                                                   itemLabel="#{estabelecimento.razao_social}" 
-                                                                   itemValue="#{estabelecimento.id_estabelecimento}" />
+                                                                   itemLabel="#{estabelecimento.razaoSocial}" 
+                                                                   itemValue="#{estabelecimento.idEstabelecimento}" />
                                                 </p:selectOneMenu>
                                             </h:panelGrid>
                                         </h:panelGroup>
@@ -64,13 +64,13 @@
                         <p:dataGrid id="dgComprarProduto" layout="grid" value="#{comprarProdutosBean.lstProdutoComprar}" var="produto" columns="3">
                             <p:column id="colunaProduto">
                                 <div style="width: 300px; margin-left: 5%" align="center" >
-                                    <p:fieldset legend="#{produto.comanda.estabelecimento.razao_social}" >
+                                    <p:fieldset legend="#{produto.comanda.estabelecimento.razaoSocial}" >
                                         <h:panelGrid columns="1" style="text-align: center"  >
                                             <p:graphicImage value="#{comprarProdutosBean.produtos.imagem.imagemVisualizar}" style="margin: 5px" width="100px" height="100px">
                                                 <f:param name="imagem" value="#{produto.produto.imagem.imagem}" />
                                             </p:graphicImage>
-                                            <p:outputLabel value="#{produto.produto.produto_desc}" />
-                                            <p:outputLabel value="#{produto.produto.valor_unitarioExibicao}" />
+                                            <p:outputLabel value="#{produto.produto.produtoDesc}" />
+                                            <p:outputLabel value="#{produto.produto.valorUnitarioExibicao}" />
 
                                             <p:outputPanel id="outpnSubTotal">
                                                 <p:spinner id="spQtd" value="#{produto.qtd}" min="0" disabled="#{comprarProdutosBean.verificarEstabelecimentoDuplicado(produto)}">

@@ -29,13 +29,13 @@
                         stickyHeader="true"
                         selectionMode="single"
                         selection="#{conjuntoLockerBean.conjuntoLocker}"
-                        rowKey="#{conjuntoLocker.id_conjunto_locker}">>
+                        rowKey="#{conjuntoLocker.idConjuntoLocker}">>
 
                         <p:ajax event="rowSelect" update=":formLockers:btnEditar :formLockers:btnExcluir" listener="#{conjuntoLockerBean.ativarBotoes}"/>
                         <p:ajax event="rowUnselect" update=":formLockers:btnEditar :formLockers:btnExcluir" listener="#{conjuntoLockerBean.desativarBotoes}" />
 
                         <p:column headerText="#{msg.rotuloLojistaLockersDescricao}">
-                            #{conjuntoLocker.conjunto_locker_desc}
+                            #{conjuntoLocker.conjuntoLockerDesc}
                         </p:column>
                         <p:column headerText="#{msg.rotuloLojistaLockerLocalizacao}">
                             #{conjuntoLocker.logradouro.nroCepFormatado}
@@ -89,7 +89,7 @@
                     <p:messages id="msgNovoLocker"/>
                     <p:fieldset legend="Descrição">
                         <p:inputText id="txtDescConjunto" 
-                                     value="#{conjuntoLockerBean.conjuntoLocker.conjunto_locker_desc}" 
+                                     value="#{conjuntoLockerBean.conjuntoLocker.conjuntoLockerDesc}" 
                                      style="width: 100%"
                                      required="true"
                                      requiredMessage="O campo Descrição não pode estar vazio" >
@@ -137,7 +137,7 @@
                             </h:panelGroup>
                             <h:panelGroup style="width: 15px" />
                             <p:inputText id="txtNumero" 
-                                         value="#{conjuntoLockerBean.conjuntoLocker.nro_localizacao}"
+                                         value="#{conjuntoLockerBean.conjuntoLocker.nroLocalizacao}"
                                          required="true"
                                          requiredMessage="O campo Número não pode estar vazio" >
                                 <p:watermark value="#{msg.rotuloNumero}" for="txtNumero" />
@@ -157,19 +157,19 @@
                             <h:panelGrid columns="3" styleClass="panelGridCliente">
                                 <h:panelGroup>
                                     <p:inputText id="txtBairro"
-                                                 value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.desc_bairro}" 
+                                                 value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.descBairro}" 
                                                  disabled="true"/>
                                 </h:panelGroup>
 
                                 <h:panelGroup>
                                     <p:inputText id="txtCidade"
-                                                 value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.cidade.desc_cidade}"  
+                                                 value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.cidade.descCidade}"  
                                                  disabled="true"/>
                                 </h:panelGroup>
 
                                 <h:panelGroup>
                                     <p:inputText id="txtEstado"
-                                                 value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.cidade.uf.sigla_uf}"  
+                                                 value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.cidade.uf.siglaUf}"  
                                                  disabled="true"/>
                                 </h:panelGroup>
                             </h:panelGrid>
@@ -199,7 +199,7 @@
 
                     <p:outputPanel id="outEdicao" autoUpdate="true">
                         <p:fieldset legend="Descrição">
-                            <p:inputText id="txtEditarDescConjunto" value="#{conjuntoLockerBean.conjuntoLocker.conjunto_locker_desc}" style="width: 100%" >
+                            <p:inputText id="txtEditarDescConjunto" value="#{conjuntoLockerBean.conjuntoLocker.conjuntoLockerDesc}" style="width: 100%" >
                                 <p:watermark value="Descrição do Conjunto" for="txtEditarDescConjunto" />
                             </p:inputText>
                         </p:fieldset>
@@ -213,7 +213,7 @@
                                          var="locker">
 
                                 <p:column headerText="Descrição">
-                                    #{locker.locker_desc}
+                                    #{locker.lockerDesc}
                                 </p:column>
                                 <p:column headerText="Disponibilização">
                                     #{locker.status.statusFormatado}
@@ -222,7 +222,7 @@
                                     #{locker.bolStatusExibicao}
                                 </p:column>
                                 <p:column headerText="Tamanho">
-                                    <p:selectOneMenu value="#{locker.dimensao.id_dimensao}" style="width: 100%" disabled="#{locker.status.id_status eq '1' or locker.bolStatus}">
+                                    <p:selectOneMenu value="#{locker.dimensao.idDimensao}" style="width: 100%" disabled="#{locker.status.idStatus eq '1' or locker.bolStatus}">
                                         <f:selectItem itemLabel="PEQUENO"   itemValue="1" />
                                         <f:selectItem itemLabel="MEDIO"     itemValue="2"/>
                                         <f:selectItem itemLabel="GRANDE"    itemValue="3"/>
@@ -230,7 +230,7 @@
                                 </p:column>
                                 <p:column headerText="Alterar Status">
                                     <div align="center">
-                                        <p:commandButton value="#{conjuntoLockerBean.nomeBotao(locker)}" disabled="#{locker.status.id_status eq '1'}" actionListener="#{conjuntoLockerBean.alterarStatus(locker)}" />
+                                        <p:commandButton value="#{conjuntoLockerBean.nomeBotao(locker)}" disabled="#{locker.status.idStatus eq '1'}" actionListener="#{conjuntoLockerBean.alterarStatus(locker)}" />
                                     </div>
                                 </p:column>
                             </p:dataTable>
@@ -247,7 +247,7 @@
                                     <p:watermark for="txtEditarCep" value="#{msg.rotuloCEP}" />
                                 </h:panelGroup>
                                 <h:panelGroup style="width: 15px" />
-                                <p:inputText id="txtEditarNumero" value="#{conjuntoLockerBean.conjuntoLocker.nro_localizacao}" >
+                                <p:inputText id="txtEditarNumero" value="#{conjuntoLockerBean.conjuntoLocker.nroLocalizacao}" >
                                     <p:watermark value="#{msg.rotuloNumero}" for="txtEditarNumero" />
                                 </p:inputText>
                             </h:panelGrid>
@@ -265,19 +265,19 @@
                                 <h:panelGrid columns="3" styleClass="panelGridCliente">
                                     <h:panelGroup>
                                         <p:inputText id="txtEditarBairro"
-                                                     value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.desc_bairro}" 
+                                                     value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.descBairro}" 
                                                      disabled="true"/>
                                     </h:panelGroup>
 
                                     <h:panelGroup>
                                         <p:inputText id="txtEditarCidade"
-                                                     value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.cidade.desc_cidade}"  
+                                                     value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.cidade.descCidade}"  
                                                      disabled="true"/>
                                     </h:panelGroup>
 
                                     <h:panelGroup>
                                         <p:inputText id="txtEditarEstado"
-                                                     value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.cidade.uf.sigla_uf}"  
+                                                     value="#{conjuntoLockerBean.conjuntoLocker.logradouro.bairro.cidade.uf.siglaUf}"  
                                                      disabled="true"/>
                                     </h:panelGroup>
                                 </h:panelGrid>

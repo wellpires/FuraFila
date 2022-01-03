@@ -27,7 +27,7 @@ public class ProdutoBusiness {
                 + produto.getTipoProduto().getIdTipoProduto() + ","
                 + produto.getImagem().getIdImagem() + ","
                 + produto.getDimensao().getIdDimensao()
-                + ")";
+                + ") RETURNING id_produto";
 
         produto.setIdProduto(BancoDados.inserirRetornaID(strQuery));
 
