@@ -19,6 +19,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
@@ -317,7 +318,7 @@ public class ComprarProdutosBean implements Serializable {
 										.withNumber(c.getTelRes().toString().substring(2)))
 								.withCPF(c.getCpfFormatado()));
 		checkoutBuilder.withCurrency(Currency.BRL);
-		checkoutBuilder.withShipping(new ShippingBuilder().withType(ShippingType.Type.UNRECOGNIZED)
+		checkoutBuilder.withShipping(new ShippingBuilder().withType(ShippingType.Type.USER_CHOISE)
 				.withAddress(new AddressBuilder().withCountry("Brazil").withState(State.SP)
 						.withCity(c.getLogradouro().getBairro().getCidade().getDescCidade())
 						.withDistrict(c.getLogradouro().getBairro().getDescBairro())
@@ -328,6 +329,7 @@ public class ComprarProdutosBean implements Serializable {
 //			boolean apenasCodigoPagamento = true;
 //			codigoCompra = pagamento.register(PagSeguroConfig.getAccountCredentials(), apenasCodigoPagamento);
 //			pagamento.getNotificationURL();
+		codigoCompra = String.valueOf(System.currentTimeMillis());
 		getPedidoLocker().getPedidos().getComanda().setCodigoPedido(codigoCompra);
 
 		getPedidoLocker().getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_EM_ANALISE);

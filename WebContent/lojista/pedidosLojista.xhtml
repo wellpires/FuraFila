@@ -10,6 +10,10 @@
         <ui:define name="corpo">
             <h:form>
 
+                    <f:metadata>  
+                        <f:event type="preRenderView" listener="#{comandaBean.popularComandasAprovadas}" /> 
+                    </f:metadata>  
+
                 <div align="center" class="ui-paginator-page ui-state-default ui-state-active ui-corner-all tituloPagina">
                     <h:outputLabel value="Pedidos"  styleClass="labelTitulo" />
                 </div>

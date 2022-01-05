@@ -13,11 +13,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import br.com.furafila.utils.StringConexao;
 
 public class BancoDados {
 
-    private static final String REGEX = "\\sAS\\s\\[[A-Z\\s_]*\\]";
+    private static final String REGEX = "AS\\s\\[[A-Z\\s_]*\\]";
 	private static Statement sta;
     private static ResultSet rs;
     private static Connection con = null;
@@ -101,12 +103,16 @@ public class BancoDados {
 
             conexao();
 
-            PreparedStatement pstmt;
+            
+            if(StringUtils.isBlank(img)) {
+            	return inserirRetornaID("INSERT INTO IMAGEM (imagem) VALUES(null) RETURNING id_imagem;");
+            }
+            
             File file = new File(img);
             FileInputStream fis = new FileInputStream(file);
             int len = (int) file.length();
             String query = "INSERT INTO IMAGEM (imagem) VALUES(?) RETURNING id_imagem;";
-            pstmt = con.prepareStatement(query);
+            PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setBinaryStream(1, fis, len);
             ResultSet rs = pstmt.executeQuery();
 
@@ -126,6 +132,39 @@ public class BancoDados {
 
     }
 
+    
+	public static byte[] retornaImagem(String sql) throws SQLException, Exception {
+		
+        //RETORNA UM REGISTRO
+		byte[] imagem = null;
+        try {
+
+            conexao();
+
+            rs = sta.executeQuery(sql.replaceAll(REGEX, ""));
+
+            int coluna = rs.getMetaData().getColumnCount();
+
+            while (rs.next()) {
+
+                for (int i = 0; i < coluna; i++) {
+                	imagem = rs.getBytes((i + 1));
+
+                }
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            fecharConexoes();
+        }
+
+        return imagem;
+
+	}
+    
     public static void alterarImagem(String img, Integer codigo) throws SQLException, FileNotFoundException, Exception, ClassNotFoundException {
 
         try {
@@ -251,5 +290,6 @@ public class BancoDados {
         }
 
     }
+
 
 }

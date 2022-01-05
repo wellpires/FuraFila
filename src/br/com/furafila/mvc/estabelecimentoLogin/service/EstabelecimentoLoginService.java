@@ -1,10 +1,12 @@
 package br.com.furafila.mvc.estabelecimentoLogin.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.furafila.mvc.estabelecimentoLogin.business.EstabelecimentoLoginBusiness;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
+import br.com.furafila.mvc.imagem.business.ImagemBusiness;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
 
@@ -15,6 +17,7 @@ import br.com.furafila.utils.FuraFilaUtils;
 public class EstabelecimentoLoginService {
 
     private EstabelecimentoLoginBusiness estabelecimentoLoginBusiness = new EstabelecimentoLoginBusiness();
+    private ImagemBusiness imagemBusiness = new ImagemBusiness();
 
     public void buscarInformacoesIniciaisEstabelecimento(EstabelecimentoLogin estabelecimentoLogin) throws Exception {
 
@@ -27,11 +30,15 @@ public class EstabelecimentoLoginService {
             estabelecimentoLogin.getEstabelecimento().setIdEstabelecimento(Integer.parseInt(lstDados.get(indice++)));
             estabelecimentoLogin.getEstabelecimento().setRazaoSocial(lstDados.get(indice++));
             estabelecimentoLogin.getEstabelecimento().setStatus(lstDados.get(indice++).charAt(0) == FuraFilaConstants.COD_ATIVO);
+            estabelecimentoLogin.getEstabelecimento().getImagem().setIdImagem(Integer.parseInt(lstDados.get(indice++)));
 
         }
+        
+        File imagem = imagemBusiness.buscarImagemPorId(estabelecimentoLogin.getEstabelecimento().getImagem().getIdImagem());
+        estabelecimentoLogin.getEstabelecimento().getImagem().setImagem(imagem.getAbsolutePath());
 
     }
-
+    
     public EstabelecimentoLoginBusiness getEstabelecimentoLoginBusiness() {
         return estabelecimentoLoginBusiness;
     }

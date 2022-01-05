@@ -83,7 +83,8 @@ public class ClienteBean implements Serializable {
             getCliente().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_3);
             getCliente().getLogin().setStatus(Boolean.TRUE);
             getCliente().getLogin().setDisponivelEntrega(Boolean.FALSE);
-            getLoginBusiness().gravar(getCliente().getLogin());
+            int idLogin = getLoginBusiness().gravar(getCliente().getLogin());
+            getCliente().getLogin().setIdLogin(idLogin);
 
             //GRAVAR IMAGEM
             getImagemBusiness().gravar(getCliente().getImagem());

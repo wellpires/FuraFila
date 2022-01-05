@@ -30,13 +30,10 @@ public class LoginBusiness {
                 + "'" + login.getSenhaCriptografada()+ "',"
                 + login.getStatusSQL() + ","
                 + login.getDisponivel_entregaSQL() + ","
-                + "'" + login.getPermissao().getIdPermissao() + "')";
+                + "'" + login.getPermissao().getIdPermissao() + "') RETURNING id_login";
         
-        BancoDados.executaComando(strQuery);
         
-        List<String> registro = BancoDados.retornaRegistro(String.format("select l.id_login from login l where l.usuario ='%s'", login.getUsuario()));
-        
-        return Integer.parseInt(registro.get(0));
+        return  BancoDados.inserirRetornaID(strQuery);
         
     }
     

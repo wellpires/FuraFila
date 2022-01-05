@@ -1,9 +1,11 @@
 package br.com.furafila.mvc.produto.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
+import br.com.furafila.mvc.imagem.business.ImagemBusiness;
 import br.com.furafila.mvc.modelsGerais.ComprarProduto;
 import br.com.furafila.mvc.pedidos.model.Pedidos;
 import br.com.furafila.mvc.produto.business.ProdutoBusiness;
@@ -17,6 +19,7 @@ import br.com.furafila.utils.FuraFilaUtils;
 public class ProdutoService {
     
     private ProdutoBusiness produtoBusiness = new ProdutoBusiness();
+    private ImagemBusiness imagemBusiness = new ImagemBusiness();
     
     public List<Produto> buscarCardapio(Estabelecimento estabelecimento) throws Exception{
         
@@ -61,6 +64,10 @@ public class ProdutoService {
                 p.getProduto().getDimensao().setAltura(Integer.parseInt(lstValor.get(index++)));
                 p.getProduto().getDimensao().setLargura(Integer.parseInt(lstValor.get(index++)));
                 p.getProduto().getDimensao().setProfundidade(Integer.parseInt(lstValor.get(index++)));
+                p.getProduto().getImagem().setIdImagem(Integer.parseInt(lstValor.get(index++)));
+                File imagem = imagemBusiness.buscarImagemPorId( p.getProduto().getImagem().getIdImagem());
+                p.getProduto().getImagem().setImagem(imagem.getAbsolutePath());
+                
                 
                 lstProdutoComprar.add(p);
                 

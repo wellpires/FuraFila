@@ -25,9 +25,9 @@ public class WebServices {
     
     public Element calcularDistancia(Distancia distancia) throws MalformedURLException, DocumentException{
         
-        URL url = new URL("http://maps.googleapis.com/maps/api/distancematrix/xml?"
+        URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/xml?"
                 + "origins=" + distancia.getOrigem().getLatiLongGoogle() +  
-                "&destinations=" + distancia.getDestino().getLatiLongGoogle());
+                "&destinations=" + distancia.getDestino().getLatiLongGoogle() + "&key=");
         
         return getDocumento(url).getRootElement(); 
     }

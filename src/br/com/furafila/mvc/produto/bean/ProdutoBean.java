@@ -12,7 +12,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 
 import br.com.furafila.mvc.dimensao.business.DimensaoBusiness;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;

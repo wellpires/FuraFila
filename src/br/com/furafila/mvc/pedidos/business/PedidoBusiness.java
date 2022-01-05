@@ -19,7 +19,7 @@ public class PedidoBusiness {
                 + pedido.getProduto().getIdProduto()
                 + "," + pedido.getQtd()
                 + "," + pedido.getComanda().getIdComanda()
-                + ")";
+                + ") returning id_pedido";
         pedido.setIdPedido(BancoDados.inserirRetornaID(strQuery));
         
     }

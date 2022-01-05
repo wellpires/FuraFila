@@ -27,7 +27,8 @@ public class ClienteBusiness {
                 + "nroCasa,"
                 + "nroApto,"
                 + "nroCep_FK,"
-                + "id_login_FK"
+                + "id_login_FK,"
+                + "id_imagem_FK"
                 + ")"
                 + " VALUES "
                 + "("
@@ -43,7 +44,8 @@ public class ClienteBusiness {
                 + "'" + cliente.getNroCasa() + "',"
                 + "'" + cliente.getNroApto() + "',"
                 + cliente.getLogradouro().getNroCep() + ","
-                + cliente.getLogin().getIdLogin()
+                + cliente.getLogin().getIdLogin() + ","
+                + cliente.getImagem().getIdImagem()
                 + ")";
 
         BancoDados.executaComando(strQuery);

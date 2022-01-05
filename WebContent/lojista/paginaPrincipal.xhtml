@@ -9,11 +9,16 @@
 
     <ui:composition template="template.xhtml" >
         <ui:define name="corpo">
-            <h:form>
-                <div style="margin-top: 100px" align="center">
-                    <p:panel style="width: 800px" >
-                        <p:graphicImage 
-                            value="#{estabelecimentoBean.estabelecimentoLoginSessao.estabelecimento.imagem.imagemVisualizar}" 
+        
+        <h:body onload="loadImage()"> </h:body>
+            <h:form id="formPrincipal">
+            
+            <p:poll interval="1" update="@('giImage')" />
+            
+			<div style="margin-top: 100px" align="center" id="divPrincipal">
+                    <p:panel style="width: 800px" id="pnPrincipal" >
+                        <p:graphicImage id="giImage" 
+                            value="#{estabelecimentoBean.estabelecimentoLoginSessao.estabelecimento.imagem.imagemVisualizar_2}" 
                             width="60%" height="60%" >
                             <f:param name="imagem" value="#{estabelecimentoBean.estabelecimentoLoginSessao.estabelecimento.imagem.imagem}" />
                         </p:graphicImage>

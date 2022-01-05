@@ -38,8 +38,9 @@ public class EstabelecimentoService {
 				e.setInscricaoEstadual(Long.parseLong(valores.get(indice++)));
 				e.setStatus(valores.get(indice++).equals(String.valueOf(FuraFilaConstants.COD_ATIVO)));
 				e.setEmail(valores.get(indice++));
+				String idImagem = valores.get(indice++);
 				e.getImagem()
-						.setIdImagem(Integer.parseInt(valores.get(indice++) == null ? "0" : valores.get(indice++)));
+						.setIdImagem(Integer.parseInt(idImagem == null ? "0" : idImagem));
 				e.getImagem().setImagem(FuraFilaUtils.semImagem(e));
 
 				lstEstabelecimentos.add(e);

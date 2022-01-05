@@ -181,8 +181,8 @@ public class FuraFilaConstants {
     public static final String ASSUNTO_BOAS_VINDAS = "Bem vindo ao Fura Fila, ";
     public static final String ASSUNTO_STATUS = "Seu pedido mudou de status!";
     
-    public static final String CAMINHO_EMAIL_EM_ANALISE = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + "\\emails\\TemplateEmAnalise.html";
-    public static final String CAMINHO_EMAIL_EM_SEPARACAO = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + "\\emails\\TemplateSeparacao.html";
-    public static final String CAMINHO_EMAIL_ENCAMINHADO_LOCKER = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + "\\emails\\TemplateEncaminhadoLocker.html";
+    public static final String CAMINHO_EMAIL_EM_ANALISE = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + "/emails/TemplateEmAnalise.html";
+    public static final String CAMINHO_EMAIL_EM_SEPARACAO = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + "/emails/TemplateSeparacao.html";
+    public static final String CAMINHO_EMAIL_ENCAMINHADO_LOCKER = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + "/emails/TemplateEncaminhadoLocker.html";
 
 }
