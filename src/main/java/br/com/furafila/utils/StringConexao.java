@@ -28,13 +28,7 @@ public class StringConexao {
 
 			Properties propriedades = new Properties();
 
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			InputStream projetoCaminho = classLoader.getResourceAsStream(FuraFilaConstants.NOME_ARQUIVO_BANCO_DADOS);
-			String path = classLoader.getResource(FuraFilaConstants.NOME_ARQUIVO_BANCO_DADOS).getPath();
-			String file = classLoader.getResource(FuraFilaConstants.NOME_ARQUIVO_BANCO_DADOS).getFile();
-			
-			logger.info("BANCO DE DADOS [PATH]: {}", path);
-			logger.info("BANCO DE DADOS [FILE]: {}", file);
+			InputStream projetoCaminho = getClass().getResourceAsStream(FuraFilaConstants.NOME_ARQUIVO_BANCO_DADOS);
 			
 			propriedades.load(projetoCaminho);
 

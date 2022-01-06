@@ -101,7 +101,7 @@ public class FuraFilaConstants {
     public static final String PADRAO_MONETARIO_PT_BR = "R$";
     public static final String PADRAO_MONETARIO = "0.00";
 
-    public static final String NOME_ARQUIVO_BANCO_DADOS = "bancoDados.properties";
+    public static final String NOME_ARQUIVO_BANCO_DADOS = "/bancoDados.properties";
 
     public static final String PADRAO_DATA_HORA_SQL = "yyyy-MM-dd HH:mm:ss";
     public static final String PADRAO_DATA_HORA_EXIBICAO = "dd/MM/yyyy HH:mm:ss";
