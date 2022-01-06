@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<settings>
+	<profiles>
+		<!-- PERSONAL -->
+		<profile>
+			<id>personal</id>
+			<repositories>
+				<repository>
+					<id>maven.openkm</id>
+					<name>http://maven.openkm.com/</name>
+					<url>http://maven.openkm.com/</url>
+					<releases>
+						<enabled>false</enabled>
+						<updatePolicy>never</updatePolicy>
+						<checksumPolicy>warn</checksumPolicy>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>always</updatePolicy>
+						<checksumPolicy>warn</checksumPolicy>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>primefaces-repo</id>
+					<name>http://repository.primefaces.org/</name>
+					<url>http://repository.primefaces.org/</url>
+					<releases>
+						<enabled>false</enabled>
+						<updatePolicy>never</updatePolicy>
+						<checksumPolicy>warn</checksumPolicy>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>always</updatePolicy>
+						<checksumPolicy>warn</checksumPolicy>
+					</snapshots>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
+	<activeProfiles>
+		<activeProfile>personal</activeProfile>
+	</activeProfiles>
+</settings>
+
+
