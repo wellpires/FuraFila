@@ -1,10 +1,15 @@
 package br.com.furafila.mvc.login.bean;
 
 import java.io.Serializable;
+import java.util.logging.LogManager;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +35,8 @@ public class LoginBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+	private static final Logger logger = LogManager.getLogger(LoginBean.class);
+    
     @ManagedProperty(value = "#{authenticationManager}")
     private AuthenticationManager authenticationManager = null;
 
@@ -83,6 +90,7 @@ public class LoginBean implements Serializable {
             }
 
         } catch (Exception e) {
+        	logger.error(e.getMessage(), e);
             FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, e.getMessage());
             return "";
         }
