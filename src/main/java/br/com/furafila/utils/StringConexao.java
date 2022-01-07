@@ -17,12 +17,7 @@ public class StringConexao {
 			usuario = System.getenv("JDBC_DATABASE_USERNAME");
 			senha = System.getenv("JDBC_DATABASE_PASSWORD");
 
-			logger.info("Usuario: {}, Senha: {}", usuario, senha);
-
-			caminho = System.getenv("JDBC_DATABASE_URL");
-//			caminho = String.format(
-//					"jdbc:postgresql://ec2-34-239-196-254.compute-1.amazonaws.com:5432/dc9dta6b8a4aek?password=%s&sslmode=require&user=%s",
-//					senha, usuario);
+			caminho = "jdbc:postgresql://ec2-34-239-196-254.compute-1.amazonaws.com:5432/dc9dta6b8a4aek?sslmode=require";
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
