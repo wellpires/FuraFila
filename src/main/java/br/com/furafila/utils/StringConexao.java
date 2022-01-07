@@ -1,14 +1,5 @@
 package br.com.furafila.utils;
 
-/*
- * @Author: Wellington Gonçalves Pires
- *
- */
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,31 +7,22 @@ public class StringConexao {
 
 	private static final Logger logger = LogManager.getLogger(StringConexao.class);
 
-	private String server;
-	private String nomeBancoDados;
-	private String usuario;
-	private String senha;
-	private String caminho;
+	private final String usuario;
+	private final String senha;
+	private final String caminho;
 
-	public void lerBancoDados() throws Exception, FileNotFoundException, IOException {
-
+	public StringConexao() {
 		try {
 
-			Properties propriedades = new Properties();
+			usuario = System.getenv("JDBC_DATABASE_USERNAME");
+			senha = System.getenv("JDBC_DATABASE_PASSWORD");
+			
+			logger.info("Usuario: {}, Senha: {}", usuario, senha);
+			
+//			"jdbc:postgresql://ec2-34-239-196-254.compute-1.amazonaws.com:5432/dc9dta6b8a4aek?password=dd7182203eb54aae8fa2da8f0446ce3fbf8d17e65cf3dcd8b1f3ca9acee42128&sslmode=require&user=pcbzndywvfentf";
 
-			InputStream projetoCaminho = getClass().getResourceAsStream(FuraFilaConstants.NOME_ARQUIVO_BANCO_DADOS);
-
-			propriedades.load(projetoCaminho);
-
-			nomeBancoDados = propriedades.getProperty("banco");
-			usuario = propriedades.getProperty("usuario");
-			senha = propriedades.getProperty("senha");
-			server = propriedades.getProperty("servidor");
-
-			caminho = String.format("jdbc:postgresql://%s:%s/%s?ssl=true&sslmode=require", server, "5432", nomeBancoDados);
-		} catch (IOException ioEx) {
-			logger.error(ioEx.getMessage(), ioEx);
-			throw ioEx;
+			caminho = String.format(
+					"jdbc:postgresql://ec2-34-239-196-254.compute-1.amazonaws.com:5432/dc9dta6b8a4aek?password=%s&sslmode=require&user=%s");
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -48,44 +30,16 @@ public class StringConexao {
 
 	}
 
-	public String getServer() {
-		return server;
-	}
-
-	public void setServer(String server) {
-		this.server = server;
-	}
-
-	public String getNomeBancoDados() {
-		return nomeBancoDados;
-	}
-
-	public void setNomeBancoDados(String nomeBancoDados) {
-		this.nomeBancoDados = nomeBancoDados;
-	}
-
 	public String getUsuario() {
 		return usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
 	}
 
 	public String getSenha() {
 		return senha;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
 	public String getCaminho() {
 		return caminho;
-	}
-
-	public void setCaminho(String caminho) {
-		this.caminho = caminho;
 	}
 
 }

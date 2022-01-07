@@ -182,7 +182,6 @@
 			<version>3.12.0</version>
 		</dependency>
 
-
 		<!-- PAGSEGURO -->
 		<dependency>
 			<groupId>br.com.uol.pagseguro</groupId>
