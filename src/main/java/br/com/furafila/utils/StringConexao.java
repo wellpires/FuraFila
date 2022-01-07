@@ -29,7 +29,7 @@ public class StringConexao {
 			Properties propriedades = new Properties();
 
 			InputStream projetoCaminho = getClass().getResourceAsStream(FuraFilaConstants.NOME_ARQUIVO_BANCO_DADOS);
-			
+
 			propriedades.load(projetoCaminho);
 
 			nomeBancoDados = propriedades.getProperty("banco");
@@ -37,7 +37,7 @@ public class StringConexao {
 			senha = propriedades.getProperty("senha");
 			server = propriedades.getProperty("servidor");
 
-			caminho = String.format("jdbc:postgresql://%s:%s/%s?sslmode=require", server, "5432", nomeBancoDados);
+			caminho = String.format("jdbc:postgresql://%s:%s/%s?ssl=true&sslmode=require", server, "5432", nomeBancoDados);
 		} catch (IOException ioEx) {
 			logger.error(ioEx.getMessage(), ioEx);
 			throw ioEx;
