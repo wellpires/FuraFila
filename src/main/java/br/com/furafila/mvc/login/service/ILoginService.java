@@ -12,7 +12,7 @@ import br.com.furafila.mvc.login.model.Login;
 public interface ILoginService {
     
     public Login logarSe(Login login) throws Exception;
-    public int verificarDuplicidade(Login login, boolean isAlteracao) throws Exception;
+    public boolean verificarDuplicidade(Login login, boolean isAlteracao) throws Exception;
     public List<Login> listarEntregador() throws Exception;
     
 }

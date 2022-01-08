@@ -28,196 +28,196 @@ import br.com.furafila.utils.Navegacao;
 @SessionScoped
 public class EntregadoresBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private static final Logger logger = LogManager.getLogger(EntregadoresBean.class);
-    
-    private List<Login> lstEntregadores = null;
+	private static final Logger logger = LogManager.getLogger(EntregadoresBean.class);
 
-    private ILoginService iLoginService;
+	private List<Login> lstEntregadores = null;
 
-    private LoginBusiness loginBusiness  = null;
+	private ILoginService iLoginService;
 
-    private Login login  = null;
+	private LoginBusiness loginBusiness = null;
 
-    private Boolean flgBtnExcluir = null;
-    
-    private Boolean isAlteracao = null;
+	private Login login = null;
 
-    public String inicializarEntregadores(){
-        try {
-            this.loginBusiness = new LoginBusiness();
-            this.login = new Login();
-            this.iLoginService = new LoginService();
-            this.lstEntregadores = this.iLoginService.listarEntregador();
-            flgBtnExcluir = true;
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-        
-        return Navegacao.irPaginaEntregador();
-        
-    }
-    
-    public String inicializarNovoEntregador(){
-        login = new Login();
-        isAlteracao = false;
-        return Navegacao.irPaginaNovoEntregador();
-    }
-    
-    public String inicializarEditarEntregador(){
-        isAlteracao = true;
-        return Navegacao.irPaginaNovoEntregador();
-    }
-    
-    public void salvar(ActionEvent ae){
-        
-        try {
-            if (isAlteracao) {
-                alterar();
-            } else {
-                gravar();
-            }
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-        
-    }
-    
-    public void gravar() throws Exception {
+	private Boolean flgBtnExcluir = null;
 
-        if (usuarioDuplicado()) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_ENTREGADOR_EXISTE);
-            return;
-        }
+	private Boolean isAlteracao = null;
 
-        getLogin().setStatus(Boolean.TRUE);
-        getLogin().setDisponivelEntrega(Boolean.TRUE);
-        getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_4);
-        getLoginBusiness().gravar(getLogin());
+	public String inicializarEntregadores() {
+		try {
+			this.loginBusiness = new LoginBusiness();
+			this.login = new Login();
+			this.iLoginService = new LoginService();
+			this.lstEntregadores = this.iLoginService.listarEntregador();
+			flgBtnExcluir = true;
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-        FuraFilaUtils.growlInfo(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.INFO_ENTREGADOR_CADASTRADO);
+		return Navegacao.irPaginaEntregador();
 
-    }
+	}
 
-    public void alterar() throws Exception {
+	public String inicializarNovoEntregador() {
+		login = new Login();
+		isAlteracao = false;
+		return Navegacao.irPaginaNovoEntregador();
+	}
 
-        if (usuarioDuplicado()) {
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_ENTREGADOR_EXISTE);
-            return;
-        }
+	public String inicializarEditarEntregador() {
+		isAlteracao = true;
+		return Navegacao.irPaginaNovoEntregador();
+	}
 
-        getLoginBusiness().alterar(getLogin());
-        
-        FuraFilaUtils.growlInfo(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.INFO_ENTREGADOR_ALTERADO);
-    }
+	public void salvar(ActionEvent ae) {
 
-    public void alterarStatus(ActionEvent ae) {
+		try {
+			if (isAlteracao) {
+				alterar();
+			} else {
+				gravar();
+			}
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-        try {
+	}
 
-            getLogin().setStatus(!getLogin().getStatus());
-            getLoginBusiness().alterarStatus(getLogin());
+	public void gravar() throws Exception {
 
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+		if (usuarioDuplicado()) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_ENTREGADOR_EXISTE);
+			return;
+		}
 
-    }
+		getLogin().setStatus(Boolean.TRUE);
+		getLogin().setDisponivelEntrega(Boolean.TRUE);
+		getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_4);
+		getLoginBusiness().gravar(getLogin());
 
-    public void alterarDisponibilidade(ActionEvent ae) {
+		FuraFilaUtils.growlInfo(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.INFO_ENTREGADOR_CADASTRADO);
 
-        try {
+	}
 
-            getLogin().setDisponivelEntrega(!getLogin().getDisponivelEntrega());
-            getLoginBusiness().alterarDisponibilidade(getLogin());
+	public void alterar() throws Exception {
 
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+		if (usuarioDuplicado()) {
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_ENTREGADOR_EXISTE);
+			return;
+		}
 
-    }
+		getLoginBusiness().alterar(getLogin());
 
-    public void habilitarBotaoExcluir(SelectEvent event) {
-        setFlgBtnExcluir(false);
-    }
+		FuraFilaUtils.growlInfo(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.INFO_ENTREGADOR_ALTERADO);
+	}
 
-    public void desabilitarBotaoExcluir(UnselectEvent event) {
-        setFlgBtnExcluir(true);
-    }
+	public void alterarStatus(ActionEvent ae) {
 
-    public String mudarNomeBotao() {
-        if (getLogin().getStatus() != null) {
-            return getLogin().getStatus() ? FuraFilaConstants.DESATIVAR : FuraFilaConstants.ATIVAR;
-        } else {
-            return "";
-        }
-    }
+		try {
 
-    public String mudarNomeBotaoDisponivel() {
-        if (getLogin().getDisponivelEntrega() != null) {
-            return getLogin().getDisponivelEntrega() ? "Indisponibilizar" : "Disponibilizar";
-        } else {
-            return "";
-        }
-    }
-    
-    private Boolean usuarioDuplicado() throws Exception{
-        return getiLoginService().verificarDuplicidade(login, isAlteracao) > 0;
-    }
-    
-    public List<Login> getLstEntregadores() {
-        return lstEntregadores;
-    }
+			getLogin().setStatus(!getLogin().getStatus());
+			getLoginBusiness().alterarStatus(getLogin());
 
-    public void setLstEntregadores(List<Login> lstEntregadores) {
-        this.lstEntregadores = lstEntregadores;
-    }
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public Login getLogin() {
-        return login;
-    }
+	}
 
-    public void setLogin(Login login) {
-        if (login != null) {
-            this.login = login;
-        }
-    }
+	public void alterarDisponibilidade(ActionEvent ae) {
 
-    public LoginBusiness getLoginBusiness() {
-        return loginBusiness;
-    }
+		try {
 
-    public void setLoginBusiness(LoginBusiness loginBusiness) {
-        this.loginBusiness = loginBusiness;
-    }
+			getLogin().setDisponivelEntrega(!getLogin().getDisponivelEntrega());
+			getLoginBusiness().alterarDisponibilidade(getLogin());
 
-    public Boolean getFlgBtnExcluir() {
-        return flgBtnExcluir;
-    }
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public void setFlgBtnExcluir(Boolean flgBtnExcluir) {
-        this.flgBtnExcluir = flgBtnExcluir;
-    }
+	}
 
-    public ILoginService getiLoginService() {
-        return iLoginService;
-    }
+	public void habilitarBotaoExcluir(SelectEvent event) {
+		setFlgBtnExcluir(false);
+	}
 
-    public void setiLoginService(ILoginService iLoginService) {
-        this.iLoginService = iLoginService;
-    }
+	public void desabilitarBotaoExcluir(UnselectEvent event) {
+		setFlgBtnExcluir(true);
+	}
 
-    public Boolean getIsAlteracao() {
-        return isAlteracao;
-    }
+	public String mudarNomeBotao() {
+		if (getLogin().getStatus() != null) {
+			return getLogin().getStatus() ? FuraFilaConstants.DESATIVAR : FuraFilaConstants.ATIVAR;
+		} else {
+			return "";
+		}
+	}
 
-    public void setIsAlteracao(Boolean isAlteracao) {
-        this.isAlteracao = isAlteracao;
-    }
+	public String mudarNomeBotaoDisponivel() {
+		if (getLogin().getDisponivelEntrega() != null) {
+			return getLogin().getDisponivelEntrega() ? "Indisponibilizar" : "Disponibilizar";
+		} else {
+			return "";
+		}
+	}
+
+	private Boolean usuarioDuplicado() throws Exception {
+		return getiLoginService().verificarDuplicidade(login, isAlteracao);
+	}
+
+	public List<Login> getLstEntregadores() {
+		return lstEntregadores;
+	}
+
+	public void setLstEntregadores(List<Login> lstEntregadores) {
+		this.lstEntregadores = lstEntregadores;
+	}
+
+	public Login getLogin() {
+		return login;
+	}
+
+	public void setLogin(Login login) {
+		if (login != null) {
+			this.login = login;
+		}
+	}
+
+	public LoginBusiness getLoginBusiness() {
+		return loginBusiness;
+	}
+
+	public void setLoginBusiness(LoginBusiness loginBusiness) {
+		this.loginBusiness = loginBusiness;
+	}
+
+	public Boolean getFlgBtnExcluir() {
+		return flgBtnExcluir;
+	}
+
+	public void setFlgBtnExcluir(Boolean flgBtnExcluir) {
+		this.flgBtnExcluir = flgBtnExcluir;
+	}
+
+	public ILoginService getiLoginService() {
+		return iLoginService;
+	}
+
+	public void setiLoginService(ILoginService iLoginService) {
+		this.iLoginService = iLoginService;
+	}
+
+	public Boolean getIsAlteracao() {
+		return isAlteracao;
+	}
+
+	public void setIsAlteracao(Boolean isAlteracao) {
+		this.isAlteracao = isAlteracao;
+	}
 
 }

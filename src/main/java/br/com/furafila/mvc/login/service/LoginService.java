@@ -3,12 +3,9 @@ package br.com.furafila.mvc.login.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.furafila.mvc.login.business.LoginBusiness;
 import br.com.furafila.mvc.login.dto.CredenciaisDTO;
+import br.com.furafila.mvc.login.dto.EntregadorDTO;
 import br.com.furafila.mvc.login.model.Login;
-import br.com.furafila.utils.FuraFilaConstants;
-import br.com.furafila.utils.FuraFilaUtils;
-import br.com.furafila.utils.WebServices;
 
 /**
  *
@@ -16,14 +13,13 @@ import br.com.furafila.utils.WebServices;
  */
 public class LoginService implements ILoginService {
 
-	private LoginBusiness loginBusiness = new LoginBusiness();
-
-	private WebServices webService = new WebServices();
+	private LoginApiService loginApiService = new LoginApiService();
 
 	@Override
 	public Login logarSe(Login login) throws Exception {
 
-		CredenciaisDTO credenciaisDTO = webService.autenticarLogin(login.getUsuario(), login.getSenhaCriptografada());
+		CredenciaisDTO credenciaisDTO = loginApiService.autenticarLogin(login.getUsuario(),
+				login.getSenhaCriptografada());
 
 		Login newLogin = new Login();
 		newLogin.setIdLogin(credenciaisDTO.getId().intValue());
@@ -38,40 +34,29 @@ public class LoginService implements ILoginService {
 	}
 
 	@Override
-	public int verificarDuplicidade(Login login, boolean isAlteracao) throws Exception {
-		return getLoginBusiness().obterUsuario(login, isAlteracao).size();
+	public boolean verificarDuplicidade(Login login, boolean isAlteracao) throws Exception {
+		return loginApiService.verificarDuplicidade(login.getIdLogin(), login.getUsuario(), isAlteracao);
 	}
 
 	@Override
 	public List<Login> listarEntregador() throws Exception {
 
-		List<List<String>> lstDados = getLoginBusiness().listarEntregadores();
+		List<EntregadorDTO> entregadores = loginApiService.listarEntregadores();
+
 		List<Login> lstEntregadores = new ArrayList<>();
+		for (EntregadorDTO entregador : entregadores) {
 
-		if (!FuraFilaUtils.listaDuplaVaziaNula(lstDados)) {
-			for (List<String> lstValores : lstDados) {
+			Login login = new Login();
+			login.setIdLogin(entregador.getId().intValue());
+			login.setUsuario(entregador.getUsername());
+			login.setStatus(entregador.getStatus());
+			login.setDisponivelEntrega(entregador.getDeliveryAvailable());
 
-				int index = 0;
-				Login login = new Login();
-				login.setIdLogin(Integer.parseInt(lstValores.get(index++)));
-				login.setUsuario(lstValores.get(index++));
-				login.setStatus(lstValores.get(index++).charAt(0) == FuraFilaConstants.COD_ATIVO);
-				login.setDisponivelEntrega(lstValores.get(index++).charAt(0) == FuraFilaConstants.COD_ATIVO);
-
-				lstEntregadores.add(login);
-			}
+			lstEntregadores.add(login);
 		}
 
 		return lstEntregadores;
 
-	}
-
-	public LoginBusiness getLoginBusiness() {
-		return loginBusiness;
-	}
-
-	public void setLoginBusiness(LoginBusiness loginBusiness) {
-		this.loginBusiness = loginBusiness;
 	}
 
 }

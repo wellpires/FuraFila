@@ -14,10 +14,13 @@ public class StringConexao {
 	public StringConexao() {
 		try {
 
-			usuario = System.getenv("JDBC_DATABASE_USERNAME");
-			senha = System.getenv("JDBC_DATABASE_PASSWORD");
+			usuario = "wellington";
+			senha = "123456789";
+//			usuario = System.getenv("JDBC_DATABASE_USERNAME");
+//			senha = System.getenv("JDBC_DATABASE_PASSWORD");
 
-			caminho = "jdbc:postgresql://ec2-34-239-196-254.compute-1.amazonaws.com:5432/dc9dta6b8a4aek?sslmode=require";
+			caminho = "jdbc:postgresql://localhost:5432/fura_fila";
+//			caminho = "jdbc:postgresql://ec2-34-239-196-254.compute-1.amazonaws.com:5432/dc9dta6b8a4aek?sslmode=require";
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

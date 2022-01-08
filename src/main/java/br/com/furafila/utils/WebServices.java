@@ -3,18 +3,12 @@ package br.com.furafila.utils;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.MediaType;
-
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import br.com.furafila.mvc.cep.model.Distancia;
-import br.com.furafila.mvc.login.dto.CredenciaisDTO;
-import br.com.furafila.mvc.login.response.CredenciaisResponse;
 import br.com.furafila.mvc.logradouro.model.Logradouro;
 
 /**
@@ -55,16 +49,6 @@ public class WebServices {
 
 	private Document getDocumento(URL url) throws DocumentException {
 		return new SAXReader().read(url);
-	}
-
-	public CredenciaisDTO autenticarLogin(String usuario, String senha) {
-
-		Client c = ClientBuilder.newClient();
-		CredenciaisResponse credenciaisResponse = c.target("http://localhost:8081/v1/validate-credentials")
-				.queryParam("username", usuario).queryParam("password", senha).request(MediaType.APPLICATION_JSON)
-				.get(CredenciaisResponse.class);
-
-		return credenciaisResponse.getCredenciaisDTO();
 	}
 
 }
