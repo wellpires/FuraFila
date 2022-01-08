@@ -71,21 +71,6 @@ public class LoginBusiness {
         
     }
     
-    public List<String> buscarUsuario(Login login) throws Exception{
-        
-        String strQuery = "SELECT"
-                + " L.id_login AS [ID],"
-                + " L.usuario AS [USUARIO],"
-                + " L.senha AS [SENHA],"
-                + " (SELECT P.id_permissao FROM PERMISSAO P WHERE P.id_permissao = L.id_permissao_FK) AS [CD PERMISSAO],"
-                + " (SELECT P.sigla_permissao FROM PERMISSAO P WHERE P.id_permissao = L.id_permissao_FK) AS [SIGLA],"
-                + " (SELECT P.permissao FROM PERMISSAO P WHERE P.id_permissao = L.id_permissao_FK) AS [PERMISSAO]"
-                + " FROM LOGIN L WHERE L.usuario = '" + login.getUsuario() + "' AND L.senha = '" + login.getSenhaCriptografada()+ "'";
-        
-        return BancoDados.retornaRegistro(strQuery);
-        
-    }
-
     public List<String> obterUsuario(Login login, boolean isAlteracao) throws Exception{
         
         String complementoQuery = isAlteracao ? " AND id_login <> " + login.getIdLogin() : "";
