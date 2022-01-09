@@ -59,4 +59,10 @@ public class LoginService implements ILoginService {
 
 	}
 
+	@Override
+	public void gravarLogin(Login login) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
 }

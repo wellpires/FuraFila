@@ -90,7 +90,7 @@ public class ProdutoBusiness {
 				+ " P.id_produto IN (SELECT EP.id_produto_FK FROM ESTOQUE_PRODUTOS EP WHERE EP.qtdEstoque > 0) AND"
 				+ " (P.produto_desc LIKE '%" + comprarProduto.getPesquisa() + "%'  "
 				+ "OR P.id_produto IN (SELECT EP.id_produto_FK FROM ESTOQUE_PRODUTOS EP WHERE EP.id_estoque_FK IN  (SELECT E.id_estoque FROM ESTOQUE E WHERE E.id_estabelecimento_FK IN  (SELECT E.id_estabelecimento FROM ESTABELECIMENTO E WHERE E.razao_social LIKE '%"
-				+ comprarProduto.getPesquisa() + "%'))));" + complementoQuery + orderBy;
+				+ comprarProduto.getPesquisa() + "%'))))" + complementoQuery + orderBy;
 
 		return BancoDados.retorna_N_Registros(strQuery);
 

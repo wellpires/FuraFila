@@ -24,16 +24,16 @@
                              var="comanda">
 
                     <p:column headerText="Comanda">
-                        #{comanda.pedidos.comanda.id_comanda}
+                        #{comanda.pedidos.comanda.idComanda}
                     </p:column>
                     <p:column headerText="Conjunto de Lockers">
-                        #{comanda.locker.conjuntoLocker.conjunto_locker_desc}
+                        #{comanda.locker.conjuntoLocker.conjuntoLockerDesc}
                     </p:column>
                     <p:column headerText="Endereço">
                         #{comanda.locker.conjuntoLocker.logradouro.logradouroCompleto}
                     </p:column>
                     <p:column headerText="Status">
-                        <p:commandButton value="#{comanda.pedidos.comanda.status.status}" 
+                        <p:commandButton value="#{comanda.pedidos.comanda.status.statusFormatado}" 
                                          style="width: 100%" 
                                          onclick="PF('wdgConfirma').show()">
                             <f:setPropertyActionListener value="#{comanda}" target="#{comandaBean.pedidoLocker}" />

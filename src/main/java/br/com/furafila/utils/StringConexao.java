@@ -9,23 +9,32 @@ public class StringConexao {
 
 	private final String usuario;
 	private final String senha;
+	private final String host;
+	private final String bancoDados;
 	private final String caminho;
 
 	public StringConexao() {
 		try {
+			host = System.getenv("JDBC_DATABASE_HOST");
+			bancoDados = System.getenv("JDBC_DATABASE_NAME");
+			usuario = System.getenv("JDBC_DATABASE_USERNAME");
+			senha = System.getenv("JDBC_DATABASE_PASSWORD");
 
-			usuario = "wellington";
-			senha = "123456789";
-//			usuario = System.getenv("JDBC_DATABASE_USERNAME");
-//			senha = System.getenv("JDBC_DATABASE_PASSWORD");
-
-			caminho = "jdbc:postgresql://localhost:5432/fura_fila";
-//			caminho = "jdbc:postgresql://ec2-34-239-196-254.compute-1.amazonaws.com:5432/dc9dta6b8a4aek?sslmode=require";
+			caminho = String.format("jdbc:postgresql://%s:5432/%s", host, bancoDados);
+//			caminho = "jdbc:postgresql://localhost:5432/fura_fila";
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
 
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public String getBancoDados() {
+		return bancoDados;
 	}
 
 	public String getUsuario() {

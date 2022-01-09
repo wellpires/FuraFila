@@ -12,10 +12,10 @@ public class LoginBusiness {
 
 	public int gravar(Login login) throws Exception {
 
-		String strQuery = "INSERT INTO " + "LOGIN " + "(" + "usuario," + "senha," + "status," + "disponivel_entrega,"
-				+ "id_permissao_FK" + ") " + "VALUES" + " (" + "'" + login.getUsuario() + "'," + "'"
-				+ login.getSenhaCriptografada() + "'," + login.getStatusSQL() + "," + login.getDisponivel_entregaSQL()
-				+ "," + "'" + login.getPermissao().getIdPermissao() + "') RETURNING id_login";
+		String strQuery = "INSERT INTO LOGIN usuario, senha, status, disponivel_entrega, id_permissao_FK) VALUES ("
+				+ "'" + login.getUsuario() + "', '" + login.getSenhaCriptografada() + "'," + login.getStatusSQL() + ","
+				+ login.getDisponivel_entregaSQL() + ", '" + login.getPermissao().getIdPermissao()
+				+ "') RETURNING id_login";
 
 		return BancoDados.inserirRetornaID(strQuery);
 
