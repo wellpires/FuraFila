@@ -14,16 +14,20 @@ import org.primefaces.event.FileUploadEvent;
 
 import br.com.furafila.mvc.bairro.business.BairroBusiness;
 import br.com.furafila.mvc.bairro.service.BairroService;
+import br.com.furafila.mvc.cep.dto.LocationDTO;
 import br.com.furafila.mvc.cep.service.CepService;
 import br.com.furafila.mvc.cidade.business.CidadeBusiness;
 import br.com.furafila.mvc.cidade.service.CidadeService;
 import br.com.furafila.mvc.cliente.business.ClienteBusiness;
 import br.com.furafila.mvc.cliente.model.Cliente;
 import br.com.furafila.mvc.cliente.service.ClienteService;
+import br.com.furafila.mvc.cliente.service.ImagemService;
+import br.com.furafila.mvc.cliente.service.impl.ImagemServiceImpl;
 import br.com.furafila.mvc.comanda.service.ComandaService;
 import br.com.furafila.mvc.imagem.business.ImagemBusiness;
 import br.com.furafila.mvc.login.business.LoginBusiness;
 import br.com.furafila.mvc.login.model.Login;
+import br.com.furafila.mvc.login.service.LoginService;
 import br.com.furafila.mvc.logradouro.business.LogradouroBusiness;
 import br.com.furafila.mvc.logradouro.model.Logradouro;
 import br.com.furafila.mvc.logradouro.service.LogradouroService;
@@ -39,277 +43,293 @@ import br.com.furafila.utils.FuraFilaUtils;
 @SessionScoped
 public class ClienteBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+
+	private static final Logger logger = LogManager.getLogger(ClienteBean.class);
+
+	private Cliente cliente = new Cliente();
+
+	private CepService cepService = new CepService();
+	private CidadeService cidadeService = new CidadeService();
+	private BairroService bairroService = new BairroService();
+	private LogradouroService logradouroService = new LogradouroService();
+	private ClienteService clienteService = new ClienteService();
+	private ComandaService comandaService = new ComandaService();
+	private LoginService loginService = new LoginService();
+	private ImagemService imagemService = new ImagemServiceImpl();
+
+	private ClienteBusiness clienteBusiness = new ClienteBusiness();
+	private LoginBusiness loginBusiness = new LoginBusiness();
+	private CidadeBusiness cidadeBusiness = new CidadeBusiness();
+	private BairroBusiness bairroBusiness = new BairroBusiness();
+	private LogradouroBusiness logradouroBusiness = new LogradouroBusiness();
+	private ImagemBusiness imagemBusiness = new ImagemBusiness();
+
+	private List<PedidoLocker> lstComandaLocker = new ArrayList<>();
+
+	public void popularCliente() {
+
+		try {
+			setCliente(getClienteService().buscarDadosBasicosCliente(pegarDadosSessaoCliente()));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
+		}
+
+	}
+
+	public void popularComandasNoLocker() {
+
+		try {
+			setLstComandaLocker(getComandaService()
+					.listarComandasAprovadas(" WHERE C.id_status_FK = " + FuraFilaConstants.COD_PRODUTO_ENTREGUE
+							+ " OR C.id_status_FK = " + FuraFilaConstants.COD_ENCAMINHADO_LOCKER));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
+
+	}
+
+	public void cadastrarCliente(ActionEvent ae) {
+
+		try {
+
+			// GRAVAR LOGIN
+			getCliente().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_3);
+			getCliente().getLogin().setStatus(Boolean.TRUE);
+			getCliente().getLogin().setDisponivelEntrega(Boolean.FALSE);
+			
+			Long loginId = this.loginService.gravarLogin(this.cliente.getLogin());
+			getCliente().getLogin().setIdLogin(loginId.intValue());
+
+			// GRAVAR IMAGEM
+			String imagemPadrao = FuraFilaConstants.SEM_IMAGEM_FEMININO;
+			if(this.cliente.getSexo() == 'M') {
+				imagemPadrao = FuraFilaConstants.SEM_IMAGEM_MASCULINO;
+			}
+			getCliente().getImagem().setImagem(imagemPadrao);
+			
+			Long idImagem = imagemService.gravar(getCliente().getImagem());
+			getCliente().getImagem().setIdImagem(idImagem.intValue());
+
+			FuraFilaUtils.gravarLogradouro(getCliente().getLogradouro());
+
+			// GRAVAR CLIENTE
+			getClienteBusiness().gravar(getCliente());
+
+			Login l = getCliente().getLogin();
+			setCliente(new Cliente());
+			getCliente().setLogin(l);
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
+		}
+
+	}
+
+	public void alterarDadosBasicos(ActionEvent ae) {
+
+		try {
+			Cliente c = pegarDadosSessaoCliente();
+			getCliente().getImagem().setIdImagem(c.getImagem().getIdImagem());
+			getImagemBusiness().alterar(getCliente().getImagem());
+			getClienteBusiness().alterarDadosBasicos(getCliente());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
+		}
+
+	}
+
+	public void alterarDadosAcesso(ActionEvent ae) {
 
-    private static final Logger logger = LogManager.getLogger(ClienteBean.class);
-    
-    private Cliente cliente = new Cliente();
-
-    private CepService cepService = new CepService();
-    private CidadeService cidadeService = new CidadeService();
-    private BairroService bairroService = new BairroService();
-    private LogradouroService logradouroService = new LogradouroService();
-    private ClienteService clienteService = new ClienteService();
-    private ComandaService comandaService = new ComandaService();
-
-    private ClienteBusiness clienteBusiness = new ClienteBusiness();
-    private LoginBusiness loginBusiness = new LoginBusiness();
-    private CidadeBusiness cidadeBusiness = new CidadeBusiness();
-    private BairroBusiness bairroBusiness = new BairroBusiness();
-    private LogradouroBusiness logradouroBusiness = new LogradouroBusiness();
-    private ImagemBusiness imagemBusiness = new ImagemBusiness();
-    
-    private List<PedidoLocker> lstComandaLocker = new ArrayList<>();
-
-    public void popularCliente() {
-
-        try {
-            setCliente(getClienteService().buscarDadosBasicosCliente(pegarDadosSessaoCliente()));
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
-        }
-
-    }
-
-    public void popularComandasNoLocker() {
-
-        try {
-            setLstComandaLocker(getComandaService().listarComandasAprovadas(" WHERE C.id_status_FK = " + FuraFilaConstants.COD_PRODUTO_ENTREGUE + " OR C.id_status_FK = " + FuraFilaConstants.COD_ENCAMINHADO_LOCKER));
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-
-    }
+		try {
+			getLoginBusiness().alterar(getCliente().getLogin());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public void cadastrarCliente(ActionEvent ae) {
+	}
 
-        try {
+	public void procurarCep() {
 
-            //GRAVAR LOGIN
-            getCliente().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_3);
-            getCliente().getLogin().setStatus(Boolean.TRUE);
-            getCliente().getLogin().setDisponivelEntrega(Boolean.FALSE);
-            int idLogin = getLoginBusiness().gravar(getCliente().getLogin());
-            getCliente().getLogin().setIdLogin(idLogin);
+		try {
+			
+			if (0 != this.cliente.getLogradouro().getNroCep()) {
+				if (!getLogradouroService().logradouroExiste(getCliente().getLogradouro())) {
+					this.cliente.setLogradouro(this.cepService.pesquisarCep(getCliente().getLogradouro()));
+					LocationDTO locationDTO = this.cepService.pegarGeolocalizacao(getCliente().getLogradouro());
 
-            //GRAVAR IMAGEM
-            getImagemBusiness().gravar(getCliente().getImagem());
+					getCliente().getLogradouro().setLatitude(locationDTO.getLatitude());
+					getCliente().getLogradouro().setLongitude(locationDTO.getLongitude());
+				} else {
+					getLogradouroService().buscarEnderecoCompleto(getCliente().getLogradouro());
+				}
+			} else {
+				getCliente().setLogradouro(new Logradouro());
+				FuraFilaUtils.growlErro(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_CEP_VAZIO);
+			}
 
-            FuraFilaUtils.gravarLogradouro(getCliente().getLogradouro());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
+		}
 
-            //GRAVAR CLIENTE
-            getClienteBusiness().gravar(getCliente());
+	}
 
-            Login l = getCliente().getLogin();
-            setCliente(new Cliente());
-            getCliente().setLogin(l);
+	public void carregarDados(ActionEvent ae) {
 
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
-        }
+		try {
+			setCliente(getClienteService().buscarDadosBasicosCliente(pegarDadosSessaoCliente()));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    }
+	}
 
-    public void alterarDadosBasicos(ActionEvent ae) {
+	public void importarImagem(FileUploadEvent event) {
 
-        try {
-            Cliente c = pegarDadosSessaoCliente();
-            getCliente().getImagem().setIdImagem(c.getImagem().getIdImagem());
-            getImagemBusiness().alterar(getCliente().getImagem());
-            getClienteBusiness().alterarDadosBasicos(getCliente());
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
-        }
+		try {
 
-    }
+			String ext[] = event.getFile().getFileName().split("\\.");
 
-    public void alterarDadosAcesso(ActionEvent ae) {
+			String caminho = FuraFilaUtils.montarCaminho(pegarDadosSessaoCliente(), null, false);
+			String nomeImagem = FuraFilaUtils.montarNomeImagem(pegarDadosSessaoCliente(), null, false) + "."
+					+ ext[ext.length - 1];
 
-        try {
-            getLoginBusiness().alterar(getCliente().getLogin());
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
-        }
+			getCliente().getImagem()
+					.setImagem(FuraFilaUtils.copiarArquivo(caminho + nomeImagem, event.getFile().getInputstream()));
 
-    }
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    public void procurarCep() {
+	}
 
-        try {
-            if (0 != getCliente().getLogradouro().getNroCep()) {
-                if (!getLogradouroService().logradouroExiste(getCliente().getLogradouro())) {
-                    getCepService().pesquisarCep(getCliente().getLogradouro());
-                    List<Double> lstCoordenadas = getCepService().pegarGeolocalizacao(getCliente().getLogradouro());
-                    getCliente().getLogradouro().setLatitude(lstCoordenadas.get(0));
-                    getCliente().getLogradouro().setLongitude(lstCoordenadas.get(1));
-                } else {
-                    getLogradouroService().buscarEnderecoCompleto(getCliente().getLogradouro());
-                }
-            } else {
-                getCliente().setLogradouro(new Logradouro());
-                FuraFilaUtils.growlErro(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_CEP_VAZIO);
-            }
+	private Cliente pegarDadosSessaoCliente() {
+		return (Cliente) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_CLIENTE);
+	}
 
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, ex.getMessage());
-        }
+	public void zerarImagem(ActionEvent ae) {
+		getCliente().zerarObjeto();
+	}
 
-    }
+	public CepService getCepService() {
+		return cepService;
+	}
 
-    public void carregarDados(ActionEvent ae) {
+	public void setCepService(CepService cepService) {
+		this.cepService = cepService;
+	}
 
-        try {
-            setCliente(getClienteService().buscarDadosBasicosCliente(pegarDadosSessaoCliente()));
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	public Cliente getCliente() {
+		return cliente;
+	}
 
-    }
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 
-    public void importarImagem(FileUploadEvent event) {
+	public ClienteBusiness getClienteBusiness() {
+		return clienteBusiness;
+	}
 
-        try {
+	public void setClienteBusiness(ClienteBusiness clienteBusiness) {
+		this.clienteBusiness = clienteBusiness;
+	}
 
-            String ext[] = event.getFile().getFileName().split("\\.");
+	public LoginBusiness getLoginBusiness() {
+		return loginBusiness;
+	}
 
-            String caminho = FuraFilaUtils.montarCaminho(pegarDadosSessaoCliente(), null, false);
-            String nomeImagem = FuraFilaUtils.montarNomeImagem(pegarDadosSessaoCliente(), null, false) + "." + ext[ext.length - 1];
+	public void setLoginBusiness(LoginBusiness loginBusiness) {
+		this.loginBusiness = loginBusiness;
+	}
 
-            getCliente().getImagem().setImagem(FuraFilaUtils.copiarArquivo(caminho + nomeImagem, event.getFile().getInputstream()));
+	public CidadeService getCidadeService() {
+		return cidadeService;
+	}
 
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	public void setCidadeService(CidadeService cidadeService) {
+		this.cidadeService = cidadeService;
+	}
 
-    }
+	public CidadeBusiness getCidadeBusiness() {
+		return cidadeBusiness;
+	}
 
-    private Cliente pegarDadosSessaoCliente() {
-        return (Cliente) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_CLIENTE);
-    }
+	public void setCidadeBusiness(CidadeBusiness cidadeBusiness) {
+		this.cidadeBusiness = cidadeBusiness;
+	}
 
-    public void zerarImagem(ActionEvent ae) {
-        getCliente().zerarObjeto();
-    }
+	public BairroBusiness getBairroBusiness() {
+		return bairroBusiness;
+	}
 
-    public CepService getCepService() {
-        return cepService;
-    }
+	public void setBairroBusiness(BairroBusiness bairroBusiness) {
+		this.bairroBusiness = bairroBusiness;
+	}
 
-    public void setCepService(CepService cepService) {
-        this.cepService = cepService;
-    }
+	public BairroService getBairroService() {
+		return bairroService;
+	}
 
-    public Cliente getCliente() {
-        return cliente;
-    }
+	public void setBairroService(BairroService bairroService) {
+		this.bairroService = bairroService;
+	}
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
+	public LogradouroService getLogradouroService() {
+		return logradouroService;
+	}
 
-    public ClienteBusiness getClienteBusiness() {
-        return clienteBusiness;
-    }
+	public void setLogradouroService(LogradouroService logradouroService) {
+		this.logradouroService = logradouroService;
+	}
 
-    public void setClienteBusiness(ClienteBusiness clienteBusiness) {
-        this.clienteBusiness = clienteBusiness;
-    }
+	public LogradouroBusiness getLogradouroBusiness() {
+		return logradouroBusiness;
+	}
 
-    public LoginBusiness getLoginBusiness() {
-        return loginBusiness;
-    }
+	public void setLogradouroBusiness(LogradouroBusiness logradouroBusiness) {
+		this.logradouroBusiness = logradouroBusiness;
+	}
 
-    public void setLoginBusiness(LoginBusiness loginBusiness) {
-        this.loginBusiness = loginBusiness;
-    }
+	public ClienteService getClienteService() {
+		return clienteService;
+	}
 
-    public CidadeService getCidadeService() {
-        return cidadeService;
-    }
+	public void setClienteService(ClienteService clienteService) {
+		this.clienteService = clienteService;
+	}
 
-    public void setCidadeService(CidadeService cidadeService) {
-        this.cidadeService = cidadeService;
-    }
+	public ImagemBusiness getImagemBusiness() {
+		return imagemBusiness;
+	}
 
-    public CidadeBusiness getCidadeBusiness() {
-        return cidadeBusiness;
-    }
+	public void setImagemBusiness(ImagemBusiness imagemBusiness) {
+		this.imagemBusiness = imagemBusiness;
+	}
 
-    public void setCidadeBusiness(CidadeBusiness cidadeBusiness) {
-        this.cidadeBusiness = cidadeBusiness;
-    }
+	public List<PedidoLocker> getLstComandaLocker() {
+		popularComandasNoLocker();
+		return lstComandaLocker;
+	}
 
-    public BairroBusiness getBairroBusiness() {
-        return bairroBusiness;
-    }
+	public void setLstComandaLocker(List<PedidoLocker> lstComandaLocker) {
+		this.lstComandaLocker = lstComandaLocker;
+	}
 
-    public void setBairroBusiness(BairroBusiness bairroBusiness) {
-        this.bairroBusiness = bairroBusiness;
-    }
+	public ComandaService getComandaService() {
+		return comandaService;
+	}
 
-    public BairroService getBairroService() {
-        return bairroService;
-    }
-
-    public void setBairroService(BairroService bairroService) {
-        this.bairroService = bairroService;
-    }
-
-    public LogradouroService getLogradouroService() {
-        return logradouroService;
-    }
-
-    public void setLogradouroService(LogradouroService logradouroService) {
-        this.logradouroService = logradouroService;
-    }
-
-    public LogradouroBusiness getLogradouroBusiness() {
-        return logradouroBusiness;
-    }
-
-    public void setLogradouroBusiness(LogradouroBusiness logradouroBusiness) {
-        this.logradouroBusiness = logradouroBusiness;
-    }
-
-    public ClienteService getClienteService() {
-        return clienteService;
-    }
-
-    public void setClienteService(ClienteService clienteService) {
-        this.clienteService = clienteService;
-    }
-
-    public ImagemBusiness getImagemBusiness() {
-        return imagemBusiness;
-    }
-
-    public void setImagemBusiness(ImagemBusiness imagemBusiness) {
-        this.imagemBusiness = imagemBusiness;
-    }
-
-    public List<PedidoLocker> getLstComandaLocker() {
-        popularComandasNoLocker();
-        return lstComandaLocker;
-    }
-
-    public void setLstComandaLocker(List<PedidoLocker> lstComandaLocker) {
-        this.lstComandaLocker = lstComandaLocker;
-    }
-
-    public ComandaService getComandaService() {
-        return comandaService;
-    }
-
-    public void setComandaService(ComandaService comandaService) {
-        this.comandaService = comandaService;
-    }
+	public void setComandaService(ComandaService comandaService) {
+		this.comandaService = comandaService;
+	}
 
 }

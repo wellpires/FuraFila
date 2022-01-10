@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
+import br.com.furafila.mvc.cep.dto.LocationDTO;
 import br.com.furafila.mvc.cep.service.CepService;
 import br.com.furafila.mvc.conjuntoLocker.business.ConjuntoLockerBusiness;
 import br.com.furafila.mvc.conjuntoLocker.model.ConjuntoLocker;
@@ -37,9 +38,9 @@ import br.com.furafila.utils.FuraFilaUtils;
 public class ConjuntoLockerBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger logger = LogManager.getLogger(ConjuntoLockerBean.class);
-	
+
 	private ConjuntoLocker conjuntoLocker = new ConjuntoLocker();
 	private Locker locker = new Locker();
 
@@ -185,10 +186,9 @@ public class ConjuntoLockerBean implements Serializable {
 			if (0 != getConjuntoLocker().getLogradouro().getNroCep()) {
 				if (!getLogradouroService().logradouroExiste(getConjuntoLocker().getLogradouro())) {
 					getCepService().pesquisarCep(getConjuntoLocker().getLogradouro());
-					List<Double> lstCoordenadas = getCepService()
-							.pegarGeolocalizacao(getConjuntoLocker().getLogradouro());
-					getConjuntoLocker().getLogradouro().setLatitude(lstCoordenadas.get(0));
-					getConjuntoLocker().getLogradouro().setLongitude(lstCoordenadas.get(1));
+					LocationDTO locationDTO = getCepService().pegarGeolocalizacao(getConjuntoLocker().getLogradouro());
+					getConjuntoLocker().getLogradouro().setLatitude(locationDTO.getLatitude());
+					getConjuntoLocker().getLogradouro().setLongitude(locationDTO.getLongitude());
 				} else {
 					getLogradouroService().buscarEnderecoCompleto(getConjuntoLocker().getLogradouro());
 				}

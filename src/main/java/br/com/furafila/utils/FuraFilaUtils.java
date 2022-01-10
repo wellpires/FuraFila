@@ -64,451 +64,470 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  */
 public class FuraFilaUtils {
 
-    public static void passarDadosSessao(String nomeSessao, Object dadosSessao) {
+	public static void passarDadosSessao(String nomeSessao, Object dadosSessao) {
 
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
-        session.setAttribute(nomeSessao, dadosSessao);
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+		session.setAttribute(nomeSessao, dadosSessao);
 
-    }
+	}
 
-    public static Object pegarDadosSessao(String nomeSessao) {
+	public static Object pegarDadosSessao(String nomeSessao) {
 
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
 
-        return session.getAttribute(nomeSessao);
+		return session.getAttribute(nomeSessao);
 
-    }
+	}
 
-    public static Object pegarValoresParametro(String nomeParametro) {
+	public static Object pegarValoresParametro(String nomeParametro) {
 
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        return facesContext.getExternalContext().getRequestParameterMap().get(nomeParametro);
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		return facesContext.getExternalContext().getRequestParameterMap().get(nomeParametro);
 
-    }
+	}
 
-    public static String[] converterMatrizVetor(String[][] matriz) {
+	public static String[] converterMatrizVetor(String[][] matriz) {
 
-        String[] vetor = new String[matriz.length];
+		String[] vetor = new String[matriz.length];
 
-        int index = 0;
-        for (String[] valor : matriz) {
+		int index = 0;
+		for (String[] valor : matriz) {
 
-            vetor[index++] = valor[0];
+			vetor[index++] = valor[0];
 
-        }
+		}
 
-        return vetor;
+		return vetor;
 
-    }
+	}
 
-    public static boolean valorVazioNulo(Object valor) {
-        return valor == null || "".equals(valor.toString());
-    }
+	public static boolean valorVazioNulo(Object valor) {
+		return valor == null || "".equals(valor.toString());
+	}
 
-    public static boolean valorZerado(Object valor) {
+	public static boolean valorZerado(Object valor) {
 
-        if (valor instanceof Double) {
-            return Double.parseDouble(String.valueOf(valor)) == 0.0 || Double.parseDouble(String.valueOf(valor)) < 0.0;
-        } else if (valor instanceof Float) {
-            return Float.parseFloat(String.valueOf(valor)) == 0.0 || Float.parseFloat(String.valueOf(valor)) < 0.0;
-        } else if (valor instanceof Integer) {
-            return Integer.valueOf(String.valueOf(valor)) == 0 || Integer.valueOf(String.valueOf(valor)) < 0;
-        } else if (valor instanceof Long) {
-            return Long.valueOf(String.valueOf(valor)) == 0 || Long.valueOf(String.valueOf(valor)) < 0;
-        }
+		if (valor instanceof Double) {
+			return Double.parseDouble(String.valueOf(valor)) == 0.0 || Double.parseDouble(String.valueOf(valor)) < 0.0;
+		} else if (valor instanceof Float) {
+			return Float.parseFloat(String.valueOf(valor)) == 0.0 || Float.parseFloat(String.valueOf(valor)) < 0.0;
+		} else if (valor instanceof Integer) {
+			return Integer.valueOf(String.valueOf(valor)) == 0 || Integer.valueOf(String.valueOf(valor)) < 0;
+		} else if (valor instanceof Long) {
+			return Long.valueOf(String.valueOf(valor)) == 0 || Long.valueOf(String.valueOf(valor)) < 0;
+		}
 
-        return true;
+		return true;
 
-    }
+	}
 
-    public static void executarJavascript(String comando) {
-        RequestContext.getCurrentInstance().execute(comando);
-    }
+	public static void executarJavascript(String comando) {
+		RequestContext.getCurrentInstance().execute(comando);
+	}
 
-    private static void aparecerGrowl(Severity severity, String titulo, String mensagem) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, titulo, mensagem));
-    }
+	private static void aparecerGrowl(Severity severity, String titulo, String mensagem) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, titulo, mensagem));
+	}
 
-    public static void growlErro(String titulo, String mensagem) {
-        aparecerGrowl(FacesMessage.SEVERITY_ERROR, titulo, mensagem);
-    }
+	public static void growlErro(String titulo, String mensagem) {
+		aparecerGrowl(FacesMessage.SEVERITY_ERROR, titulo, mensagem);
+	}
 
-    public static void growlFatal(String titulo, String mensagem) {
-        aparecerGrowl(FacesMessage.SEVERITY_FATAL, titulo, mensagem);
-    }
+	public static void growlFatal(String titulo, String mensagem) {
+		aparecerGrowl(FacesMessage.SEVERITY_FATAL, titulo, mensagem);
+	}
 
-    public static void growlInfo(String titulo, String mensagem) {
-        aparecerGrowl(FacesMessage.SEVERITY_INFO, titulo, mensagem);
-    }
+	public static void growlInfo(String titulo, String mensagem) {
+		aparecerGrowl(FacesMessage.SEVERITY_INFO, titulo, mensagem);
+	}
 
-    public static void growlAviso(String titulo, String mensagem) {
-        aparecerGrowl(FacesMessage.SEVERITY_WARN, titulo, mensagem);
-    }
+	public static void growlAviso(String titulo, String mensagem) {
+		aparecerGrowl(FacesMessage.SEVERITY_WARN, titulo, mensagem);
+	}
 
-    public static String formatarMoeda(Object valor) {
+	public static String formatarMoeda(Object valor) {
 
-        String valorFormatado = "";
+		String valorFormatado = "";
 
-        if (valor instanceof BigDecimal || valor instanceof Double || valor instanceof Integer) {
-            valorFormatado = FuraFilaConstants.PADRAO_MONETARIO_PT_BR + new DecimalFormat(FuraFilaConstants.PADRAO_MONETARIO).format(new BigDecimal(String.valueOf(valor)).doubleValue());
-        }
+		if (valor instanceof BigDecimal || valor instanceof Double || valor instanceof Integer) {
+			valorFormatado = FuraFilaConstants.PADRAO_MONETARIO_PT_BR
+					+ new DecimalFormat(FuraFilaConstants.PADRAO_MONETARIO)
+							.format(new BigDecimal(String.valueOf(valor)).doubleValue());
+		}
 
-        return valorFormatado;
+		return valorFormatado;
 
-    }
+	}
 
-    public static boolean vetorVazioNulo(Object[] dados) {
+	public static boolean vetorVazioNulo(Object[] dados) {
 
-        Boolean vetorNulo = true;
+		Boolean vetorNulo = true;
 
-        if (dados != null) {
-            for (Object valor : dados) {
-                if (valor != null && !"".equals(valor)) {
-                    return false;
-                }
-            }
-        } else {
-            vetorNulo = true;
-        }
+		if (dados != null) {
+			for (Object valor : dados) {
+				if (valor != null && !"".equals(valor)) {
+					return false;
+				}
+			}
+		} else {
+			vetorNulo = true;
+		}
 
-        return vetorNulo;
-    }
+		return vetorNulo;
+	}
 
-    public static boolean matrizVazioNula(Object[][] dados) {
+	public static boolean matrizVazioNula(Object[][] dados) {
 
-        Boolean matrizNula = false;
+		Boolean matrizNula = false;
 
-        if (dados != null) {
-            for (Object valor[] : dados) {
-                for (Object valorInterno : valor) {
-                    matrizNula = (valorInterno == null || "".equals(valorInterno));
-                }
-            }
-        } else {
-            matrizNula = true;
-        }
+		if (dados != null) {
+			for (Object valor[] : dados) {
+				for (Object valorInterno : valor) {
+					matrizNula = (valorInterno == null || "".equals(valorInterno));
+				}
+			}
+		} else {
+			matrizNula = true;
+		}
 
-        return matrizNula;
-    }
+		return matrizNula;
+	}
 
-    public static boolean listaDuplaVaziaNula(List<List<String>> lstDados) {
+	public static boolean listaDuplaVaziaNula(List<List<String>> lstDados) {
 
-        Boolean listaNulaVazia = false;
+		Boolean listaNulaVazia = false;
 
-        for (List<?> lstValores : lstDados) {
+		for (List<?> lstValores : lstDados) {
 
-            if (listaVaziaNula(lstValores)) {
-                listaNulaVazia = true;
-            } else {
-                return false;
-            }
+			if (listaVaziaNula(lstValores)) {
+				listaNulaVazia = true;
+			} else {
+				return false;
+			}
 
-        }
+		}
 
-        return listaNulaVazia;
+		return listaNulaVazia;
 
-    }
+	}
 
-    public static boolean listaVaziaNula(List<?> lstDados) {
+	public static boolean listaVaziaNula(List<?> lstDados) {
 
-        Integer qtdNulaVazia = 0;
+		Integer qtdNulaVazia = 0;
 
-        if (lstDados != null) {
-            for (Object valor : lstDados) {
-                if (valor == null || "".equals(valor)) {
-                    qtdNulaVazia++;
-                }
-            }
-        } else {
-            return true;
-        }
+		if (lstDados != null) {
+			for (Object valor : lstDados) {
+				if (valor == null || "".equals(valor)) {
+					qtdNulaVazia++;
+				}
+			}
+		} else {
+			return true;
+		}
 
-        return qtdNulaVazia == lstDados.size();
-    }
+		return qtdNulaVazia == lstDados.size();
+	}
 
-    public static String formataCpf(Object valor) throws Exception {
+	public static String formataCpf(Object valor) throws Exception {
 
-        return formataValores(FuraFilaConstants.PADRAO_CPF, valor);
-    }
+		return formataValores(FuraFilaConstants.PADRAO_CPF, valor);
+	}
 
-    public static String formataCnpj(Object valor) throws Exception {
+	public static String formataCnpj(Object valor) throws Exception {
 
-        return formataValores(FuraFilaConstants.PADRAO_CNPJ, valor);
-    }
+		return formataValores(FuraFilaConstants.PADRAO_CNPJ, valor);
+	}
 
-    public static String formataCep(Object valor) throws Exception {
+	public static String formataCep(Object valor) throws Exception {
 
-        return formataValores(FuraFilaConstants.PADRAO_CEP, valor);
-    }
+		return formataValores(FuraFilaConstants.PADRAO_CEP, valor);
+	}
 
-    public static String formataTelefone(Object valor) throws Exception {
+	public static String formataTelefone(Object valor) throws Exception {
 
-        return formataValores(FuraFilaConstants.PADRAO_TELEFONE, valor);
+		return formataValores(FuraFilaConstants.PADRAO_TELEFONE, valor);
 
-    }
+	}
 
-    public static String formataCelular(Object valor) throws Exception {
+	public static String formataCelular(Object valor) throws Exception {
 
-        return formataValores(FuraFilaConstants.PADRAO_CELULAR_BRASIL, valor);
+		return formataValores(FuraFilaConstants.PADRAO_CELULAR_BRASIL, valor);
 
-    }
+	}
 
-    public static String formataValores(String padrao, Object valor) throws ParseException, Exception {
-        MaskFormatter mascara = new MaskFormatter(padrao);
-        mascara.setValueContainsLiteralCharacters(false);
-        return mascara.valueToString(valor);
-    }
+	public static String formataValores(String padrao, Object valor) throws ParseException, Exception {
+		MaskFormatter mascara = new MaskFormatter(padrao);
+		mascara.setValueContainsLiteralCharacters(false);
+		return mascara.valueToString(valor);
+	}
 
-    public static String formataDataSQL(Date data) {
+	public static String formataDataSQL(Date data) {
 
-        return formataData(data, FuraFilaConstants.PADRAO_DATA_HORA_SQL);
+		return formataData(data, FuraFilaConstants.PADRAO_DATA_HORA_SQL);
 
-    }
+	}
 
-    public static String formataDataExibicao(Date data) {
+	public static String formataDataExibicao(Date data) {
 
-        return formataData(data, FuraFilaConstants.PADRAO_DATA_HORA_EXIBICAO);
+		return formataData(data, FuraFilaConstants.PADRAO_DATA_HORA_EXIBICAO);
 
-    }
+	}
 
-    public static String formataData(Date data, String padrao) {
+	public static String formataData(Date data, String padrao) {
 
-        return new SimpleDateFormat(padrao).format(data);
+		return new SimpleDateFormat(padrao).format(data);
 
-    }
+	}
 
-    public static Date formataDataDate(String data) throws ParseException {
+	public static Date formataDataDate(String data) throws ParseException {
 
-        return new SimpleDateFormat(FuraFilaConstants.PADRAO_DATA_SQL).parse(data);
+		return new SimpleDateFormat(FuraFilaConstants.PADRAO_DATA_SQL).parse(data);
 
-    }
+	}
 
-    public static String semImagem(Character sexo) {
-        return sexo == FuraFilaConstants.COD_MASCULINO ? FuraFilaConstants.SEM_IMAGEM_MASCULINO : FuraFilaConstants.SEM_IMAGEM_FEMININO;
-    }
+	public static String semImagem(Character sexo) {
+		return sexo == FuraFilaConstants.COD_MASCULINO ? FuraFilaConstants.SEM_IMAGEM_MASCULINO
+				: FuraFilaConstants.SEM_IMAGEM_FEMININO;
+	}
 
-    public static String semImagem(Estabelecimento estabelecimento) {
-        return FuraFilaUtils.valorVazioNulo(estabelecimento.getImagem().getImagem()) ? FuraFilaConstants.SEM_IMAGEM_ESTABELECIMENTO : estabelecimento.getImagem().getImagem();
-    }
+	public static String semImagem(Estabelecimento estabelecimento) {
+		return FuraFilaUtils.valorVazioNulo(estabelecimento.getImagem().getImagem())
+				? FuraFilaConstants.SEM_IMAGEM_ESTABELECIMENTO
+				: estabelecimento.getImagem().getImagem();
+	}
 
-    public static void gravarLogradouro(Logradouro logradouro) throws Exception {
+	public static void gravarLogradouro(Logradouro logradouro) throws Exception {
 
-        CidadeBusiness cidadeBusiness = new CidadeBusiness();
-        BairroBusiness bairroBusiness = new BairroBusiness();
-        LogradouroBusiness logradouroBusiness = new LogradouroBusiness();
+		CidadeBusiness cidadeBusiness = new CidadeBusiness();
+		BairroBusiness bairroBusiness = new BairroBusiness();
+		LogradouroBusiness logradouroBusiness = new LogradouroBusiness();
 
-        CidadeService cidadeService = new CidadeService();
-        BairroService bairroService = new BairroService();
-        LogradouroService logradouroService = new LogradouroService();
+		CidadeService cidadeService = new CidadeService();
+		BairroService bairroService = new BairroService();
+		LogradouroService logradouroService = new LogradouroService();
 
-        //GRAVAR CIDADE
-        Cidade cidade = cidadeService.buscarCidade(logradouro.getBairro().getCidade());
+		// GRAVAR CIDADE
+		Cidade cidade = cidadeService.buscarCidade(logradouro.getBairro().getCidade());
 
-        if (cidade.objetoVazio()) {
-            int cidadeId = cidadeBusiness.gravar(logradouro.getBairro().getCidade());
-            logradouro.getBairro().getCidade().setIdCidade(cidadeId);
-        }
+		if (cidade.objetoVazio()) {
+			int cidadeId = cidadeBusiness.gravar(logradouro.getBairro().getCidade());
+			logradouro.getBairro().getCidade().setIdCidade(cidadeId);
+		}
 
-        //GRAVAR BAIRRO
-        Bairro bairro = bairroService.buscarBairro(logradouro.getBairro());
+		// GRAVAR BAIRRO
+		Bairro bairro = bairroService.buscarBairro(logradouro.getBairro());
 
-        if (bairro.objetoVazio()) {
-            int bairroId = bairroBusiness.gravar(logradouro.getBairro());
-            logradouro.getBairro().setIdBairro(bairroId);
-        }
+		if (bairro.objetoVazio()) {
+			int bairroId = bairroBusiness.gravar(logradouro.getBairro());
+			logradouro.getBairro().setIdBairro(bairroId);
+		}
 
-        //GRAVAR LOGRADOURO
-        Logradouro l = logradouroService.buscarLogradouro(logradouro);
+		// GRAVAR LOGRADOURO
+		Logradouro l = logradouroService.buscarLogradouro(logradouro);
 
-        if (l.objetoVazio()) {
-            logradouroBusiness.gravar(logradouro);
-        }
-    }
+		if (l.objetoVazio()) {
+			logradouroBusiness.gravar(logradouro);
+		}
+	}
 
-    public static String copiarArquivo(String arquivo, InputStream is) throws Exception {
+	public static String copiarArquivo(String arquivo, InputStream is) throws Exception {
 
-        OutputStream os = new FileOutputStream(new File(arquivo));
+		OutputStream os = new FileOutputStream(new File(arquivo));
 
-        int read = 0;
-        byte[] bytes = new byte[1024];
+		int read = 0;
+		byte[] bytes = new byte[1024];
 
-        while ((read = is.read(bytes)) != -1) {
-            os.write(bytes, 0, read);
-        }
+		while ((read = is.read(bytes)) != -1) {
+			os.write(bytes, 0, read);
+		}
 
-        is.close();
-        os.flush();
-        os.close();
+		is.close();
+		os.flush();
+		os.close();
 
-        return arquivo;
+		return arquivo;
 
-    }
+	}
 
-    public static String montarCaminho(Cliente cliente, EstabelecimentoLogin lojista, boolean isProduto) throws Exception {
+	public static String montarCaminho(Cliente cliente, EstabelecimentoLogin lojista, boolean isProduto)
+			throws Exception {
 
-    	String caminhoFormado = "/home/wellington/Fura_Fila_Imagens/";
+		String caminhoFormado = "/home/wellington/Fura_Fila_Imagens/";
 //    	String caminhoFormado = FuraFilaConstants.UNIDADE + FuraFilaConstants.DIRETORIO_IMAGENS;
-        
-        
-        String barraDupla = "//";
 
-        String nome;
-        String perfil = "";
-        String identificador = "";
+		String barraDupla = "//";
 
-        if (cliente != null) {
+		String nome;
+		String perfil = "";
+		String identificador = "";
 
-            nome = cliente.getNome().replace(" ", "_");
-            perfil = cliente.getLogin().getPermissao().getPermissao();
-            identificador = cliente.getIdCliente() + "_" + nome;
+		if (cliente != null) {
 
-            caminhoFormado += perfil + barraDupla + identificador + barraDupla + FuraFilaConstants.DIRETORIO_IMAGENS_PERFIL;
-        } else if (lojista != null) {
+			nome = cliente.getNome().replace(" ", "_");
+			perfil = cliente.getLogin().getPermissao().getPermissao();
+			identificador = cliente.getIdCliente() + "_" + nome;
 
-            nome = lojista.getEstabelecimento().getRazaoSocial().replace(" ", "_");
-            perfil = lojista.getLogin().getPermissao().getPermissao();
-            identificador = lojista.getEstabelecimento().getIdEstabelecimento() + "_" + nome;
+			caminhoFormado += perfil + barraDupla + identificador + barraDupla
+					+ FuraFilaConstants.DIRETORIO_IMAGENS_PERFIL;
+		} else if (lojista != null) {
 
-            caminhoFormado += perfil + barraDupla + identificador + barraDupla + (isProduto ? FuraFilaConstants.DIRETORIO_IMAGENS_PRODUTOS : FuraFilaConstants.DIRETORIO_IMAGENS_PERFIL);
-        }
+			nome = lojista.getEstabelecimento().getRazaoSocial().replace(" ", "_");
+			perfil = lojista.getLogin().getPermissao().getPermissao();
+			identificador = lojista.getEstabelecimento().getIdEstabelecimento() + "_" + nome;
 
-        new File(caminhoFormado).mkdirs();
+			caminhoFormado += perfil + barraDupla + identificador + barraDupla
+					+ (isProduto ? FuraFilaConstants.DIRETORIO_IMAGENS_PRODUTOS
+							: FuraFilaConstants.DIRETORIO_IMAGENS_PERFIL);
+		}
 
-        return caminhoFormado;
-    }
+		new File(caminhoFormado).mkdirs();
 
-    public static String montarNomeImagem(Cliente cliente, EstoqueProdutos lojista, boolean isProduto) throws Exception {
+		return caminhoFormado;
+	}
 
-        //PERFIL 'CODIGO'_'NOME'
-        //PRODUTO 'CODIGO_ESTABELECIMENTO'_'NOME_PRODUTO'
-        String nomeImagem = "";
+	public static String montarNomeImagem(Cliente cliente, EstoqueProdutos lojista, boolean isProduto)
+			throws Exception {
 
-        if (cliente != null) {
-            nomeImagem = cliente.getIdCliente() + "_" + cliente.getNome().replace(" ", "_");
-        } else if (lojista != null) {
+		// PERFIL 'CODIGO'_'NOME'
+		// PRODUTO 'CODIGO_ESTABELECIMENTO'_'NOME_PRODUTO'
+		String nomeImagem = "";
 
-            if (isProduto) {
-                nomeImagem = lojista.getEstoque().getEstabelecimento().getIdEstabelecimento() + "_" + lojista.getProduto().getProdutoDesc().replace(" ", "_");
-            } else {
-                nomeImagem = lojista.getEstoque().getEstabelecimento().getIdEstabelecimento() + "_" + lojista.getEstoque().getEstabelecimento().getRazaoSocial().replace(" ", "_");
-            }
+		if (cliente != null) {
+			nomeImagem = cliente.getIdCliente() + "_" + cliente.getNome().replace(" ", "_");
+		} else if (lojista != null) {
 
-        }
+			if (isProduto) {
+				nomeImagem = lojista.getEstoque().getEstabelecimento().getIdEstabelecimento() + "_"
+						+ lojista.getProduto().getProdutoDesc().replace(" ", "_");
+			} else {
+				nomeImagem = lojista.getEstoque().getEstabelecimento().getIdEstabelecimento() + "_"
+						+ lojista.getEstoque().getEstabelecimento().getRazaoSocial().replace(" ", "_");
+			}
 
-        return nomeImagem;
+		}
 
-    }
+		return nomeImagem;
 
-    public static Integer gerarNumeroAleatorio() throws Exception {
-        return new Random().nextInt(999999999);
-    }
+	}
 
-    public static String criptografarTexto(String textoPlano) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        BigInteger hash = new BigInteger(1, md.digest(textoPlano.getBytes("ISO-8859-1")));
+	public static Integer gerarNumeroAleatorio() throws Exception {
+		return new Random().nextInt(999999999);
+	}
 
-        return String.format("%32x", hash);
-    }
+	public static String criptografarTexto(String textoPlano)
+			throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		BigInteger hash = new BigInteger(1, md.digest(textoPlano.getBytes("ISO-8859-1")));
 
-    public static void calcularDistancia(Distancia distancia) throws Exception {
-        new CepService().calcularDistancia(distancia);
-    }
+		return String.format("%32x", hash);
+	}
 
-    public static String removerAcentos(String str) {
-        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-    }
+	public static void calcularDistancia(Distancia distancia) throws Exception {
+		new CepService().calcularDistancia(distancia);
+	}
 
-    public static List<String> separarTipoLogradouro(String logradouroFormatado) {
+	public static String removerAcentos(String str) {
+		return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+	}
 
-        List<String> lstLogradouro = new ArrayList<>();
-        String tipoLogradouro = logradouroFormatado.split(" ")[0];
-        logradouroFormatado = logradouroFormatado.substring(tipoLogradouro.length(), logradouroFormatado.length()).trim();
-        lstLogradouro.add(tipoLogradouro);
-        lstLogradouro.add(logradouroFormatado);
+	public static List<String> separarTipoLogradouro(String logradouroFormatado) {
 
-        return lstLogradouro;
+		List<String> lstLogradouro = new ArrayList<>();
+		String tipoLogradouro = logradouroFormatado.split(" ")[0];
+		logradouroFormatado = logradouroFormatado.substring(tipoLogradouro.length(), logradouroFormatado.length())
+				.trim();
+		lstLogradouro.add(tipoLogradouro);
+		lstLogradouro.add(logradouroFormatado);
 
-    }
+		return lstLogradouro;
 
-    public static Integer calcularVolume(Integer altura, Integer largura, Integer profundidade) {
-        return altura * largura * profundidade;
-    }
+	}
 
-    public static Integer gerarCodigoVenda() {
-        Integer codigo = new Random(System.nanoTime()).nextInt();
-        return codigo < 0 ? codigo * -1 : codigo;
-    }
+	public static Integer calcularVolume(Integer altura, Integer largura, Integer profundidade) {
+		return altura * largura * profundidade;
+	}
 
-    public static void gerarRelatorios(String nomeJasper, List<?> lstValores, String nomeRelatorio) throws JRException, IOException {
+	public static Integer gerarCodigoVenda() {
+		Integer codigo = new Random(System.nanoTime()).nextInt();
+		return codigo < 0 ? codigo * -1 : codigo;
+	}
 
-        FacesContext context = FacesContext.getCurrentInstance();
-        ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+	public static void gerarRelatorios(String nomeJasper, List<?> lstValores, String nomeRelatorio)
+			throws JRException, IOException {
 
-        Hashtable<String, Object> parametros = new Hashtable<>();
-        parametros.put("APP_PATH", FacesContext.getCurrentInstance().getExternalContext().getRealPath(""));
-        parametros.put("PATH_IMAGE", servletContext.getRealPath("/resources/FuraFilaLogo1.png"));
+		FacesContext context = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
 
-        String relatorio = servletContext.getRealPath("/relatorios/" + nomeJasper + ".jasper");
+		Hashtable<String, Object> parametros = new Hashtable<>();
+		parametros.put("APP_PATH", FacesContext.getCurrentInstance().getExternalContext().getRealPath(""));
+		parametros.put("PATH_IMAGE", servletContext.getRealPath("/resources/FuraFilaLogo1.png"));
 
-        JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(lstValores);
+		String relatorio = servletContext.getRealPath("/relatorios/" + nomeJasper + ".jasper");
 
-        JasperPrint impressao = JasperFillManager.fillReport(relatorio, parametros, jrds);
-        byte[] bytes = JasperExportManager.exportReportToPdf(impressao);
+		JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(lstValores);
 
-        // Essa é a configuração do pop´up que será apresentado
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+		JasperPrint impressao = JasperFillManager.fillReport(relatorio, parametros, jrds);
+		byte[] bytes = JasperExportManager.exportReportToPdf(impressao);
 
-        ServletOutputStream ouputStream = response.getOutputStream();
-        response.addHeader("Content-disposition", "attachment;filename=" + nomeRelatorio + ".pdf");
-        response.setContentType("application/pdf");
-        response.setContentLength(bytes.length);
+		// Essa é a configuração do pop´up que será apresentado
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
-        // Esse popula o arquivo que será aberto ou salvo
-        ouputStream.write(bytes, 0, bytes.length);
-        ouputStream.flush();
-        ouputStream.close();
-        response.flushBuffer();
-        context.responseComplete();
+		ServletOutputStream ouputStream = response.getOutputStream();
+		response.addHeader("Content-disposition", "attachment;filename=" + nomeRelatorio + ".pdf");
+		response.setContentType("application/pdf");
+		response.setContentLength(bytes.length);
 
-    }
+		// Esse popula o arquivo que será aberto ou salvo
+		ouputStream.write(bytes, 0, bytes.length);
+		ouputStream.flush();
+		ouputStream.close();
+		response.flushBuffer();
+		context.responseComplete();
 
-    public static String lerArquivo(String email) throws FileNotFoundException, IOException {
-        return IOUtils.toString(new FileInputStream(email));
-    }
+	}
 
-    public static int calculaIdade(String dataNasc) throws ParseException {
+	public static String lerArquivo(String email) throws FileNotFoundException, IOException {
+		return IOUtils.toString(new FileInputStream(email));
+	}
 
-        DateFormat sdf = new SimpleDateFormat(FuraFilaConstants.PADRAO_DATA_EXIBICAO);
-        Date dataNascInput = sdf.parse(dataNasc);
-        
-        Calendar dataNascimento = new GregorianCalendar();
-        dataNascimento.setTime(dataNascInput);
-        
-        Calendar hoje = Calendar.getInstance();
-        int idade = hoje.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR);
-        dataNascimento.add(Calendar.YEAR, idade);
-        if (hoje.before(dataNascimento)) {
-            idade--;
-        }
+	public static int calculaIdade(String dataNasc) throws ParseException {
 
-        return idade;
-    }
-    
-    public static int calculaIdade(Date dataNasc) throws ParseException {
+		DateFormat sdf = new SimpleDateFormat(FuraFilaConstants.PADRAO_DATA_EXIBICAO);
+		Date dataNascInput = sdf.parse(dataNasc);
 
-        Calendar dataNascimento = new GregorianCalendar();
-        dataNascimento.setTime(dataNasc);
-        
-        Calendar hoje = Calendar.getInstance();
-        int idade = hoje.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR);
-        dataNascimento.add(Calendar.YEAR, idade);
-        if (hoje.before(dataNascimento)) {
-            idade--;
-        }
+		Calendar dataNascimento = new GregorianCalendar();
+		dataNascimento.setTime(dataNascInput);
 
-        return idade;
-    }
+		Calendar hoje = Calendar.getInstance();
+		int idade = hoje.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR);
+		dataNascimento.add(Calendar.YEAR, idade);
+		if (hoje.before(dataNascimento)) {
+			idade--;
+		}
+
+		return idade;
+	}
+
+	public static int calculaIdade(Date dataNasc) throws ParseException {
+
+		Calendar dataNascimento = new GregorianCalendar();
+		dataNascimento.setTime(dataNasc);
+
+		Calendar hoje = Calendar.getInstance();
+		int idade = hoje.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR);
+		dataNascimento.add(Calendar.YEAR, idade);
+		if (hoje.before(dataNascimento)) {
+			idade--;
+		}
+
+		return idade;
+	}
+
+	public static String getGoogleApiKey() {
+		return System.getenv("GOOGLE_KEY");
+	}
+
 }

@@ -17,6 +17,6 @@ public interface ILoginService {
 
 	public List<Login> listarEntregador() throws Exception;
 
-	public void gravarLogin(Login login) throws Exception;
+	public Long gravarLogin(Login login) throws Exception;
 
 }

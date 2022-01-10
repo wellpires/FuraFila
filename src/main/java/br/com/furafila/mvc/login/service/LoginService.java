@@ -3,8 +3,10 @@ package br.com.furafila.mvc.login.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.furafila.mvc.login.builder.NovoLoginDTOBuilder;
 import br.com.furafila.mvc.login.dto.CredenciaisDTO;
 import br.com.furafila.mvc.login.dto.EntregadorDTO;
+import br.com.furafila.mvc.login.dto.NovoLoginDTO;
 import br.com.furafila.mvc.login.model.Login;
 
 /**
@@ -60,9 +62,13 @@ public class LoginService implements ILoginService {
 	}
 
 	@Override
-	public void gravarLogin(Login login) throws Exception {
-		// TODO Auto-generated method stub
+	public Long gravarLogin(Login login) throws Exception {
 
+		NovoLoginDTO novoLoginDTO = new NovoLoginDTOBuilder().username(login.getUsuario()).password(login.getSenhaCriptografada())
+				.status(login.getStatus()).deliveryAvailable(login.getDisponivelEntrega())
+				.levelId(login.getPermissao().getIdPermissao()).build();
+
+		return this.loginApiService.gravarLogin(novoLoginDTO);
 	}
 
 }

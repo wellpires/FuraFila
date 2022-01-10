@@ -24,6 +24,7 @@ import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 
+import br.com.furafila.mvc.cep.dto.LocationDTO;
 import br.com.furafila.mvc.cep.model.Distancia;
 import br.com.furafila.mvc.cep.service.CepService;
 import br.com.furafila.mvc.cliente.model.Cliente;
@@ -237,13 +238,13 @@ public class ComprarProdutosBean implements Serializable {
 
 			cep.pesquisarCep(getLogradouro());
 
-			List<Double> lstGeo = cep.pegarGeolocalizacao(getLogradouro());
+			LocationDTO locationDTO = cep.pegarGeolocalizacao(getLogradouro());
 
-			LatLng center = new LatLng(lstGeo.get(0), lstGeo.get(1));
+			LatLng center = new LatLng(locationDTO.getLatitude(), locationDTO.getLongitude());
 			setCenterGeoMap(center.getLat() + "," + center.getLng());
 			getGeoModel().addOverlay(new Marker(center, "", null, FuraFilaConstants.IMAGEM_LOCKER));
-			setLatitudeHidden(lstGeo.get(0));
-			setLongitudeHidden(lstGeo.get(1));
+			setLatitudeHidden(locationDTO.getLatitude());
+			setLongitudeHidden(locationDTO.getLongitude());
 
 			organizarLockers();
 

@@ -3,19 +3,27 @@ package br.com.furafila.mvc.login.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status.Family;
 
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.furafila.mvc.login.dto.CredenciaisDTO;
 import br.com.furafila.mvc.login.dto.EntregadorDTO;
+import br.com.furafila.mvc.login.dto.NovoLoginDTO;
+import br.com.furafila.mvc.login.exception.LoginServerApiException;
+import br.com.furafila.mvc.login.request.NovoLoginRequest;
 import br.com.furafila.mvc.login.response.CredenciaisResponse;
 import br.com.furafila.mvc.login.response.DuplicidadeCredencialResponse;
 import br.com.furafila.mvc.login.response.EntregadoresResponse;
+import br.com.furafila.mvc.login.response.NovoLoginResponse;
 import br.com.furafila.utils.FuraFilaURLConstants;
 
 public class LoginApiService {
@@ -53,6 +61,20 @@ public class LoginApiService {
 				.request(MediaType.APPLICATION_JSON).get(EntregadoresResponse.class);
 
 		return entregadoresResponse.getEntregadores();
+	}
+
+	public Long gravarLogin(NovoLoginDTO novoLoginDTO) {
+
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(FuraFilaURLConstants.SAVE_CREDENTIAL).request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(new NovoLoginRequest(novoLoginDTO)));
+
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new LoginServerApiException(response.getStatus());
+		}
+
+		return Optional.ofNullable(response.readEntity(NovoLoginResponse.class)).orElseGet(NovoLoginResponse::new)
+				.getId();
 	}
 
 }
