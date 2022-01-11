@@ -14,7 +14,6 @@ import org.primefaces.event.FileUploadEvent;
 
 import br.com.furafila.mvc.bairro.business.BairroBusiness;
 import br.com.furafila.mvc.bairro.service.BairroService;
-import br.com.furafila.mvc.cep.dto.LocationDTO;
 import br.com.furafila.mvc.cep.service.CepService;
 import br.com.furafila.mvc.cidade.business.CidadeBusiness;
 import br.com.furafila.mvc.cidade.service.CidadeService;
@@ -99,21 +98,21 @@ public class ClienteBean implements Serializable {
 			getCliente().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_3);
 			getCliente().getLogin().setStatus(Boolean.TRUE);
 			getCliente().getLogin().setDisponivelEntrega(Boolean.FALSE);
-			
+
 			Long loginId = this.loginService.gravarLogin(this.cliente.getLogin());
 			getCliente().getLogin().setIdLogin(loginId.intValue());
 
 			// GRAVAR IMAGEM
 			String imagemPadrao = FuraFilaConstants.SEM_IMAGEM_FEMININO;
-			if(this.cliente.getSexo() == 'M') {
+			if (this.cliente.getSexo() == 'M') {
 				imagemPadrao = FuraFilaConstants.SEM_IMAGEM_MASCULINO;
 			}
 			getCliente().getImagem().setImagem(imagemPadrao);
-			
+
 			Long idImagem = imagemService.gravar(getCliente().getImagem());
 			getCliente().getImagem().setIdImagem(idImagem.intValue());
 
-			FuraFilaUtils.gravarLogradouro(getCliente().getLogradouro());
+			logradouroService.gravarLogradouro(getCliente().getLogradouro());
 
 			// GRAVAR CLIENTE
 			getClienteBusiness().gravar(getCliente());
@@ -157,21 +156,13 @@ public class ClienteBean implements Serializable {
 	public void procurarCep() {
 
 		try {
-			
-			if (0 != this.cliente.getLogradouro().getNroCep()) {
-				if (!getLogradouroService().logradouroExiste(getCliente().getLogradouro())) {
-					this.cliente.setLogradouro(this.cepService.pesquisarCep(getCliente().getLogradouro()));
-					LocationDTO locationDTO = this.cepService.pegarGeolocalizacao(getCliente().getLogradouro());
-
-					getCliente().getLogradouro().setLatitude(locationDTO.getLatitude());
-					getCliente().getLogradouro().setLongitude(locationDTO.getLongitude());
-				} else {
-					getLogradouroService().buscarEnderecoCompleto(getCliente().getLogradouro());
-				}
-			} else {
+			if (0 == this.cliente.getLogradouro().getNroCep()) {
 				getCliente().setLogradouro(new Logradouro());
 				FuraFilaUtils.growlErro(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_CEP_VAZIO);
+				return;
 			}
+
+			this.logradouroService.buscarEnderecoCompleto(getCliente().getLogradouro());
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);

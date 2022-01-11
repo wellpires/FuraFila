@@ -46,7 +46,7 @@ public class LogradouroBusiness {
     
     public List<String> buscarEnderecoCompleto(Logradouro logradouro) throws Exception{
         
-        String strQuery = "SELECT L.nroCep AS [CEP],"
+        String strQuery = "SELECT L.nroCep AS [CEP], l.latitude, l.longitude"
                 + " (SELECT TL.desc_tipo_logradouro FROM TIPO_LOGRADOURO TL WHERE TL.id_tipo_logradouro = L.id_tipo_logradouro_FK) AS [TIPO_LOGRADOURO],"
                 + "L.logradouro AS [LOGRADOURO],"
                 + "(SELECT B.desc_bairro FROM BAIRRO B WHERE B.id_bairro = L.id_bairro_FK) AS [BAIRRO],"

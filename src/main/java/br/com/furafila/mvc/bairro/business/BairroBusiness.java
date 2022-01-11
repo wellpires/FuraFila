@@ -31,7 +31,7 @@ public class BairroBusiness implements Serializable {
 
 	public List<String> buscarBairro(Bairro bairro) throws Exception {
 
-		String strQuery = "SELECT B.id_bairro AS [CD]," + " B.desc_bairro AS [BAIRRO] "
+		String strQuery = "SELECT B.id_bairro AS [CD],  B.desc_bairro AS [BAIRRO] "
 				+ "FROM BAIRRO B WHERE B.desc_bairro LIKE '" + bairro.getDescBairro() + "'";
 
 		return BancoDados.retornaRegistro(strQuery);

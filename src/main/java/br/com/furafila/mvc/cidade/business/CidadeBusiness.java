@@ -13,9 +13,8 @@ public class CidadeBusiness {
 
 	public int gravar(Cidade cidade) throws Exception {
 
-		String strQuery = "INSERT INTO CIDADE" + " (" + "desc_cidade," + "id_uf_FK" + ") " + "VALUES " + "('"
-				+ cidade.getDescCidade() + "'," + " (SELECT U.id_uf FROM UF U WHERE U.sigla_uf LIKE '"
-				+ cidade.getUf().getSiglaUf() + "'))";
+		String strQuery = "INSERT INTO CIDADE (desc_cidade, id_uf_FK) VALUES ('" + cidade.getDescCidade()
+				+ "', (SELECT U.id_uf FROM UF U WHERE U.sigla_uf LIKE '" + cidade.getUf().getSiglaUf() + "'))";
 
 		BancoDados.executaComando(strQuery);
 
@@ -29,7 +28,7 @@ public class CidadeBusiness {
 
 	public List<String> buscarCidade(Cidade cidade) throws Exception {
 
-		String strQuery = "SELECT C.id_cidade AS [CD]," + " C.desc_cidade AS [CIDADE]"
+		String strQuery = "SELECT C.id_cidade AS [CD], C.desc_cidade AS [CIDADE]"
 				+ " FROM CIDADE C WHERE C.desc_cidade LIKE '" + cidade.getDescCidade() + "'";
 
 		return BancoDados.retornaRegistro(strQuery);

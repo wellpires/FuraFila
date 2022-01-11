@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
-import br.com.furafila.mvc.cep.dto.LocationDTO;
 import br.com.furafila.mvc.cep.service.CepService;
 import br.com.furafila.mvc.conjuntoLocker.business.ConjuntoLockerBusiness;
 import br.com.furafila.mvc.conjuntoLocker.model.ConjuntoLocker;
@@ -184,14 +183,7 @@ public class ConjuntoLockerBean implements Serializable {
 
 		try {
 			if (0 != getConjuntoLocker().getLogradouro().getNroCep()) {
-				if (!getLogradouroService().logradouroExiste(getConjuntoLocker().getLogradouro())) {
-					getCepService().pesquisarCep(getConjuntoLocker().getLogradouro());
-					LocationDTO locationDTO = getCepService().pegarGeolocalizacao(getConjuntoLocker().getLogradouro());
-					getConjuntoLocker().getLogradouro().setLatitude(locationDTO.getLatitude());
-					getConjuntoLocker().getLogradouro().setLongitude(locationDTO.getLongitude());
-				} else {
-					getLogradouroService().buscarEnderecoCompleto(getConjuntoLocker().getLogradouro());
-				}
+				getLogradouroService().buscarEnderecoCompleto(getConjuntoLocker().getLogradouro());
 			} else {
 				getConjuntoLocker().setLogradouro(new Logradouro());
 				FuraFilaUtils.growlErro(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_CEP_VAZIO);

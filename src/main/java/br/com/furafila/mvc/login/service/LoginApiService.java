@@ -12,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status.Family;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,6 +29,8 @@ import br.com.furafila.mvc.login.response.NovoLoginResponse;
 import br.com.furafila.utils.FuraFilaURLConstants;
 
 public class LoginApiService {
+
+	private static final Logger logger = LogManager.getLogger(LoginApiService.class);
 
 	public CredenciaisDTO autenticarLogin(String usuario, String senha) {
 
@@ -70,7 +74,10 @@ public class LoginApiService {
 				.post(Entity.json(new NovoLoginRequest(novoLoginDTO)));
 
 		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
-			throw new LoginServerApiException(response.getStatus());
+			String statusMessage = String.format("%d - %s", response.getStatusInfo().getStatusCode(),
+					response.getStatusInfo().getReasonPhrase());
+			logger.error(statusMessage);
+			throw new LoginServerApiException(statusMessage);
 		}
 
 		return Optional.ofNullable(response.readEntity(NovoLoginResponse.class)).orElseGet(NovoLoginResponse::new)
