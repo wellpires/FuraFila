@@ -51,6 +51,8 @@ public class LogradouroService {
 		logradouro.setNroCep(enderecoCompletoDTO.getPostalCode());
 		logradouro.getTipoLogradouro().setDescTipoLogradouro(enderecoCompletoDTO.getAddressType());
 		logradouro.setLogradouro(enderecoCompletoDTO.getAddress());
+		logradouro.setLatitude(enderecoCompletoDTO.getLatitude());
+		logradouro.setLongitude(enderecoCompletoDTO.getLongitude());
 		logradouro.getBairro().setDescBairro(enderecoCompletoDTO.getDistrict());
 		logradouro.getBairro().getCidade().setDescCidade(enderecoCompletoDTO.getCity());
 		logradouro.getBairro().getCidade().getUf().setSiglaUf(enderecoCompletoDTO.getPostalAbbreviation());
