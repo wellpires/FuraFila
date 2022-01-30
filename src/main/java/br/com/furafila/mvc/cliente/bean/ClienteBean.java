@@ -115,7 +115,8 @@ public class ClienteBean implements Serializable {
 			logradouroService.gravarLogradouro(getCliente().getLogradouro());
 
 			// GRAVAR CLIENTE
-			getClienteBusiness().gravar(getCliente());
+			this.clienteService.gravar(getCliente());
+//			getClienteBusiness().gravar(getCliente());
 
 			Login l = getCliente().getLogin();
 			setCliente(new Cliente());
