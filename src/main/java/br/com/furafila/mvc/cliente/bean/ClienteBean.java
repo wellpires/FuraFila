@@ -99,8 +99,8 @@ public class ClienteBean implements Serializable {
 			getCliente().getLogin().setStatus(Boolean.TRUE);
 			getCliente().getLogin().setDisponivelEntrega(Boolean.FALSE);
 
-			Long loginId = this.loginService.gravarLogin(this.cliente.getLogin());
-			getCliente().getLogin().setIdLogin(loginId.intValue());
+			int loginId = this.loginService.gravarLogin(this.cliente.getLogin());
+			getCliente().getLogin().setIdLogin(loginId);
 
 			// GRAVAR IMAGEM
 			String imagemPadrao = FuraFilaConstants.SEM_IMAGEM_FEMININO;
@@ -116,7 +116,6 @@ public class ClienteBean implements Serializable {
 
 			// GRAVAR CLIENTE
 			this.clienteService.gravar(getCliente());
-//			getClienteBusiness().gravar(getCliente());
 
 			Login l = getCliente().getLogin();
 			setCliente(new Cliente());

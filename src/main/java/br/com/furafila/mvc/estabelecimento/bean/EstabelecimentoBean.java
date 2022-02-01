@@ -24,6 +24,8 @@ import br.com.furafila.mvc.estoque.service.EstoqueService;
 import br.com.furafila.mvc.estoqueProdutos.model.EstoqueProdutos;
 import br.com.furafila.mvc.imagem.business.ImagemBusiness;
 import br.com.furafila.mvc.login.business.LoginBusiness;
+import br.com.furafila.mvc.login.service.ILoginService;
+import br.com.furafila.mvc.login.service.LoginService;
 import br.com.furafila.utils.EnviarEmails;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
@@ -39,7 +41,7 @@ import net.sf.jasperreports.engine.JRException;
 public class EstabelecimentoBean implements Serializable {
 
 	private static final Logger logger = LogManager.getLogger(EstabelecimentoBean.class);
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private List<Estabelecimento> lstEstabelecimentos = new ArrayList<>();
@@ -56,6 +58,7 @@ public class EstabelecimentoBean implements Serializable {
 
 	private EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
 	private EstoqueService estoqueService = new EstoqueService();
+	private ILoginService loginService = new LoginService();
 
 	public void listarEstabelecimentos() {
 		try {
@@ -89,14 +92,14 @@ public class EstabelecimentoBean implements Serializable {
 
 		try {
 
-			getEstabelecimento().setStatus(Boolean.FALSE);
-			int estabelecimentoId = getEstabelecimentoBusiness().gravar(getEstabelecimento());
+			int estabelecimentoId = estabelecimentoService.gravar(getEstabelecimento());
 
 			estabelecimento.setIdEstabelecimento(estabelecimentoId);
 			getEstabelecimentoLogin().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_2);
 			getEstabelecimentoLogin().getLogin().setStatus(Boolean.TRUE);
 			getEstabelecimentoLogin().getLogin().setDisponivelEntrega(Boolean.FALSE);
-			int loginId = getLoginBusiness().gravar(getEstabelecimentoLogin().getLogin());
+
+			int loginId = loginService.gravarLogin(getEstabelecimentoLogin().getLogin());
 			getEstabelecimentoLogin().getLogin().setIdLogin(loginId);
 
 			getEstabelecimentoLogin().getEstabelecimento()
@@ -106,6 +109,7 @@ public class EstabelecimentoBean implements Serializable {
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+			return "";
 		}
 
 		zerarLogin();

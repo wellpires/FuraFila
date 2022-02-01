@@ -6,8 +6,11 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import br.com.furafila.mvc.estabelecimento.builder.NovoEstabelecimentoDTOBuilder;
 import br.com.furafila.mvc.estabelecimento.business.EstabelecimentoBusiness;
+import br.com.furafila.mvc.estabelecimento.dto.NovoEstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
+import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoApiServiceImpl;
 import br.com.furafila.mvc.pedidos.model.Pedidos;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
@@ -19,6 +22,8 @@ import br.com.furafila.utils.FuraFilaUtils;
 public class EstabelecimentoService {
 
 	private EstabelecimentoBusiness estabelecimentoBusiness = new EstabelecimentoBusiness();
+
+	private EstabelecimentoApiService estabelecimentoApiService = new EstabelecimentoApiServiceImpl();
 
 	public List<Estabelecimento> listarEstabelecimentos() throws Exception {
 
@@ -39,8 +44,7 @@ public class EstabelecimentoService {
 				e.setStatus(valores.get(indice++).equals(String.valueOf(FuraFilaConstants.COD_ATIVO)));
 				e.setEmail(valores.get(indice++));
 				String idImagem = valores.get(indice++);
-				e.getImagem()
-						.setIdImagem(Integer.parseInt(idImagem == null ? "0" : idImagem));
+				e.getImagem().setIdImagem(Integer.parseInt(idImagem == null ? "0" : idImagem));
 				e.getImagem().setImagem(FuraFilaUtils.semImagem(e));
 
 				lstEstabelecimentos.add(e);
@@ -100,6 +104,15 @@ public class EstabelecimentoService {
 
 		return lstEstabelecimentos;
 
+	}
+
+	public int gravar(Estabelecimento estabelecimento) {
+
+		NovoEstabelecimentoDTO novoEstabelecimentoDTO = new NovoEstabelecimentoDTOBuilder()
+				.corporateName(estabelecimento.getRazaoSocial()).email(estabelecimento.getEmail())
+				.cnpj(estabelecimento.getCnpj()).stateRegistration(estabelecimento.getInscricaoEstadual()).build();
+
+		return estabelecimentoApiService.gravar(novoEstabelecimentoDTO).intValue();
 	}
 
 	public int verificarDuplicidadeRazaoSocial(Estabelecimento estabelecimento) throws Exception {

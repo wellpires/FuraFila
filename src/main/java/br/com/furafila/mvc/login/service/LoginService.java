@@ -62,13 +62,13 @@ public class LoginService implements ILoginService {
 	}
 
 	@Override
-	public Long gravarLogin(Login login) throws Exception {
+	public int gravarLogin(Login login) throws Exception {
 
-		NovoLoginDTO novoLoginDTO = new NovoLoginDTOBuilder().username(login.getUsuario()).password(login.getSenhaCriptografada())
-				.status(login.getStatus()).deliveryAvailable(login.getDisponivelEntrega())
-				.levelId(login.getPermissao().getIdPermissao()).build();
+		NovoLoginDTO novoLoginDTO = new NovoLoginDTOBuilder().username(login.getUsuario())
+				.password(login.getSenhaCriptografada()).status(login.getStatus())
+				.deliveryAvailable(login.getDisponivelEntrega()).levelId(login.getPermissao().getIdPermissao()).build();
 
-		return this.loginApiService.gravarLogin(novoLoginDTO);
+		return this.loginApiService.gravarLogin(novoLoginDTO).intValue();
 	}
 
 }
