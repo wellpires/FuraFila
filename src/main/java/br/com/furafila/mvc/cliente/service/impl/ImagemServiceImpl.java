@@ -21,4 +21,9 @@ public class ImagemServiceImpl implements ImagemService {
 		return imagemApiService.gravar(novaImagemDTO);
 	}
 
+	@Override
+	public File buscarImagem(Long idImage) {
+		return imagemApiService.buscarImagem(idImage);
+	}
+
 }

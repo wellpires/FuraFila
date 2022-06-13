@@ -16,57 +16,60 @@ import br.com.furafila.utils.FuraFilaUtils;
  */
 public class EstabelecimentoLoginService {
 
-    private EstabelecimentoLoginBusiness estabelecimentoLoginBusiness = new EstabelecimentoLoginBusiness();
-    private ImagemBusiness imagemBusiness = new ImagemBusiness();
+	private EstabelecimentoLoginBusiness estabelecimentoLoginBusiness = new EstabelecimentoLoginBusiness();
+	private ImagemBusiness imagemBusiness = new ImagemBusiness();
 
-    public void buscarInformacoesIniciaisEstabelecimento(EstabelecimentoLogin estabelecimentoLogin) throws Exception {
+	public void buscarInformacoesIniciaisEstabelecimento(EstabelecimentoLogin estabelecimentoLogin) throws Exception {
+		
+		List<String> lstDados = getEstabelecimentoLoginBusiness()
+				.buscarInformacoesIniciaisEstabelecimento(estabelecimentoLogin);
 
-        List<String> lstDados = getEstabelecimentoLoginBusiness().buscarInformacoesIniciaisEstabelecimento(estabelecimentoLogin);
+		if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
 
-        if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
+			Integer indice = 0;
 
-            Integer indice = 0;
+			estabelecimentoLogin.getEstabelecimento().setIdEstabelecimento(Integer.parseInt(lstDados.get(indice++)));
+			estabelecimentoLogin.getEstabelecimento().setRazaoSocial(lstDados.get(indice++));
+			estabelecimentoLogin.getEstabelecimento()
+					.setStatus(lstDados.get(indice++).charAt(0) == FuraFilaConstants.COD_ATIVO);
+			estabelecimentoLogin.getEstabelecimento().getImagem().setIdImagem(Integer.parseInt(lstDados.get(indice++)));
 
-            estabelecimentoLogin.getEstabelecimento().setIdEstabelecimento(Integer.parseInt(lstDados.get(indice++)));
-            estabelecimentoLogin.getEstabelecimento().setRazaoSocial(lstDados.get(indice++));
-            estabelecimentoLogin.getEstabelecimento().setStatus(lstDados.get(indice++).charAt(0) == FuraFilaConstants.COD_ATIVO);
-            estabelecimentoLogin.getEstabelecimento().getImagem().setIdImagem(Integer.parseInt(lstDados.get(indice++)));
+		}
 
-        }
-        
-        File imagem = imagemBusiness.buscarImagemPorId(estabelecimentoLogin.getEstabelecimento().getImagem().getIdImagem());
-        estabelecimentoLogin.getEstabelecimento().getImagem().setImagem(imagem.getAbsolutePath());
+		File imagem = imagemBusiness
+				.buscarImagemPorId(estabelecimentoLogin.getEstabelecimento().getImagem().getIdImagem());
+		estabelecimentoLogin.getEstabelecimento().getImagem().setImagem(imagem.getAbsolutePath());
 
-    }
-    
-    public EstabelecimentoLoginBusiness getEstabelecimentoLoginBusiness() {
-        return estabelecimentoLoginBusiness;
-    }
+	}
 
-    public void setEstabelecimentoLoginBusiness(EstabelecimentoLoginBusiness estabelecimentoLoginBusiness) {
-        this.estabelecimentoLoginBusiness = estabelecimentoLoginBusiness;
-    }
+	public EstabelecimentoLoginBusiness getEstabelecimentoLoginBusiness() {
+		return estabelecimentoLoginBusiness;
+	}
 
-    public List<EstabelecimentoLogin> listarUsuarios(EstabelecimentoLogin estabelecimentoLogin) throws Exception {
+	public void setEstabelecimentoLoginBusiness(EstabelecimentoLoginBusiness estabelecimentoLoginBusiness) {
+		this.estabelecimentoLoginBusiness = estabelecimentoLoginBusiness;
+	}
 
-        List<List<String>> lstDados = getEstabelecimentoLoginBusiness().listarUsuarios(estabelecimentoLogin);
-        List<EstabelecimentoLogin> lstEstabelecimentoLogin = new ArrayList<>();
+	public List<EstabelecimentoLogin> listarUsuarios(EstabelecimentoLogin estabelecimentoLogin) throws Exception {
 
-        if (!FuraFilaUtils.listaDuplaVaziaNula(lstDados)) {
+		List<List<String>> lstDados = getEstabelecimentoLoginBusiness().listarUsuarios(estabelecimentoLogin);
+		List<EstabelecimentoLogin> lstEstabelecimentoLogin = new ArrayList<>();
 
-            for (List<String> valores : lstDados) {
+		if (!FuraFilaUtils.listaDuplaVaziaNula(lstDados)) {
 
-                EstabelecimentoLogin el = new EstabelecimentoLogin();
-                el.getLogin().setIdLogin(Integer.parseInt(valores.get(0)));
-                el.getLogin().setUsuario(valores.get(1));
-                lstEstabelecimentoLogin.add(el);
+			for (List<String> valores : lstDados) {
 
-            }
+				EstabelecimentoLogin el = new EstabelecimentoLogin();
+				el.getLogin().setIdLogin(Integer.parseInt(valores.get(0)));
+				el.getLogin().setUsuario(valores.get(1));
+				lstEstabelecimentoLogin.add(el);
 
-        }
+			}
 
-        return lstEstabelecimentoLogin;
-        
-    }
+		}
+
+		return lstEstabelecimentoLogin;
+
+	}
 
 }

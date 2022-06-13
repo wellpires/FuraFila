@@ -37,7 +37,7 @@ public class EstabelecimentoLoginBusiness {
     public List<String> buscarInformacoesIniciaisEstabelecimento(EstabelecimentoLogin estabelecimentoLogin) throws Exception {
 
     	String strQuery = String.format("select e.id_estabelecimento, e.razao_social, e.status, i.id_imagem, i.imagem from estabelecimento e "
-    			+ "inner join estabelecimento_login el ON el.id_login_fk = e.id_estabelecimento "
+    			+ "inner join estabelecimento_login el ON el.id_estabelecimento_fk = e.id_estabelecimento "
     			+ "inner join imagem i on i.id_imagem = e.id_imagem_fk where el.id_login_fk = %d;", estabelecimentoLogin.getLogin().getIdLogin());
 
         return BancoDados.retornaRegistro(strQuery);
@@ -56,5 +56,7 @@ public class EstabelecimentoLoginBusiness {
         return BancoDados.retorna_N_Registros(strQuery);
         
     }
+    
+    
 
 }

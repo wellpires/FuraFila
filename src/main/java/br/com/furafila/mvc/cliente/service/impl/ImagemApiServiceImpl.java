@@ -1,14 +1,23 @@
 package br.com.furafila.mvc.cliente.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.FileSystemNotFoundException;
+import java.util.HashMap;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
+import org.apache.commons.io.FileUtils;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.MultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.furafila.mvc.cliente.service.ImagemApiService;
 import br.com.furafila.mvc.imagem.dto.NovaImagemDTO;
@@ -37,6 +46,30 @@ public class ImagemApiServiceImpl implements ImagemApiService {
 						NovaImagemResponse.class);
 
 		return novaImagemResponse.getId();
+	}
+
+	@Override
+	public File buscarImagem(Long idImage) {
+
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("imageId", idImage);
+
+		String path = UriComponentsBuilder.fromHttpUrl(ImagemUrlConstants.FIND_IMAGE_BY_ID).buildAndExpand(param)
+				.toUriString();
+
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(path).request(MediaType.APPLICATION_OCTET_STREAM_TYPE).get();
+		String fileName = response.getMetadata().get("Content-Disposition").get(0).toString();
+		
+		try {
+			File tempFile = File.createTempFile("ff_", fileName);
+			FileUtils.copyInputStreamToFile(response.readEntity(InputStream.class), tempFile);
+			
+			return tempFile;
+		} catch (IOException e) {
+			throw new FileSystemNotFoundException();
+		}
+
 	}
 
 }

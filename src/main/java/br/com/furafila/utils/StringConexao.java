@@ -20,7 +20,7 @@ public class StringConexao {
 			usuario = System.getenv("JDBC_DATABASE_USERNAME");
 			senha = System.getenv("JDBC_DATABASE_PASSWORD");
 
-			caminho = String.format("jdbc:postgresql://%s:5432/%s", host, bancoDados);
+			caminho = String.format("jdbc:postgresql://%s:5432/%s?sslmode=require&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory", host, bancoDados);
 //			caminho = "jdbc:postgresql://localhost:5432/fura_fila";
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);

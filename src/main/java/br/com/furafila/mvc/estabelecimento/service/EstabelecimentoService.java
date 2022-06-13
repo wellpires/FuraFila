@@ -1,16 +1,21 @@
 package br.com.furafila.mvc.estabelecimento.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import br.com.furafila.mvc.cliente.service.ImagemService;
+import br.com.furafila.mvc.cliente.service.impl.ImagemServiceImpl;
 import br.com.furafila.mvc.estabelecimento.builder.NovoEstabelecimentoDTOBuilder;
 import br.com.furafila.mvc.estabelecimento.business.EstabelecimentoBusiness;
+import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoInformacoesIniciaisDTO;
 import br.com.furafila.mvc.estabelecimento.dto.NovoEstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoApiServiceImpl;
+import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.pedidos.model.Pedidos;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
@@ -24,6 +29,7 @@ public class EstabelecimentoService {
 	private EstabelecimentoBusiness estabelecimentoBusiness = new EstabelecimentoBusiness();
 
 	private EstabelecimentoApiService estabelecimentoApiService = new EstabelecimentoApiServiceImpl();
+	private ImagemService imagemService = new ImagemServiceImpl();
 
 	public List<Estabelecimento> listarEstabelecimentos() throws Exception {
 
@@ -106,13 +112,31 @@ public class EstabelecimentoService {
 
 	}
 
-	public int gravar(Estabelecimento estabelecimento) {
+	public void gravar(Estabelecimento estabelecimento) {
 
 		NovoEstabelecimentoDTO novoEstabelecimentoDTO = new NovoEstabelecimentoDTOBuilder()
 				.corporateName(estabelecimento.getRazaoSocial()).email(estabelecimento.getEmail())
-				.cnpj(estabelecimento.getCnpj()).stateRegistration(estabelecimento.getInscricaoEstadual()).build();
+				.cnpj(estabelecimento.getCnpj()).stateRegistration(estabelecimento.getInscricaoEstadual())
+				.idLogin(estabelecimento.getLoginId()).idImagem(estabelecimento.getImagem().getIdImagem()).build();
 
-		return estabelecimentoApiService.gravar(novoEstabelecimentoDTO).intValue();
+		this.estabelecimentoApiService.gravar(novoEstabelecimentoDTO);
+	}
+
+	public Estabelecimento buscarInformacoesIniciaisEstabelecimento(EstabelecimentoLogin estabelecimentoLogin) {
+
+		EstabelecimentoInformacoesIniciaisDTO estabelecimentoInformacoesIniciaisDTO = this.estabelecimentoApiService
+				.buscarInformacoesIniciaisEstabelecimento(estabelecimentoLogin.getLogin());
+
+		Estabelecimento estabelecimento = new Estabelecimento();
+		estabelecimento.setIdEstabelecimento(estabelecimentoInformacoesIniciaisDTO.getIdEstablishment().intValue());
+		estabelecimento.setRazaoSocial(estabelecimentoInformacoesIniciaisDTO.getCorporateName());
+		estabelecimento.setStatus(estabelecimentoInformacoesIniciaisDTO.getStatus());
+		estabelecimento.getImagem().setIdImagem(estabelecimentoInformacoesIniciaisDTO.getIdImage().intValue());
+
+		File imagem = imagemService.buscarImagem(estabelecimentoInformacoesIniciaisDTO.getIdImage());
+		estabelecimento.getImagem().setImagem(imagem.getAbsolutePath());
+		
+		return estabelecimento;
 	}
 
 	public int verificarDuplicidadeRazaoSocial(Estabelecimento estabelecimento) throws Exception {

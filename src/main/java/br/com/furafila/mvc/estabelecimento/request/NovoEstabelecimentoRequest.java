@@ -1,4 +1,4 @@
-package r.com.furafila.mvc.estabelecimento.request;
+package br.com.furafila.mvc.estabelecimento.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

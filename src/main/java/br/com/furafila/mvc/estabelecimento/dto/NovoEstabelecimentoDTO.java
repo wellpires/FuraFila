@@ -6,6 +6,8 @@ public class NovoEstabelecimentoDTO {
 	private String email;
 	private String cnpj;
 	private String stateRegistration;
+	private Long idLogin;
+	private Integer idImage;
 
 	public String getCorporateName() {
 		return corporateName;
@@ -37,6 +39,22 @@ public class NovoEstabelecimentoDTO {
 
 	public void setStateRegistration(String stateRegistration) {
 		this.stateRegistration = stateRegistration;
+	}
+
+	public Long getIdLogin() {
+		return idLogin;
+	}
+
+	public void setIdLogin(Long idLogin) {
+		this.idLogin = idLogin;
+	}
+
+	public void setIdImage(Integer idImage) {
+		this.idImage = idImage;
+	}
+
+	public Integer getIdImage() {
+		return idImage;
 	}
 
 }

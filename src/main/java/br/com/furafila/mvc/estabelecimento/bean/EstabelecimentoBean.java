@@ -13,6 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.event.FileUploadEvent;
 
+import br.com.furafila.mvc.cliente.service.ImagemService;
+import br.com.furafila.mvc.cliente.service.impl.ImagemServiceImpl;
 import br.com.furafila.mvc.estabelecimento.business.EstabelecimentoBusiness;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
@@ -23,6 +25,7 @@ import br.com.furafila.mvc.estoque.model.Estoque;
 import br.com.furafila.mvc.estoque.service.EstoqueService;
 import br.com.furafila.mvc.estoqueProdutos.model.EstoqueProdutos;
 import br.com.furafila.mvc.imagem.business.ImagemBusiness;
+import br.com.furafila.mvc.imagem.model.Imagem;
 import br.com.furafila.mvc.login.business.LoginBusiness;
 import br.com.furafila.mvc.login.service.ILoginService;
 import br.com.furafila.mvc.login.service.LoginService;
@@ -58,6 +61,7 @@ public class EstabelecimentoBean implements Serializable {
 
 	private EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
 	private EstoqueService estoqueService = new EstoqueService();
+	private ImagemService imagemService = new ImagemServiceImpl();
 	private ILoginService loginService = new LoginService();
 
 	public void listarEstabelecimentos() {
@@ -92,19 +96,19 @@ public class EstabelecimentoBean implements Serializable {
 
 		try {
 
-			int estabelecimentoId = estabelecimentoService.gravar(getEstabelecimento());
-
-			estabelecimento.setIdEstabelecimento(estabelecimentoId);
-			getEstabelecimentoLogin().getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_2);
-			getEstabelecimentoLogin().getLogin().setStatus(Boolean.TRUE);
-			getEstabelecimentoLogin().getLogin().setDisponivelEntrega(Boolean.FALSE);
-
+			this.estabelecimentoLogin.getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_2);
+			this.estabelecimentoLogin.getLogin().setStatus(Boolean.TRUE);
+			this.estabelecimentoLogin.getLogin().setDisponivelEntrega(Boolean.FALSE);
 			int loginId = loginService.gravarLogin(getEstabelecimentoLogin().getLogin());
-			getEstabelecimentoLogin().getLogin().setIdLogin(loginId);
 
-			getEstabelecimentoLogin().getEstabelecimento()
-					.setIdEstabelecimento(getEstabelecimento().getIdEstabelecimento());
-			getEstabelecimentoLoginBusiness().gravar(getEstabelecimentoLogin());
+			Imagem imagem = new Imagem();
+			imagem.setImagem(FuraFilaConstants.SEM_IMAGEM_ESTABELECIMENTO);
+			Long idImagem = imagemService.gravar(imagem);
+			imagem.setIdImagem(idImagem.intValue());
+
+			this.estabelecimento.setLoginId(Long.valueOf(loginId));
+			this.estabelecimento.setImagem(imagem);
+			this.estabelecimentoService.gravar(getEstabelecimento());
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);

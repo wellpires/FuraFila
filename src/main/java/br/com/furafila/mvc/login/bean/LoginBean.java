@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.furafila.mvc.cliente.model.Cliente;
 import br.com.furafila.mvc.cliente.service.ClienteService;
+import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.estabelecimentoLogin.service.EstabelecimentoLoginService;
@@ -32,126 +33,132 @@ import br.com.furafila.utils.FuraFilaUtils;
 @ViewScoped
 public class LoginBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private static final Logger logger = LogManager.getLogger(LoginBean.class);
-    
-    @ManagedProperty(value = "#{authenticationManager}")
-    private AuthenticationManager authenticationManager = null;
+	private static final Logger logger = LogManager.getLogger(LoginBean.class);
 
-    private Login login = new Login();
-    private LoginService loginService = new LoginService();
-    private ClienteService clienteService = new ClienteService();
-    private EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
-    private EstabelecimentoLoginService estabelecimentoLoginService = new EstabelecimentoLoginService();
+	@ManagedProperty(value = "#{authenticationManager}")
+	private AuthenticationManager authenticationManager = null;
 
-    public String logarSe() {
+	private Login login = new Login();
+	private LoginService loginService = new LoginService();
+	private ClienteService clienteService = new ClienteService();
+	private EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
+	private EstabelecimentoLoginService estabelecimentoLoginService = new EstabelecimentoLoginService();
 
-        try {
+	public String logarSe() {
 
-            Login l = getLoginService().logarSe(getLogin());
+		try {
 
-            if (getLogin().getUsuario().equals(l.getUsuario()) && getLogin().getSenhaCriptografada().equals(l.getSenha())) {
-                setLogin(l);
-                getLogin().setSenha("");
-                Authentication request = new UsernamePasswordAuthenticationToken(getLogin().getPermissao().getSiglaPermissao(), FuraFilaConstants.SENHA_PADRAO);
-                Authentication result = getAuthenticationManager().authenticate(request);
-                SecurityContextHolder.getContext().setAuthentication(result);
+			Login l = getLoginService().logarSe(getLogin());
 
-                if (getLogin().getPermissao().getIdPermissao() == FuraFilaConstants.CODIGO_PERFIL_2) {
+			if (getLogin().getUsuario().equals(l.getUsuario())
+					&& getLogin().getSenhaCriptografada().equals(l.getSenha())) {
+				setLogin(l);
+				getLogin().setSenha("");
+				Authentication request = new UsernamePasswordAuthenticationToken(
+						getLogin().getPermissao().getSiglaPermissao(), FuraFilaConstants.SENHA_PADRAO);
+				Authentication result = getAuthenticationManager().authenticate(request);
+				SecurityContextHolder.getContext().setAuthentication(result);
 
-                    // LOJISTA
-                    EstabelecimentoLogin estabelecimentoLogin = new EstabelecimentoLogin();
-                    estabelecimentoLogin.setLogin(getLogin());
-                    getEstabelecimentoLoginService().buscarInformacoesIniciaisEstabelecimento(estabelecimentoLogin);
+				if (this.login.getPermissao().getIdPermissao() == FuraFilaConstants.CODIGO_PERFIL_2) {
 
-                    if (!estabelecimentoLogin.getEstabelecimento().getStatus()) {
-                        FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_CADASTRO_NAO_ATIVO);
-                        return "";
-                    }
-                    
-                    FuraFilaUtils.passarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO, estabelecimentoLogin.getEstabelecimento());
-                    FuraFilaUtils.passarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO_LOGIN, estabelecimentoLogin);
-                    
-                    
-                    
-                } else if (getLogin().getPermissao().getIdPermissao() == FuraFilaConstants.CODIGO_PERFIL_3) {
+					// LOJISTA
+					EstabelecimentoLogin estabelecimentoLogin = new EstabelecimentoLogin();
+					estabelecimentoLogin.setLogin(getLogin());
 
-                    // CLIENTE
-                    Cliente cliente = new Cliente();
-                    cliente.setLogin(getLogin());
-                    FuraFilaUtils.passarDadosSessao(FuraFilaConstants.SESSAO_CLIENTE, getClienteService().buscarDadosBasicosCliente(cliente));
+					Estabelecimento estabelecimento = estabelecimentoService
+							.buscarInformacoesIniciaisEstabelecimento(estabelecimentoLogin);
+					estabelecimentoLogin.setEstabelecimento(estabelecimento);
 
-                }
-            } else {
-                FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_FALHA_LOGIN);
-                return "";
-            }
+					if (!estabelecimento.getStatus()) {
+						FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO,
+								FuraFilaConstants.AVISO_CADASTRO_NAO_ATIVO);
+						return "";
+					}
 
-        } catch (Exception e) {
-        	logger.error(e.getMessage(), e);
-            FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, e.getMessage());
-            return "";
-        }
+					FuraFilaUtils.passarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO, estabelecimento);
+					FuraFilaUtils.passarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO_LOGIN,
+							estabelecimentoLogin);
 
-        return getLogin().getPermissao().getSiglaPermissao();
+				} else if (getLogin().getPermissao().getIdPermissao() == FuraFilaConstants.CODIGO_PERFIL_3) {
 
-    }
+					// CLIENTE
+					Cliente cliente = new Cliente();
+					cliente.setLogin(getLogin());
+					FuraFilaUtils.passarDadosSessao(FuraFilaConstants.SESSAO_CLIENTE,
+							getClienteService().buscarDadosBasicosCliente(cliente));
 
-    public String logout() {
+				}
+			} else {
+				FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_FALHA_LOGIN);
+				return "";
+			}
 
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        SecurityContextHolder.clearContext();
-        return "logout";
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			FuraFilaUtils.growlErro(FuraFilaConstants.ERRO_GROWL_TITULO, e.getMessage());
+			return "";
+		}
 
-    }
+		return getLogin().getPermissao().getSiglaPermissao();
 
-    public AuthenticationManager getAuthenticationManager() {
-        return authenticationManager;
-    }
+	}
 
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+	public String logout() {
 
-    public Login getLogin() {
-        return login;
-    }
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		SecurityContextHolder.clearContext();
+		return "logout";
 
-    public void setLogin(Login login) {
-        this.login = login;
-    }
+	}
 
-    public LoginService getLoginService() {
-        return loginService;
-    }
+	public AuthenticationManager getAuthenticationManager() {
+		return authenticationManager;
+	}
 
-    public void setLoginService(LoginService loginService) {
-        this.loginService = loginService;
-    }
+	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+		this.authenticationManager = authenticationManager;
+	}
 
-    public ClienteService getClienteService() {
-        return clienteService;
-    }
+	public Login getLogin() {
+		return login;
+	}
 
-    public void setClienteService(ClienteService clienteService) {
-        this.clienteService = clienteService;
-    }
+	public void setLogin(Login login) {
+		this.login = login;
+	}
 
-    public EstabelecimentoService getEstabelecimentoService() {
-        return estabelecimentoService;
-    }
+	public LoginService getLoginService() {
+		return loginService;
+	}
 
-    public void setEstabelecimentoService(EstabelecimentoService estabelecimentoService) {
-        this.estabelecimentoService = estabelecimentoService;
-    }
+	public void setLoginService(LoginService loginService) {
+		this.loginService = loginService;
+	}
 
-    public EstabelecimentoLoginService getEstabelecimentoLoginService() {
-        return estabelecimentoLoginService;
-    }
+	public ClienteService getClienteService() {
+		return clienteService;
+	}
 
-    public void setEstabelecimentoLoginService(EstabelecimentoLoginService estabelecimentoLoginService) {
-        this.estabelecimentoLoginService = estabelecimentoLoginService;
-    }
+	public void setClienteService(ClienteService clienteService) {
+		this.clienteService = clienteService;
+	}
+
+	public EstabelecimentoService getEstabelecimentoService() {
+		return estabelecimentoService;
+	}
+
+	public void setEstabelecimentoService(EstabelecimentoService estabelecimentoService) {
+		this.estabelecimentoService = estabelecimentoService;
+	}
+
+	public EstabelecimentoLoginService getEstabelecimentoLoginService() {
+		return estabelecimentoLoginService;
+	}
+
+	public void setEstabelecimentoLoginService(EstabelecimentoLoginService estabelecimentoLoginService) {
+		this.estabelecimentoLoginService = estabelecimentoLoginService;
+	}
 
 }
