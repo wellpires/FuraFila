@@ -34,6 +34,7 @@ import br.com.furafila.mvc.conjuntoLocker.model.ConjuntoLocker;
 import br.com.furafila.mvc.conjuntoLocker.service.ConjuntoLockerService;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
+import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoServiceImpl;
 import br.com.furafila.mvc.locker.business.LockerBusiness;
 import br.com.furafila.mvc.locker.model.Locker;
 import br.com.furafila.mvc.locker.service.LockerService;
@@ -67,14 +68,13 @@ import br.com.uol.pagseguro.api.common.domain.enums.State;
 @SessionScoped
 public class ComprarProdutosBean implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LogManager.getLogger(ComprarProdutosBean.class);
 
 	private ProdutoService produtoService = new ProdutoService();
 	private ConjuntoLockerService conjuntoLockerService = new ConjuntoLockerService();
 	private LockerService lockerService = new LockerService();
-	private EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
+	private EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
 
 	private ComandaBusiness comandaBusiness = new ComandaBusiness();
 	private PedidoBusiness pedidoBusiness = new PedidoBusiness();
@@ -666,7 +666,7 @@ public class ComprarProdutosBean implements Serializable {
 		return estabelecimentoService;
 	}
 
-	public void setEstabelecimentoService(EstabelecimentoService estabelecimentoService) {
+	public void setEstabelecimentoService(EstabelecimentoServiceImpl estabelecimentoService) {
 		this.estabelecimentoService = estabelecimentoService;
 	}
 

@@ -11,4 +11,6 @@ public interface ImagemService {
 
 	File buscarImagem(Long idImage);
 
+	void alterar(Imagem imagem);
+
 }

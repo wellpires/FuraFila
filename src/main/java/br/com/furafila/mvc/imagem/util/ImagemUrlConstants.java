@@ -8,5 +8,6 @@ public class ImagemUrlConstants {
 	
 	public static final String SAVE_IMAGE = baseUrl.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.image.save"));
 	public static final String FIND_IMAGE_BY_ID = baseUrl.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.image.find-by-id"));
+	public static final String EDIT_IMAGE = baseUrl.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.image.edit"));
 
 }

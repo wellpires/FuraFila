@@ -18,7 +18,7 @@
                 <p:menubar>
                     <p:menuitem value="#{msg.rotuloPaginaInicial}" action="#{navegacao.irPaginaInicialLojista()}" />
                     <p:submenu label="#{msg.rotuloLojistaMenuUsuario}">
-                        <p:menuitem value="#{msg.rotuloLojistaSubMenuMeusDados}" action="#{navegacao.irMeusDados()}" ajax="false"/>
+                        <p:menuitem value="#{msg.rotuloLojistaSubMenuMeusDados}" action="#{navegacao.irMeusDados()}" actionListener="#{estabelecimentoBean.listarInfoEstabelecimento}" ajax="false"/>
                         <p:menuitem value="#{msg.rotuloLojistaSubMenuAddUsuarioAcesso}" action="#{navegacao.irUsuarios()}" ajax="false" />
                     </p:submenu>
                     <p:menuitem value="#{msg.rotuloLojistaSubMenuProdutos}" action="#{navegacao.irEstoque()}" ajax="false" />

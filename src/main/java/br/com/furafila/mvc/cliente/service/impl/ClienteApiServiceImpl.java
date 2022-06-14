@@ -7,9 +7,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status.Family;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -22,8 +19,6 @@ import br.com.furafila.mvc.cliente.service.ClienteApiService;
 import br.com.furafila.utils.ClienteUrlConstants;
 
 public class ClienteApiServiceImpl implements ClienteApiService {
-
-	private static final Logger logger = LogManager.getLogger(ClienteApiServiceImpl.class);
 
 	@Override
 	public void gravar(NovoClienteDTO novoClienteDTO) {
@@ -38,10 +33,7 @@ public class ClienteApiServiceImpl implements ClienteApiService {
 				.post(Entity.entity(new NovoClienteRequest(novoClienteDTO), MediaType.APPLICATION_JSON));
 
 		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
-			String statusMessage = String.format("%d - %s", response.getStatusInfo().getStatusCode(),
-					response.getStatusInfo().getReasonPhrase());
-			logger.error(statusMessage);
-			throw new ClienteServerApiException(statusMessage);
+			throw new ClienteServerApiException(response.getStatusInfo());
 		}
 
 	}

@@ -1,5 +1,6 @@
 package br.com.furafila.mvc.estabelecimento.bean;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.event.FileUploadEvent;
@@ -18,6 +20,7 @@ import br.com.furafila.mvc.cliente.service.impl.ImagemServiceImpl;
 import br.com.furafila.mvc.estabelecimento.business.EstabelecimentoBusiness;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
+import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoServiceImpl;
 import br.com.furafila.mvc.estabelecimentoLogin.business.EstabelecimentoLoginBusiness;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.estoque.business.EstoqueBusiness;
@@ -59,7 +62,7 @@ public class EstabelecimentoBean implements Serializable {
 	private ImagemBusiness imagemBusiness = new ImagemBusiness();
 	private EstoqueBusiness estoqueBusiness = new EstoqueBusiness();
 
-	private EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
+	private EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
 	private EstoqueService estoqueService = new EstoqueService();
 	private ImagemService imagemService = new ImagemServiceImpl();
 	private ILoginService loginService = new LoginService();
@@ -126,9 +129,9 @@ public class EstabelecimentoBean implements Serializable {
 
 		try {
 
-			getImagemBusiness().alterar(getEstabelecimento().getImagem());
+			this.imagemService.alterar(this.estabelecimento.getImagem());
 
-			getEstabelecimentoBusiness().alterar(getEstabelecimento());
+			this.estabelecimentoService.alterar(this.estabelecimento);
 
 			getEstabelecimentoLoginSessao().getEstabelecimento().setImagem(getEstabelecimento().getImagem());
 			getEstabelecimentoLoginSessao().getEstabelecimento().setRazaoSocial(getEstabelecimento().getRazaoSocial());
@@ -195,12 +198,17 @@ public class EstabelecimentoBean implements Serializable {
 
 	}
 
-	public void listarInfoEstabelecimento() {
+	public void listarInfoEstabelecimento(ActionEvent ae) {
 
 		try {
-			setEstabelecimento(pegarEstabelecimentoSessao());
+			Estabelecimento estabelecimentoSessao = pegarEstabelecimentoSessao();
 
-			getEstabelecimentoService().buscarInformacaoEstabelecimento(getEstabelecimento());
+			Estabelecimento estabelecimento = this.estabelecimentoService
+					.buscarInformacaoEstabelecimento(estabelecimentoSessao.getIdEstabelecimento());
+
+			estabelecimento.getImagem().setImagem(estabelecimentoSessao.getImagem().getImagem());
+			this.estabelecimento = estabelecimento;
+
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
@@ -215,12 +223,11 @@ public class EstabelecimentoBean implements Serializable {
 			ep.getEstoque().setEstabelecimento(getEstabelecimento());
 
 			String ext[] = event.getFile().getFileName().split("\\.");
+			File tempFile = File.createTempFile(String.valueOf(System.currentTimeMillis()),
+					".".concat(ext[ext.length - 1]));
+			FileUtils.copyInputStreamToFile(event.getFile().getInputstream(), tempFile);
 
-			String caminho = FuraFilaUtils.montarCaminho(null, getEstabelecimentoLoginSessao(), false);
-			String nomeImagem = FuraFilaUtils.montarNomeImagem(null, ep, false) + "." + ext[ext.length - 1];
-
-			getEstabelecimento().getImagem()
-					.setImagem(FuraFilaUtils.copiarArquivo(caminho + nomeImagem, event.getFile().getInputstream()));
+			this.estabelecimento.getImagem().setImagem(tempFile.getAbsolutePath());
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -283,7 +290,7 @@ public class EstabelecimentoBean implements Serializable {
 		return estabelecimentoService;
 	}
 
-	public void setEstabelecimentoService(EstabelecimentoService estabelecimentoService) {
+	public void setEstabelecimentoService(EstabelecimentoServiceImpl estabelecimentoService) {
 		this.estabelecimentoService = estabelecimentoService;
 	}
 

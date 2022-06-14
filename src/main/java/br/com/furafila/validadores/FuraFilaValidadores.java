@@ -2,6 +2,7 @@ package br.com.furafila.validadores;
 
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
+import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoServiceImpl;
 import br.com.furafila.mvc.login.model.Login;
 import br.com.furafila.mvc.login.service.LoginService;
 import br.com.furafila.utils.FuraFilaConstants;
@@ -13,7 +14,7 @@ import br.com.furafila.utils.FuraFilaUtils;
  */
 public class FuraFilaValidadores {
 
-	private final static EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
+	private final static EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
 	private final static LoginService loginService = new LoginService();
 
 	public static boolean validarEstabelecimento(Estabelecimento estabelecimento) throws Exception {

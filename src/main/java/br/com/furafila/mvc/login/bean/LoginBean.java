@@ -18,6 +18,7 @@ import br.com.furafila.mvc.cliente.model.Cliente;
 import br.com.furafila.mvc.cliente.service.ClienteService;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
+import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoServiceImpl;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.estabelecimentoLogin.service.EstabelecimentoLoginService;
 import br.com.furafila.mvc.login.model.Login;
@@ -43,7 +44,7 @@ public class LoginBean implements Serializable {
 	private Login login = new Login();
 	private LoginService loginService = new LoginService();
 	private ClienteService clienteService = new ClienteService();
-	private EstabelecimentoService estabelecimentoService = new EstabelecimentoService();
+	private EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
 	private EstabelecimentoLoginService estabelecimentoLoginService = new EstabelecimentoLoginService();
 
 	public String logarSe() {
@@ -149,7 +150,7 @@ public class LoginBean implements Serializable {
 		return estabelecimentoService;
 	}
 
-	public void setEstabelecimentoService(EstabelecimentoService estabelecimentoService) {
+	public void setEstabelecimentoService(EstabelecimentoServiceImpl estabelecimentoService) {
 		this.estabelecimentoService = estabelecimentoService;
 	}
 

@@ -27,17 +27,6 @@ public class EstabelecimentoBusiness {
 
 	}
 
-	public void alterar(Estabelecimento estabelecimento) throws Exception {
-
-		String strQuery = "UPDATE " + "ESTABELECIMENTO" + " SET " + "razao_social = '"
-				+ estabelecimento.getRazaoSocial() + "'," + " cnpj = '" + estabelecimento.getCnpj() + "',"
-				+ " inscricao_estadual = '" + estabelecimento.getInscricaoEstadual() + "'"
-				+ " WHERE id_estabelecimento = " + estabelecimento.getIdEstabelecimento();
-
-		BancoDados.executaComando(strQuery);
-
-	}
-
 	public void alterarStatus(Estabelecimento estabelecimento) throws Exception {
 
 		String strQuery = "UPDATE " + "ESTABELECIMENTO " + "SET status = '" + estabelecimento.getStatusSQL() + "' "

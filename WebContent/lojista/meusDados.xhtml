@@ -11,9 +11,7 @@
 
             <h:form enctype="multipart/form-data">
 
-                <f:metadata>  
-                    <f:event type="preRenderView" listener="#{estabelecimentoBean.listarInfoEstabelecimento()}" />  
-                </f:metadata>  
+
 
                 <div align="center" class="ui-paginator-page ui-state-default ui-state-active ui-corner-all tituloPagina">
                     <h:outputLabel value="#{msg.rotuloLojistaSubMenuMeusDados}" styleClass="labelTitulo" />
@@ -36,7 +34,7 @@
                                 label="#{msg.rotuloEscolherImagem}"
                                 uploadLabel="#{msg.rotuloCarregar}"
                                 cancelLabel="#{msg.rotuloCancelar}"
-                                fileUploadListener="#{estabelecimentoBean.carregar}"/>
+                                fileUploadListener="#{estabelecimentoBean.carregar}" />
                         </div>
                     </div>
                 </p:fieldset>
@@ -59,13 +57,15 @@
                         <h:panelGroup>
                             <p:inputMask id="txtCNPJ" 
                                          mask="99.999.999/9999-99" 
-                                         value="#{estabelecimentoBean.estabelecimento.cnpjFormatado}"/>
+                                         value="#{estabelecimentoBean.estabelecimento.cnpjFormatado}"
+                                         disabled="true"/>
                             <p:watermark for="txtCNPJ" value="#{msg.rotuloCNPJ}" />
                         </h:panelGroup>
 
                         <h:panelGroup>
                             <p:inputText id="txtInscricaoEstadual"
-                                         value="#{estabelecimentoBean.estabelecimento.inscricaoEstadual}"/>
+                                         value="#{estabelecimentoBean.estabelecimento.inscricaoEstadual}"
+                                         disabled="true"/>
                             <p:watermark for="txtInscricaoEstadual" value="#{msg.rotuloIE}" />
                         </h:panelGroup>
                     </h:panelGrid>
