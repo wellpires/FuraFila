@@ -15,6 +15,8 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.StreamedContent;
 
+import br.com.furafila.mvc.cliente.service.ImagemService;
+import br.com.furafila.mvc.cliente.service.impl.ImagemServiceImpl;
 import br.com.furafila.mvc.dimensao.business.DimensaoBusiness;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
@@ -49,7 +51,7 @@ public class ProdutoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = LogManager.getLogger(ProdutoBean.class);
-	
+
 	private Produto produtos = new Produto();
 	private EstoqueProdutos estoqueProdutos = new EstoqueProdutos();
 	private Pedidos pedidos = new Pedidos();
@@ -66,6 +68,7 @@ public class ProdutoBean implements Serializable {
 	private ProdutoService produtoService = new ProdutoService();
 	private EstoqueService estoqueService = new EstoqueService();
 	private EstoqueProdutosService estoqueProdutosService = new EstoqueProdutosService();
+	private ImagemService imageService = new ImagemServiceImpl();
 
 	private List<TipoProduto> lstTipoProduto = new ArrayList<>();
 	private List<EstoqueProdutos> lstProdutos = new ArrayList<>();
@@ -74,7 +77,6 @@ public class ProdutoBean implements Serializable {
 	private boolean flgBotoes = true;
 	private Integer qtdeEstoqueAntiga = 0;
 	private String tituloPagina = "";
-
 
 	public void popularTipoProduto() {
 		try {
@@ -109,9 +111,7 @@ public class ProdutoBean implements Serializable {
 
 		try {
 
-			getImagemBusiness().gravar(getProdutos().getImagem());
-
-			getDimensaoBusiness().gravar(getProdutos().getDimensao());
+			this.imageService.gravar(getProdutos().getImagem());
 
 			getProdutoBusiness().gravar(getProdutos());
 
