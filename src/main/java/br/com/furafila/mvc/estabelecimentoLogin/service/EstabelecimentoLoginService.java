@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoUsuarioDTO;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoApiService;
 import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoApiServiceImpl;
-import br.com.furafila.mvc.estabelecimentoLogin.business.EstabelecimentoLoginBusiness;
 import br.com.furafila.mvc.estabelecimentoLogin.function.EstabelecimentoUsuarioDTO2EstabelecimentoLoginFunction;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 
@@ -16,16 +15,7 @@ import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
  */
 public class EstabelecimentoLoginService {
 
-	private EstabelecimentoLoginBusiness estabelecimentoLoginBusiness = new EstabelecimentoLoginBusiness();
 	private EstabelecimentoApiService estabelecimentoApiService = new EstabelecimentoApiServiceImpl();
-
-	public EstabelecimentoLoginBusiness getEstabelecimentoLoginBusiness() {
-		return estabelecimentoLoginBusiness;
-	}
-
-	public void setEstabelecimentoLoginBusiness(EstabelecimentoLoginBusiness estabelecimentoLoginBusiness) {
-		this.estabelecimentoLoginBusiness = estabelecimentoLoginBusiness;
-	}
 
 	public List<EstabelecimentoLogin> listarUsuarios(EstabelecimentoLogin estabelecimentoLogin) throws Exception {
 
@@ -36,6 +26,10 @@ public class EstabelecimentoLoginService {
 		return estabelecimentoUsuarios.stream().map(new EstabelecimentoUsuarioDTO2EstabelecimentoLoginFunction())
 				.collect(Collectors.toList());
 
+	}
+
+	public void deletarEstabelecimentoUsuario(EstabelecimentoLogin estabelecimentoLogin) {
+		estabelecimentoApiService.deletarEstabelecimentoUsuario(estabelecimentoLogin.getLogin().getIdLogin());
 	}
 
 }

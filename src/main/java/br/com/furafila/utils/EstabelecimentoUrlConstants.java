@@ -21,4 +21,7 @@ public class EstabelecimentoUrlConstants {
 
 	public static final String LIST_USER_ESTABLISHMENT = BASE_URL
 			.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.establishment.list-user-establishment"));
+
+	public static final String DELETE_USER_ESTABLISHMENT = BASE_URL
+			.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.establishment.delete-user-establishment"));
 }

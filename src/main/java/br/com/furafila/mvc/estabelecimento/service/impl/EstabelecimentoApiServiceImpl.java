@@ -133,4 +133,22 @@ public class EstabelecimentoApiServiceImpl implements EstabelecimentoApiService 
 		return response.readEntity(EstabelecimentoUsuarioResponse.class).getEstabelecimentoUsuarioDTO();
 	}
 
+	@Override
+	public void deletarEstabelecimentoUsuario(Integer idLogin) {
+
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("loginId", idLogin);
+
+		String path = UriComponentsBuilder.fromHttpUrl(EstabelecimentoUrlConstants.DELETE_USER_ESTABLISHMENT)
+				.buildAndExpand(param).toUriString();
+
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(path).request().delete();
+
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new EstabelecimentoServerApiException(response.getStatusInfo());
+		}
+
+	}
+
 }

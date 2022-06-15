@@ -17,6 +17,7 @@ public class FuraFilaURLConstants {
 	public static final String DISTANCE_MATRIX = FuraFilaPropertiesUtils.getProperty("furafila.api.google.distance-matrix");
 
 
-	
-	
+	public static final String EDIT_CREDENTIAL = baseUrl.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.credential.edit"));
+	public static final String DELETE_CREDENTIAL = baseUrl.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.credential.delete"));
+
 }

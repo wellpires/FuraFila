@@ -12,15 +12,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status.Family;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.furafila.mvc.login.dto.CredenciaisDTO;
+import br.com.furafila.mvc.login.dto.EditarLoginDTO;
 import br.com.furafila.mvc.login.dto.EntregadorDTO;
 import br.com.furafila.mvc.login.dto.NovoLoginDTO;
 import br.com.furafila.mvc.login.exception.LoginServerApiException;
+import br.com.furafila.mvc.login.request.EditarLoginRequest;
 import br.com.furafila.mvc.login.request.NovoLoginRequest;
 import br.com.furafila.mvc.login.response.CredenciaisResponse;
 import br.com.furafila.mvc.login.response.DuplicidadeCredencialResponse;
@@ -30,16 +30,18 @@ import br.com.furafila.utils.FuraFilaURLConstants;
 
 public class LoginApiService {
 
-	private static final Logger logger = LogManager.getLogger(LoginApiService.class);
-
 	public CredenciaisDTO autenticarLogin(String usuario, String senha) {
 
 		Client client = ClientBuilder.newClient();
-		CredenciaisResponse credenciaisResponse = client.target(FuraFilaURLConstants.VALIDATE_CREDENTIALS)
-				.queryParam("username", usuario).queryParam("password", senha).request(MediaType.APPLICATION_JSON)
-				.get(CredenciaisResponse.class);
 
-		return credenciaisResponse.getCredenciaisDTO();
+		Response response = client.target(FuraFilaURLConstants.VALIDATE_CREDENTIALS).queryParam("username", usuario)
+				.queryParam("password", senha).request(MediaType.APPLICATION_JSON).get();
+
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new LoginServerApiException(response.getStatusInfo());
+		}
+
+		return response.readEntity(CredenciaisResponse.class).getCredenciaisDTO();
 	}
 
 	public boolean verificarDuplicidade(Integer idLogin, String usuario, boolean isAlteracao) {
@@ -51,20 +53,26 @@ public class LoginApiService {
 				.buildAndExpand(parameters);
 
 		Client client = ClientBuilder.newClient();
-		DuplicidadeCredencialResponse duplicidadeCredencialResponse = client.target(components.toUri())
-				.queryParam("include", isAlteracao).request(MediaType.APPLICATION_JSON)
-				.get(DuplicidadeCredencialResponse.class);
+		Response response = client.target(components.toUri()).queryParam("include", isAlteracao)
+				.request(MediaType.APPLICATION_JSON).get();
 
-		return duplicidadeCredencialResponse.getCredencialDuplicada();
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new LoginServerApiException(response.getStatusInfo());
+		}
+
+		return response.readEntity(DuplicidadeCredencialResponse.class).getCredencialDuplicada();
 	}
 
 	public List<EntregadorDTO> listarEntregadores() {
 
 		Client client = ClientBuilder.newClient();
-		EntregadoresResponse entregadoresResponse = client.target(FuraFilaURLConstants.LIST_COURIERS)
-				.request(MediaType.APPLICATION_JSON).get(EntregadoresResponse.class);
+		Response response = client.target(FuraFilaURLConstants.LIST_COURIERS).request(MediaType.APPLICATION_JSON).get();
 
-		return entregadoresResponse.getEntregadores();
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new LoginServerApiException(response.getStatusInfo());
+		}
+
+		return response.readEntity(EntregadoresResponse.class).getEntregadores();
 	}
 
 	public Long gravarLogin(NovoLoginDTO novoLoginDTO) {
@@ -74,14 +82,44 @@ public class LoginApiService {
 				.post(Entity.json(new NovoLoginRequest(novoLoginDTO)));
 
 		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
-			String statusMessage = String.format("%d - %s", response.getStatusInfo().getStatusCode(),
-					response.getStatusInfo().getReasonPhrase());
-			logger.error(statusMessage);
-			throw new LoginServerApiException(statusMessage);
+			throw new LoginServerApiException(response.getStatusInfo());
 		}
 
 		return Optional.ofNullable(response.readEntity(NovoLoginResponse.class)).orElseGet(NovoLoginResponse::new)
 				.getId();
+	}
+
+	public void alterar(Integer idLogin, EditarLoginDTO editarLoginDTO) {
+
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("loginId", idLogin);
+		String path = UriComponentsBuilder.fromHttpUrl(FuraFilaURLConstants.EDIT_CREDENTIAL).buildAndExpand(param)
+				.toUriString();
+
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(path).request(MediaType.APPLICATION_JSON)
+				.put(Entity.json(new EditarLoginRequest(editarLoginDTO)));
+
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new LoginServerApiException(response.getStatusInfo());
+		}
+
+	}
+
+	public void deletar(Integer idLogin) {
+
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("loginId", idLogin);
+		String path = UriComponentsBuilder.fromHttpUrl(FuraFilaURLConstants.DELETE_CREDENTIAL).buildAndExpand(param)
+				.toUriString();
+
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(path).request(MediaType.APPLICATION_JSON).delete();
+
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new LoginServerApiException(response.getStatusInfo());
+		}
+
 	}
 
 }

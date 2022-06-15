@@ -15,7 +15,6 @@ import org.primefaces.event.UnselectEvent;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
 import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoServiceImpl;
-import br.com.furafila.mvc.estabelecimentoLogin.business.EstabelecimentoLoginBusiness;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.estabelecimentoLogin.service.EstabelecimentoLoginService;
 import br.com.furafila.mvc.login.business.LoginBusiness;
@@ -41,7 +40,6 @@ public class EstabelecimentoLoginBean implements Serializable {
 	private EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
 	private ILoginService loginService = new LoginService();
 
-	private EstabelecimentoLoginBusiness estabelecimentoLoginBusiness = new EstabelecimentoLoginBusiness();
 	private LoginBusiness loginBusiness = new LoginBusiness();
 
 	private List<EstabelecimentoLogin> lstEstabelecimentoLogin = new ArrayList<>();
@@ -56,7 +54,7 @@ public class EstabelecimentoLoginBean implements Serializable {
 
 			EstabelecimentoLogin el = (EstabelecimentoLogin) FuraFilaUtils
 					.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO_LOGIN);
-			this.lstEstabelecimentoLogin = getEstabelecimentoLoginService().listarUsuarios(el);
+			this.lstEstabelecimentoLogin = this.estabelecimentoLoginService.listarUsuarios(el);
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -98,9 +96,9 @@ public class EstabelecimentoLoginBean implements Serializable {
 
 		try {
 
-			getEstabelecimentoLoginBusiness().excluir(estabelecimentoLogin);
+			this.estabelecimentoLoginService.deletarEstabelecimentoUsuario(estabelecimentoLogin);
 
-			getLoginBusiness().excluir((getEstabelecimentoLogin().getLogin()));
+			this.loginService.deletar(getEstabelecimentoLogin().getLogin());
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -114,7 +112,7 @@ public class EstabelecimentoLoginBean implements Serializable {
 	public String alterar() {
 
 		try {
-			getLoginBusiness().alterar(getEstabelecimentoLogin().getLogin());
+			loginService.alterar(this.estabelecimentoLogin.getLogin());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
@@ -165,14 +163,6 @@ public class EstabelecimentoLoginBean implements Serializable {
 			estabelecimentoLogin = new EstabelecimentoLogin();
 		}
 		this.estabelecimentoLogin = estabelecimentoLogin;
-	}
-
-	public EstabelecimentoLoginBusiness getEstabelecimentoLoginBusiness() {
-		return estabelecimentoLoginBusiness;
-	}
-
-	public void setEstabelecimentoLoginBusiness(EstabelecimentoLoginBusiness estabelecimentoLoginBusiness) {
-		this.estabelecimentoLoginBusiness = estabelecimentoLoginBusiness;
 	}
 
 	public Boolean getFlgBtnExcluir() {

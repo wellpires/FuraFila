@@ -19,4 +19,8 @@ public interface ILoginService {
 
 	public int gravarLogin(Login login) throws Exception;
 
+	public void alterar(Login login) throws Exception;
+
+	public void deletar(Login login);
+
 }

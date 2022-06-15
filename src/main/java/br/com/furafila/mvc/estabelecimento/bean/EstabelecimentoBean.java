@@ -21,7 +21,6 @@ import br.com.furafila.mvc.estabelecimento.business.EstabelecimentoBusiness;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
 import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoServiceImpl;
-import br.com.furafila.mvc.estabelecimentoLogin.business.EstabelecimentoLoginBusiness;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.estoque.business.EstoqueBusiness;
 import br.com.furafila.mvc.estoque.model.Estoque;
@@ -58,7 +57,6 @@ public class EstabelecimentoBean implements Serializable {
 
 	private EstabelecimentoBusiness estabelecimentoBusiness = new EstabelecimentoBusiness();
 	private LoginBusiness loginBusiness = new LoginBusiness();
-	private EstabelecimentoLoginBusiness estabelecimentoLoginBusiness = new EstabelecimentoLoginBusiness();
 	private ImagemBusiness imagemBusiness = new ImagemBusiness();
 	private EstoqueBusiness estoqueBusiness = new EstoqueBusiness();
 
@@ -300,14 +298,6 @@ public class EstabelecimentoBean implements Serializable {
 
 	public void setEstabelecimentoLogin(EstabelecimentoLogin estabelecimentoLogin) {
 		this.estabelecimentoLogin = estabelecimentoLogin;
-	}
-
-	public EstabelecimentoLoginBusiness getEstabelecimentoLoginBusiness() {
-		return estabelecimentoLoginBusiness;
-	}
-
-	public void setEstabelecimentoLoginBusiness(EstabelecimentoLoginBusiness estabelecimentoLoginBusiness) {
-		this.estabelecimentoLoginBusiness = estabelecimentoLoginBusiness;
 	}
 
 	public ImagemBusiness getImagemBusiness() {

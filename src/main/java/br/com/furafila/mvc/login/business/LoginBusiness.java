@@ -29,14 +29,6 @@ public class LoginBusiness {
 		BancoDados.executaComando(strQuery);
 	}
 
-	public void excluir(Login login) throws Exception {
-
-		String strQuery = "DELETE FROM LOGIN WHERE id_login = " + login.getIdLogin();
-
-		BancoDados.executaComando(strQuery);
-
-	}
-
 	public void alterarStatus(Login login) throws Exception {
 
 		String strQuery = "UPDATE LOGIN SET status = " + login.getStatusSQL() + " WHERE id_login = "

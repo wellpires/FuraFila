@@ -23,4 +23,6 @@ public interface EstabelecimentoApiService {
 
 	List<EstabelecimentoUsuarioDTO> listarUsuarios(Integer idEstabelecimento, Integer idLogin);
 
+	void deletarEstabelecimentoUsuario(Integer idLogin);
+
 }

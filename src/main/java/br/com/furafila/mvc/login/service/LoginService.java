@@ -3,8 +3,10 @@ package br.com.furafila.mvc.login.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.furafila.mvc.login.builder.EditarLoginDTOBuilder;
 import br.com.furafila.mvc.login.builder.NovoLoginDTOBuilder;
 import br.com.furafila.mvc.login.dto.CredenciaisDTO;
+import br.com.furafila.mvc.login.dto.EditarLoginDTO;
 import br.com.furafila.mvc.login.dto.EntregadorDTO;
 import br.com.furafila.mvc.login.dto.NovoLoginDTO;
 import br.com.furafila.mvc.login.model.Login;
@@ -69,6 +71,21 @@ public class LoginService implements ILoginService {
 				.deliveryAvailable(login.getDisponivelEntrega()).levelId(login.getPermissao().getIdPermissao()).build();
 
 		return this.loginApiService.gravarLogin(novoLoginDTO).intValue();
+	}
+
+	@Override
+	public void alterar(Login login) throws Exception {
+
+		EditarLoginDTO editarLoginDTO = new EditarLoginDTOBuilder().username(login.getUsuario())
+				.password(login.getSenhaCriptografada()).build();
+
+		this.loginApiService.alterar(login.getIdLogin(), editarLoginDTO);
+
+	}
+
+	@Override
+	public void deletar(Login login) {
+		this.loginApiService.deletar(login.getIdLogin());
 	}
 
 }
