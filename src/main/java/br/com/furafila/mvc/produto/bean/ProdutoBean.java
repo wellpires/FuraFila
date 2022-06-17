@@ -24,6 +24,8 @@ import br.com.furafila.mvc.estoque.business.EstoqueBusiness;
 import br.com.furafila.mvc.estoque.service.EstoqueService;
 import br.com.furafila.mvc.estoqueEntrada.business.EstoqueEntradaBusiness;
 import br.com.furafila.mvc.estoqueEntrada.model.EstoqueEntrada;
+import br.com.furafila.mvc.estoqueEntrada.service.impl.EstoqueEntradaService;
+import br.com.furafila.mvc.estoqueEntrada.service.impl.EstoqueEntradaServiceImpl;
 import br.com.furafila.mvc.estoqueProdutos.business.EstoqueProdutosBusiness;
 import br.com.furafila.mvc.estoqueProdutos.model.EstoqueProdutos;
 import br.com.furafila.mvc.estoqueProdutos.service.EstoqueProdutosService;
@@ -34,6 +36,7 @@ import br.com.furafila.mvc.pedidos.model.Pedidos;
 import br.com.furafila.mvc.produto.business.ProdutoBusiness;
 import br.com.furafila.mvc.produto.model.Produto;
 import br.com.furafila.mvc.produto.service.ProdutoService;
+import br.com.furafila.mvc.produto.service.impl.ProdutoServiceImpl;
 import br.com.furafila.mvc.tipoProduto.model.TipoProduto;
 import br.com.furafila.mvc.tipoProduto.service.TipoProdutoService;
 import br.com.furafila.utils.FuraFilaConstants;
@@ -65,10 +68,11 @@ public class ProdutoBean implements Serializable {
 	private EstoqueSaidaBusiness estoqueSaidaBusiness = new EstoqueSaidaBusiness();
 
 	private TipoProdutoService tipoProdutoService = new TipoProdutoService();
-	private ProdutoService produtoService = new ProdutoService();
+	private ProdutoService produtoService = new ProdutoServiceImpl();
 	private EstoqueService estoqueService = new EstoqueService();
 	private EstoqueProdutosService estoqueProdutosService = new EstoqueProdutosService();
 	private ImagemService imageService = new ImagemServiceImpl();
+	private EstoqueEntradaService estoqueEntradaService = new EstoqueEntradaServiceImpl();
 
 	private List<TipoProduto> lstTipoProduto = new ArrayList<>();
 	private List<EstoqueProdutos> lstProdutos = new ArrayList<>();
@@ -100,7 +104,7 @@ public class ProdutoBean implements Serializable {
 
 	public void popularCardapio() {
 		try {
-			setLstCardapio(getProdutoService().buscarCardapio(pegarSessaoEstabelecimento()));
+			setLstCardapio(produtoService.buscarCardapio(pegarSessaoEstabelecimento()));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
@@ -111,16 +115,13 @@ public class ProdutoBean implements Serializable {
 
 		try {
 
-			this.imageService.gravar(getProdutos().getImagem());
+			Long idImagem = this.imageService.gravar(getProdutos().getImagem());
+			getProdutos().getImagem().setIdImagem(idImagem.intValue());
+			
+			Long idProduto = this.produtoService.gravar(getProdutos());
+			getProdutos().setIdProduto(idProduto.intValue());
 
-			getProdutoBusiness().gravar(getProdutos());
-
-			EstoqueEntrada estoqueEntrada = new EstoqueEntrada();
-			estoqueEntrada.setQtdEntrada(0);
-			estoqueEntrada.setProduto(getProdutos());
-			estoqueEntrada.getMotivoEntrada().setMotivoEntrada(FuraFilaConstants.MOTIVO_ENTRADA_INICIAL);
-
-			getEstoqueEntradaBusiness().gravar(estoqueEntrada, pegarSessaoEstabelecimento().clonar());
+			estoqueEntradaService.gravar(getProdutos(), pegarSessaoEstabelecimento());
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -347,14 +348,6 @@ public class ProdutoBean implements Serializable {
 
 	public void setLstProdutos(List<EstoqueProdutos> lstProdutos) {
 		this.lstProdutos = lstProdutos;
-	}
-
-	public ProdutoService getProdutoService() {
-		return produtoService;
-	}
-
-	public void setProdutoService(ProdutoService produtoService) {
-		this.produtoService = produtoService;
 	}
 
 	public EstoqueBusiness getEstoqueBusiness() {

@@ -13,23 +13,11 @@ import br.com.furafila.mvc.produto.model.Produto;
  */
 public class ProdutoBusiness {
 
-	public void gravar(Produto produto) throws Exception {
-
-		String strQuery = "INSERT INTO PRODUTO" + "(produto_desc," + "qtdMinima," + "id_tipo_produto_FK,"
-				+ "id_imagem_FK," + "id_dimensao_FK" + ") VALUES (" + "'" + produto.getProdutoDesc() + "',"
-				+ produto.getQtdMinima() + "," + produto.getTipoProduto().getIdTipoProduto() + ","
-				+ produto.getImagem().getIdImagem() + "," + produto.getDimensao().getIdDimensao()
-				+ ") RETURNING id_produto";
-
-		produto.setIdProduto(BancoDados.inserirRetornaID(strQuery));
-
-	}
-
 	public void alterar(Produto produto) throws Exception {
 
-		String strQuery = "UPDATE " + "PRODUTO " + "SET " + "produto_desc = '" + produto.getProdutoDesc() + "',"
-				+ "qtdMinima = " + produto.getQtdMinima() + ", " + "id_tipo_produto_FK = "
-				+ produto.getTipoProduto().getIdTipoProduto() + " WHERE id_produto = " + produto.getIdProduto();
+		String strQuery = "UPDATE PRODUTO SET produto_desc = '" + produto.getProdutoDesc() + "', qtdMinima = "
+				+ produto.getQtdMinima() + ", " + "id_tipo_produto_FK = " + produto.getTipoProduto().getIdTipoProduto()
+				+ " WHERE id_produto = " + produto.getIdProduto();
 
 		BancoDados.executaComando(strQuery);
 

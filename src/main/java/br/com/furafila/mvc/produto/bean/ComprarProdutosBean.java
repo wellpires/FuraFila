@@ -46,6 +46,7 @@ import br.com.furafila.mvc.pedidos.business.PedidoBusiness;
 import br.com.furafila.mvc.pedidos.model.Pedidos;
 import br.com.furafila.mvc.produto.model.Produto;
 import br.com.furafila.mvc.produto.service.ProdutoService;
+import br.com.furafila.mvc.produto.service.impl.ProdutoServiceImpl;
 import br.com.furafila.utils.EnviarEmails;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
@@ -71,7 +72,7 @@ public class ComprarProdutosBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LogManager.getLogger(ComprarProdutosBean.class);
 
-	private ProdutoService produtoService = new ProdutoService();
+	private ProdutoService produtoService = new ProdutoServiceImpl();
 	private ConjuntoLockerService conjuntoLockerService = new ConjuntoLockerService();
 	private LockerService lockerService = new LockerService();
 	private EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
@@ -106,7 +107,7 @@ public class ComprarProdutosBean implements Serializable {
 
 	public void popularProdutosComprar() {
 		try {
-			setLstProdutoComprar(getProdutoService().listarProdutosComprar(getComprarProduto()));
+			setLstProdutoComprar(produtoService.listarProdutosComprar(getComprarProduto()));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
@@ -460,13 +461,6 @@ public class ComprarProdutosBean implements Serializable {
 		return desativar;
 	}
 
-	public ProdutoService getProdutoService() {
-		return produtoService;
-	}
-
-	public void setProdutoService(ProdutoService produtoService) {
-		this.produtoService = produtoService;
-	}
 
 	public ComprarProduto getComprarProduto() {
 		return comprarProduto;

@@ -128,6 +128,7 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
 		estabelecimento.setRazaoSocial(estabelecimentoInformacoesIniciaisDTO.getCorporateName());
 		estabelecimento.setStatus(estabelecimentoInformacoesIniciaisDTO.getStatus());
 		estabelecimento.getImagem().setIdImagem(estabelecimentoInformacoesIniciaisDTO.getIdImage().intValue());
+		estabelecimento.setEstoqueId(estabelecimentoInformacoesIniciaisDTO.getStockId());
 
 		File imagem = imagemService.buscarImagem(estabelecimentoInformacoesIniciaisDTO.getIdImage());
 		estabelecimento.getImagem().setImagem(imagem.getAbsolutePath());

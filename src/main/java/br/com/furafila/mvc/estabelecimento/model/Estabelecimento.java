@@ -23,6 +23,7 @@ public class Estabelecimento {
 	private String email = "";
 	private Imagem imagem = new Imagem();
 	private Long loginId;
+	private Long estoqueId;
 
 	public Integer getIdEstabelecimento() {
 		return idEstabelecimento;
@@ -115,6 +116,14 @@ public class Estabelecimento {
 
 	public void setLoginId(Long loginId) {
 		this.loginId = loginId;
+	}
+
+	public Long getEstoqueId() {
+		return estoqueId;
+	}
+
+	public void setEstoqueId(Long estoqueId) {
+		this.estoqueId = estoqueId;
 	}
 
 	public boolean objetoVazio() {

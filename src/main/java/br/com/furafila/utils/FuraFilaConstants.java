@@ -85,12 +85,12 @@ public class FuraFilaConstants {
     public static final String IMAGEM_LOCKER = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + "\\resources\\locker.png";
     
     //MOTIVO ENTRADA
-    public static final String MOTIVO_ENTRADA_INICIAL = "ENTRADA_INICIAL";
-    public static final String MOTIVO_ENTRADA_ENTRADA = "ENTRADA";
+    public static final String MOTIVO_ENTRADA_INICIAL = "FIRST_ENTRY";
+    public static final String MOTIVO_ENTRADA_ENTRADA = "ENTRY";
 
     //MOTIVO SAIDA
-    public static final String MOTIVO_SAIDA_CORRECAO = "CORRECAO";
-    public static final String MOTIVO_SAIDA_VENDA = "VENDA";
+    public static final String MOTIVO_SAIDA_CORRECAO = "ADJUSTMENT";
+    public static final String MOTIVO_SAIDA_VENDA = "SALE";
 
     //CODIGO TIPOS DIMENSAO LOCKER
     public static final int COD_TIPO_DIMENSAO_LOCKER_PEQUENO = 1;
