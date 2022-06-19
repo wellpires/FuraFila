@@ -66,7 +66,7 @@ public class ComandaBusiness {
 
 	public List<List<String>> listarComandasAprovadas(String complementoQuery) throws Exception {
 
-		String strQuery = "SELECT " + "C.id_comanda AS [COMANDA]," + "C.codigoPedido AS [CODIGO_PEDIDO]"
+		String strQuery = "SELECT C.id_comanda AS [COMANDA]," + "C.codigoPedido AS [CODIGO_PEDIDO]"
 				+ ",(SELECT S.id_status FROM STATUS S WHERE S.id_status = C.id_status_FK) AS [CD_STATUS]"
 				+ ",(SELECT S.status FROM STATUS S WHERE S.id_status = C.id_status_FK) AS [STATUS]"
 				+ ",(SELECT E.id_estabelecimento FROM ESTABELECIMENTO E WHERE E.id_estabelecimento = C.id_estabelecimento_FK) AS [CD_EMPRESA]"

@@ -5,41 +5,12 @@ import java.util.List;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.modelsGerais.ComprarProduto;
 import br.com.furafila.mvc.principal.connectionFactory.BancoDados;
-import br.com.furafila.mvc.produto.model.Produto;
 
 /**
  *
  * @author Wellington Gonçalves Pires
  */
 public class ProdutoBusiness {
-
-	public void alterar(Produto produto) throws Exception {
-
-		String strQuery = "UPDATE PRODUTO SET produto_desc = '" + produto.getProdutoDesc() + "', qtdMinima = "
-				+ produto.getQtdMinima() + ", " + "id_tipo_produto_FK = " + produto.getTipoProduto().getIdTipoProduto()
-				+ " WHERE id_produto = " + produto.getIdProduto();
-
-		BancoDados.executaComando(strQuery);
-
-	}
-
-	public void alterarStatus(Produto produto) throws Exception {
-
-		String strQuery = "UPDATE PRODUTO SET " + "status = " + produto.getStatusSQL() + " WHERE id_produto = "
-				+ produto.getIdProduto();
-
-		BancoDados.executaComando(strQuery);
-
-	}
-
-	public void alterarPreco(Produto produto) throws Exception {
-
-		String strQuery = "UPDATE PRODUTO SET valor_unitario = " + produto.getValorUnitario() + " WHERE id_produto = "
-				+ produto.getIdProduto();
-
-		BancoDados.executaComando(strQuery);
-
-	}
 
 	public List<List<String>> listarProdutoCardapio(Estabelecimento estabelecimento) throws Exception {
 

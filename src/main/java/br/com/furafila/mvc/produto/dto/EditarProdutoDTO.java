@@ -2,15 +2,14 @@ package br.com.furafila.mvc.produto.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class NovoProdutoDTO {
+public class EditarProdutoDTO {
 
 	private String name;
 	private Long minimumStockQuantity;
 	private Long productTypeId;
-	private Long imageId;
 
 	@JsonProperty("dimension")
-	private NovaDimensaoDTO novaDimensaoDTO;
+	private EditarDimensaoDTO editarDimensaoDTO;
 
 	public String getName() {
 		return name;
@@ -36,20 +35,12 @@ public class NovoProdutoDTO {
 		this.productTypeId = productTypeId;
 	}
 
-	public Long getImageId() {
-		return imageId;
+	public EditarDimensaoDTO getEditarDimensaoDTO() {
+		return editarDimensaoDTO;
 	}
 
-	public void setImageId(Long imageId) {
-		this.imageId = imageId;
-	}
-
-	public NovaDimensaoDTO getNovaDimensaoDTO() {
-		return novaDimensaoDTO;
-	}
-
-	public void setNovaDimensaoDTO(NovaDimensaoDTO novaDimensaoDTO) {
-		this.novaDimensaoDTO = novaDimensaoDTO;
+	public void setEditarDimensaoDTO(EditarDimensaoDTO editarDimensaoDTO) {
+		this.editarDimensaoDTO = editarDimensaoDTO;
 	}
 
 }

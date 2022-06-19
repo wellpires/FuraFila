@@ -1,51 +1,18 @@
 package br.com.furafila.mvc.estoque.service;
 
-import java.util.List;
-
-import br.com.furafila.mvc.estoque.business.EstoqueBusiness;
+import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estoque.model.Estoque;
-import br.com.furafila.utils.FuraFilaUtils;
+import br.com.furafila.mvc.estoqueEntrada.model.EstoqueEntrada;
+import br.com.furafila.mvc.estoqueSaida.model.EstoqueSaida;
 
-/**
- *
- * @author Wellington Gonçalves Pires
- */
-public class EstoqueService {
+public interface EstoqueService {
 
-    private EstoqueBusiness estoqueBusiness = new EstoqueBusiness();
+	boolean estoqueExiste(Estoque estoque) throws Exception;
 
-    public boolean estoqueExiste(Estoque estoque) throws Exception {
+	void buscarCodigoEstoque(Estoque estoque) throws Exception;
 
-        List<String> lstDados = getEstoqueBusiness().verificarEstoqueExiste(estoque);
+	void gravarEstoqueSaida(EstoqueSaida es);
 
-        Boolean estoqueExiste = false;
-
-        if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
-            estoqueExiste = Integer.parseInt(lstDados.get(0)) > 0;
-        }
-
-        return estoqueExiste;
-
-    }
-
-
-
-    public void buscarCodigoEstoque(Estoque estoque) throws Exception {
-
-        List<String> lstDados = getEstoqueBusiness().buscarCodigoEstoque(estoque);
-
-        if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
-            estoque.setIdEstoque(Integer.parseInt(lstDados.get(0)));
-        }
-
-    }
-
-    public EstoqueBusiness getEstoqueBusiness() {
-        return estoqueBusiness;
-    }
-
-    public void setEstoqueBusiness(EstoqueBusiness estoqueBusiness) {
-        this.estoqueBusiness = estoqueBusiness;
-    }
+	void gravarEstoqueEntrada(EstoqueEntrada estoqueEntrada, Estabelecimento estabelecimento);
 
 }

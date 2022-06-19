@@ -29,7 +29,12 @@ public class NovoEstoqueEntradaDTOBuilder {
 		this.stockId = stockId;
 		return this;
 	}
-	
+
+	public NovoEstoqueEntradaDTOBuilder incomingReason(String incomingReason) {
+		this.incomingReason = incomingReason;
+		return this;
+	}
+
 	public NovoEstoqueEntradaDTO build() {
 		NovoEstoqueEntradaDTO novoEstoqueEntradaDTO = new NovoEstoqueEntradaDTO();
 		novoEstoqueEntradaDTO.setProductId(productId);
@@ -38,7 +43,5 @@ public class NovoEstoqueEntradaDTOBuilder {
 		novoEstoqueEntradaDTO.setStockId(stockId);
 		return novoEstoqueEntradaDTO;
 	}
-
-	
 
 }

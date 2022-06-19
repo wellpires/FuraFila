@@ -15,4 +15,10 @@ public interface ProdutoService {
 
 	Long gravar(Produto produtos);
 
+	void alterar(Produto produto);
+
+	void alterarStatus(Integer idProduto);
+
+	void alterarPreco(Produto produto);
+
 }

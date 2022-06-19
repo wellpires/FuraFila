@@ -9,7 +9,10 @@ import br.com.furafila.mvc.cliente.service.impl.ImagemServiceImpl;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.modelsGerais.ComprarProduto;
 import br.com.furafila.mvc.pedidos.model.Pedidos;
+import br.com.furafila.mvc.produto.builder.EditarProdutoDTOBuilder;
 import br.com.furafila.mvc.produto.business.ProdutoBusiness;
+import br.com.furafila.mvc.produto.dto.EditarProdutoDTO;
+import br.com.furafila.mvc.produto.dto.EditarProdutoPrecoUnitarioDTO;
 import br.com.furafila.mvc.produto.dto.NovaDimensaoDTO;
 import br.com.furafila.mvc.produto.dto.NovoProdutoDTO;
 import br.com.furafila.mvc.produto.model.Produto;
@@ -90,7 +93,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 	public Long gravar(Produto produtos) {
 
 		NovoProdutoDTO novoProdutoDTO = new NovoProdutoDTO();
-		novoProdutoDTO.setProductName(produtos.getProdutoDesc());
+		novoProdutoDTO.setName(produtos.getProdutoDesc());
 		novoProdutoDTO.setProductTypeId(produtos.getTipoProduto().getIdTipoProduto().longValue());
 		novoProdutoDTO.setImageId(produtos.getImagem().getIdImagem().longValue());
 		novoProdutoDTO.setMinimumStockQuantity(produtos.getQtdMinima().longValue());
@@ -102,6 +105,32 @@ public class ProdutoServiceImpl implements ProdutoService {
 		novoProdutoDTO.setNovaDimensaoDTO(novaDimensaoDTO);
 
 		return produtoApiService.gravar(novoProdutoDTO);
+	}
+
+	@Override
+	public void alterar(Produto produto) {
+
+		EditarProdutoDTO editarProdutoDTO = new EditarProdutoDTOBuilder().name(produto.getProdutoDesc())
+				.minimumStockQuantity(produto.getQtdMinima()).productTypeId(produto.getTipoProduto().getIdTipoProduto())
+				.newDimension().height(produto.getDimensao().getAltura()).width(produto.getDimensao().getLargura())
+				.length(produto.getDimensao().getProfundidade()).builder();
+		produtoApiService.alterar(editarProdutoDTO, produto.getIdProduto().longValue());
+
+	}
+
+	@Override
+	public void alterarStatus(Integer idProduto) {
+		produtoApiService.alterarStatus(idProduto);
+	}
+
+	@Override
+	public void alterarPreco(Produto produto) {
+
+		EditarProdutoPrecoUnitarioDTO editarProdutoPrecoUnitarioDTO = new EditarProdutoPrecoUnitarioDTO();
+		editarProdutoPrecoUnitarioDTO.setUnitPrice(produto.getValorUnitario());
+
+		produtoApiService.alterarPreco(editarProdutoPrecoUnitarioDTO, produto.getIdProduto().longValue());
+
 	}
 
 }

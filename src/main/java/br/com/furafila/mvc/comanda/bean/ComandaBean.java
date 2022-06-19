@@ -32,11 +32,10 @@ import br.com.furafila.utils.FuraFilaUtils;
 @SessionScoped
 public class ComandaBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    private static final Logger logger = LogManager.getLogger(ComandaBean.class);
-    
+	private static final long serialVersionUID = -1908683327473720103L;
 
+	private static final Logger logger = LogManager.getLogger(ComandaBean.class);
+    
     private List<PedidoLocker> lstComandasAprovadas = new ArrayList<>();
 
     private ComandaBusiness comandaBusiness = new ComandaBusiness();

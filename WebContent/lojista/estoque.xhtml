@@ -11,6 +11,8 @@
 	<ui:define name="corpo">
 		<h:form id="formPrincipal">
 
+			<p:remoteCommand name="buscarImagemParaProduto" actionListener="#{produtoBean.buscarImagemParaProduto}" oncomplete="PF('wgdInfoProduto').show()"/>
+
 			<f:metadata>
 				<f:event type="preRenderView"
 					listener="#{produtoBean.popularProdutos()}" />
@@ -69,7 +71,7 @@
 					<p:commandButton id="btnEditar"
 						value="#{msg.rotuloLojistaEditarProduto}"
 						disabled="#{produtoBean.flgBotoes or produtoBean.estoqueProdutos.produto.status}"
-						onclick="PF('wgdInfoProduto').show()"
+						onclick="buscarImagemParaProduto();"
 						update=":formInfoProduto:outEdicaoUsuario" style="width: 100%" />
 
 					<p:commandButton id="btnExcluir"
@@ -162,26 +164,19 @@
 						</p:fieldset>
 
 						<p:fieldset legend="#{msg.rotuloImagem}" style="width: 95%">
-							<div align="center">
-
-								<div align="center">
-									<p:graphicImage id="fotoEditar"
-										value="#{produtoBean.estoqueProdutos.produto.imagem.imagemVisualizar_2}"
-										styleClass="imagem">
-										<f:param name="imagem"
-											value="#{produto.produto.imagem.imagem}" />
-									</p:graphicImage>
-								</div>
-								<div align="center">
-									<p:fileUpload
-										style="width: 105%;overflow-x: hidden;overflow-y: hidden"
-										label="#{msg.rotuloEscolherImagem}"
-										cancelLabel="#{msg.rotuloCancelar}"
-										uploadLabel="#{msg.rotuloCarregar}"
-										fileUploadListener="#{produtoBean.carregarImagem}"
-										update="fotoEditar" />
-								</div>
-							</div>
+                <div align="center">
+                    <div align="center">
+                        <p:graphicImage id="foto" value="#{produtoBean.produtos.imagem.imagemVisualizar_2}" cache="false" styleClass="imagem" />
+                    </div>
+                    <div align="center">
+                        <p:fileUpload  style="overflow: hidden;width: 105%" 
+                                       label="#{msg.rotuloEscolherImagem}"
+                                       cancelLabel="#{msg.rotuloCancelar}"
+                                       uploadLabel="#{msg.rotuloCarregar}"
+                                       fileUploadListener="#{produtoBean.carregarImagem}"
+                                       update="foto"/>
+                    </div>
+                </div>
 						</p:fieldset>
 					</h:panelGrid>
 

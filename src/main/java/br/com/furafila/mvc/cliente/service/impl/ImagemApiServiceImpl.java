@@ -67,6 +67,10 @@ public class ImagemApiServiceImpl implements ImagemApiService {
 		Response response = client.target(path).request(MediaType.APPLICATION_OCTET_STREAM_TYPE).get();
 		String fileName = response.getMetadata().get("Content-Disposition").get(0).toString();
 
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new ImagemServerApiException(response.getStatusInfo());
+		}
+
 		try {
 			File tempFile = File.createTempFile("ff_", fileName);
 			FileUtils.copyInputStreamToFile(response.readEntity(InputStream.class), tempFile);
