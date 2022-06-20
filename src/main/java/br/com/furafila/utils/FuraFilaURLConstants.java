@@ -20,4 +20,9 @@ public class FuraFilaURLConstants {
 	public static final String EDIT_CREDENTIAL = baseUrl.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.credential.edit"));
 	public static final String DELETE_CREDENTIAL = baseUrl.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.credential.delete"));
 
+	public static final String TOGGLE_COURIER_STATUS = baseUrl.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.credential.toggle-courier-status"));
+	public static final String TOGGLE_COURIER_DELIVERY_AVAILABILITY = baseUrl.concat(FuraFilaPropertiesUtils.getProperty("furafila.api.credential.toggle-courier-delivery-availability"));
+	
+	
+	
 }

@@ -4,7 +4,7 @@ import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
 import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoServiceImpl;
 import br.com.furafila.mvc.login.model.Login;
-import br.com.furafila.mvc.login.service.LoginService;
+import br.com.furafila.mvc.login.service.LoginServiceImpl;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
 
@@ -15,7 +15,7 @@ import br.com.furafila.utils.FuraFilaUtils;
 public class FuraFilaValidadores {
 
 	private final static EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
-	private final static LoginService loginService = new LoginService();
+	private final static LoginServiceImpl loginService = new LoginServiceImpl();
 
 	public static boolean validarEstabelecimento(Estabelecimento estabelecimento) throws Exception {
 
@@ -130,7 +130,7 @@ public class FuraFilaValidadores {
 		return estabelecimentoService;
 	}
 
-	public static LoginService getLoginService() {
+	public static LoginServiceImpl getLoginService() {
 		return loginService;
 	}
 

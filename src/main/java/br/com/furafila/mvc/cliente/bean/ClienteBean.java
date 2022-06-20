@@ -22,11 +22,13 @@ import br.com.furafila.mvc.cliente.model.Cliente;
 import br.com.furafila.mvc.cliente.service.ClienteService;
 import br.com.furafila.mvc.cliente.service.ImagemService;
 import br.com.furafila.mvc.cliente.service.impl.ImagemServiceImpl;
-import br.com.furafila.mvc.comanda.service.ComandaService;
+import br.com.furafila.mvc.comanda.service.impl.ComandaService;
+import br.com.furafila.mvc.comanda.service.impl.ComandaServiceImpl;
 import br.com.furafila.mvc.imagem.business.ImagemBusiness;
 import br.com.furafila.mvc.login.business.LoginBusiness;
 import br.com.furafila.mvc.login.model.Login;
 import br.com.furafila.mvc.login.service.LoginService;
+import br.com.furafila.mvc.login.service.impl.LoginServiceImpl;
 import br.com.furafila.mvc.logradouro.business.LogradouroBusiness;
 import br.com.furafila.mvc.logradouro.model.Logradouro;
 import br.com.furafila.mvc.logradouro.service.LogradouroService;
@@ -53,8 +55,8 @@ public class ClienteBean implements Serializable {
 	private BairroService bairroService = new BairroService();
 	private LogradouroService logradouroService = new LogradouroService();
 	private ClienteService clienteService = new ClienteService();
-	private ComandaService comandaService = new ComandaService();
-	private LoginService loginService = new LoginService();
+	private ComandaService comandaService = new ComandaServiceImpl();
+	private LoginService loginService = new LoginServiceImpl();
 	private ImagemService imagemService = new ImagemServiceImpl();
 
 	private ClienteBusiness clienteBusiness = new ClienteBusiness();
@@ -80,7 +82,7 @@ public class ClienteBean implements Serializable {
 	public void popularComandasNoLocker() {
 
 		try {
-			setLstComandaLocker(getComandaService()
+			setLstComandaLocker(this.comandaService
 					.listarComandasAprovadas(" WHERE C.id_status_FK = " + FuraFilaConstants.COD_PRODUTO_ENTREGUE
 							+ " OR C.id_status_FK = " + FuraFilaConstants.COD_ENCAMINHADO_LOCKER));
 		} catch (Exception ex) {
@@ -313,14 +315,6 @@ public class ClienteBean implements Serializable {
 
 	public void setLstComandaLocker(List<PedidoLocker> lstComandaLocker) {
 		this.lstComandaLocker = lstComandaLocker;
-	}
-
-	public ComandaService getComandaService() {
-		return comandaService;
-	}
-
-	public void setComandaService(ComandaService comandaService) {
-		this.comandaService = comandaService;
 	}
 
 }

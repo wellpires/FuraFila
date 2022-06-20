@@ -14,8 +14,8 @@ import org.primefaces.event.UnselectEvent;
 
 import br.com.furafila.mvc.login.business.LoginBusiness;
 import br.com.furafila.mvc.login.model.Login;
-import br.com.furafila.mvc.login.service.ILoginService;
 import br.com.furafila.mvc.login.service.LoginService;
+import br.com.furafila.mvc.login.service.impl.LoginServiceImpl;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
 import br.com.furafila.utils.Navegacao;
@@ -34,7 +34,7 @@ public class EntregadoresBean implements Serializable {
 
 	private List<Login> lstEntregadores = null;
 
-	private ILoginService iLoginService;
+	private LoginService iLoginService;
 
 	private LoginBusiness loginBusiness = null;
 
@@ -48,7 +48,7 @@ public class EntregadoresBean implements Serializable {
 		try {
 			this.loginBusiness = new LoginBusiness();
 			this.login = new Login();
-			this.iLoginService = new LoginService();
+			this.iLoginService = new LoginServiceImpl();
 			this.lstEntregadores = this.iLoginService.listarEntregador();
 			flgBtnExcluir = true;
 		} catch (Exception ex) {
@@ -86,30 +86,30 @@ public class EntregadoresBean implements Serializable {
 
 	}
 
-	public void gravar() throws Exception {
+	private void gravar() throws Exception {
 
 		if (usuarioDuplicado()) {
 			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_ENTREGADOR_EXISTE);
 			return;
 		}
 
-		getLogin().setStatus(Boolean.TRUE);
-		getLogin().setDisponivelEntrega(Boolean.TRUE);
-		getLogin().getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_4);
-		getLoginBusiness().gravar(getLogin());
+		this.login.setStatus(Boolean.TRUE);
+		this.login.setDisponivelEntrega(Boolean.TRUE);
+		this.login.getPermissao().setIdPermissao(FuraFilaConstants.CODIGO_PERFIL_4);
+		this.iLoginService.gravarLogin(login);
 
 		FuraFilaUtils.growlInfo(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.INFO_ENTREGADOR_CADASTRADO);
 
 	}
 
-	public void alterar() throws Exception {
+	private void alterar() throws Exception {
 
 		if (usuarioDuplicado()) {
 			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.AVISO_ENTREGADOR_EXISTE);
 			return;
 		}
 
-		getLoginBusiness().alterar(getLogin());
+		this.iLoginService.alterar(login);
 
 		FuraFilaUtils.growlInfo(FuraFilaConstants.AVISO_GROWL_TITULO, FuraFilaConstants.INFO_ENTREGADOR_ALTERADO);
 	}
@@ -119,7 +119,7 @@ public class EntregadoresBean implements Serializable {
 		try {
 
 			getLogin().setStatus(!getLogin().getStatus());
-			getLoginBusiness().alterarStatus(getLogin());
+			this.iLoginService.alterarStatus(getLogin());
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -133,7 +133,7 @@ public class EntregadoresBean implements Serializable {
 		try {
 
 			getLogin().setDisponivelEntrega(!getLogin().getDisponivelEntrega());
-			getLoginBusiness().alterarDisponibilidade(getLogin());
+			this.iLoginService.alterarDisponibilidade(getLogin());
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -204,11 +204,11 @@ public class EntregadoresBean implements Serializable {
 		this.flgBtnExcluir = flgBtnExcluir;
 	}
 
-	public ILoginService getiLoginService() {
+	public LoginService getiLoginService() {
 		return iLoginService;
 	}
 
-	public void setiLoginService(ILoginService iLoginService) {
+	public void setiLoginService(LoginService iLoginService) {
 		this.iLoginService = iLoginService;
 	}
 

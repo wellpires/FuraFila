@@ -18,8 +18,8 @@ import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoServiceIm
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.estabelecimentoLogin.service.EstabelecimentoLoginService;
 import br.com.furafila.mvc.login.business.LoginBusiness;
-import br.com.furafila.mvc.login.service.ILoginService;
 import br.com.furafila.mvc.login.service.LoginService;
+import br.com.furafila.mvc.login.service.impl.LoginServiceImpl;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
 import br.com.furafila.utils.Navegacao;
@@ -38,7 +38,7 @@ public class EstabelecimentoLoginBean implements Serializable {
 
 	private EstabelecimentoLoginService estabelecimentoLoginService = new EstabelecimentoLoginService();
 	private EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
-	private ILoginService loginService = new LoginService();
+	private LoginService loginService = new LoginServiceImpl();
 
 	private LoginBusiness loginBusiness = new LoginBusiness();
 

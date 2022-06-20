@@ -14,12 +14,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.furafila.mvc.comanda.business.ComandaBusiness;
-import br.com.furafila.mvc.comanda.service.ComandaService;
+import br.com.furafila.mvc.comanda.service.impl.ComandaServiceImpl;
+import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estoqueSaida.business.EstoqueSaidaBusiness;
 import br.com.furafila.mvc.estoqueSaida.model.EstoqueSaida;
 import br.com.furafila.mvc.locker.business.LockerBusiness;
 import br.com.furafila.mvc.pedidoLocker.model.PedidoLocker;
 import br.com.furafila.mvc.pedidos.model.Pedidos;
+import br.com.furafila.mvc.pedidos.service.PedidoService;
+import br.com.furafila.mvc.pedidos.service.impl.PedidoServiceImpl;
 import br.com.furafila.utils.EnviarEmails;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
@@ -35,168 +38,187 @@ public class ComandaBean implements Serializable {
 	private static final long serialVersionUID = -1908683327473720103L;
 
 	private static final Logger logger = LogManager.getLogger(ComandaBean.class);
-    
-    private List<PedidoLocker> lstComandasAprovadas = new ArrayList<>();
 
-    private ComandaBusiness comandaBusiness = new ComandaBusiness();
-    private LockerBusiness lockerBusiness = new LockerBusiness();
-    private EstoqueSaidaBusiness estoqueSaidaBusiness = new EstoqueSaidaBusiness();
+	private List<PedidoLocker> lstComandasAprovadas = new ArrayList<>();
 
-    private ComandaService comandaService = new ComandaService();
+	private ComandaBusiness comandaBusiness = new ComandaBusiness();
+	private LockerBusiness lockerBusiness = new LockerBusiness();
+	private EstoqueSaidaBusiness estoqueSaidaBusiness = new EstoqueSaidaBusiness();
 
-    private PedidoLocker pedidoLocker = new PedidoLocker();
+	private ComandaServiceImpl comandaService = new ComandaServiceImpl();
+	private PedidoService pedidoService = new PedidoServiceImpl();
 
-    public void popularComandasAprovadas(ComponentSystemEvent cse) {
+	private PedidoLocker pedidoLocker = new PedidoLocker();
 
-        try {
-            setLstComandasAprovadas(getComandaService().listarComandasAprovadas(" WHERE C.id_status_FK <> " + FuraFilaConstants.COD_PRODUTO_ENTREGUE + " AND C.id_status_FK <> " + FuraFilaConstants.COD_ENCAMINHADO_LOCKER));
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	public void popularComandasAprovadas(ComponentSystemEvent cse) {
 
-    }
+		try {
 
-    public void adicionarCabecalho() {
-        FacesContext.getCurrentInstance().getExternalContext().addResponseHeader("Access-Control-Allow-Origin", "https://sandbox.pagseguro.uol.com.br");
-    }
+			this.lstComandasAprovadas = pedidoService.listarComandasAprovadas(pegarSessaoEstabelecimento());
 
-    public void atualizarComandas(ActionEvent ae) {
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-        try {
+	}
 
-            //1 - VERIFICAR O STATUS JUNTO COM O PAGSEGURO
-            //2 - ATUALIZAR A FORMA DE PAGAMENTO
-            //3 - ORGANIZAR A LISTA DE ACORDO COM A LOCALIZAÇÃO
+	public void adicionarCabecalho() {
+		FacesContext.getCurrentInstance().getExternalContext().addResponseHeader("Access-Control-Allow-Origin",
+				"https://sandbox.pagseguro.uol.com.br");
+	}
+
+	public void atualizarComandas(ActionEvent ae) {
+
+		try {
+
+			// 1 - VERIFICAR O STATUS JUNTO COM O PAGSEGURO
+			// 2 - ATUALIZAR A FORMA DE PAGAMENTO
+			// 3 - ORGANIZAR A LISTA DE ACORDO COM A LOCALIZAÇÃO
 //            List<PedidoLocker> lstTodasComandas = getComandaService().listarComandasAprovadas(false);
-            //VERIFICAR O STATUS JUNTO AO PAGSEGURO
+			// VERIFICAR O STATUS JUNTO AO PAGSEGURO
 //            buscarDadosPedido();
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-    }
+	}
 
-    public void confirmarPedido(ActionEvent ae) {
-        try {
-            List<Pedidos> lstProdutos = getComandaService().listarProdutosPorComanda(getPedidoLocker().getPedidos().getComanda());
-            
-            PedidoLocker pl = getComandaService().buscarEstabelecimentoLocker(getPedidoLocker().getPedidos().getComanda());
-            
-            pl.getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_PRODUTO_ENTREGUE);
-            pl.getLocker().getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_LIVRE);
-            getLockerBusiness().alterarStatus(pl.getLocker());
-            
-            for (Pedidos p : lstProdutos) {
-                EstoqueSaida es = new EstoqueSaida();
-                es.setProduto(p.getProduto());
-                es.setQtdSaida(p.getQtd());
-                es.getMotivoSaida().setMotivoSaida(FuraFilaConstants.MOTIVO_SAIDA_VENDA);
-                getEstoqueSaidaBusiness().gravar(es, pl.getPedidos().getComanda().getEstabelecimento());
-            }
-            
-            FuraFilaUtils.executarJavascript("alert('Pedido nº" + getPedidoLocker().getPedidos().getComanda().getIdComanda() + " entregue!')");
-            
-            getComandaBusiness().alterarStatusComanda(getPedidoLocker().getPedidos().getComanda());
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
+	public void confirmarPedido(ActionEvent ae) {
+		try {
+			List<Pedidos> lstProdutos = getComandaService()
+					.listarProdutosPorComanda(getPedidoLocker().getPedidos().getComanda());
 
-    }
+			PedidoLocker pl = getComandaService()
+					.buscarEstabelecimentoLocker(getPedidoLocker().getPedidos().getComanda());
 
-    public void alterarStatusPedido(ActionEvent ae) {
-        try {
+			pl.getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_PRODUTO_ENTREGUE);
+			pl.getLocker().getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_LIVRE);
+			getLockerBusiness().alterarStatus(pl.getLocker());
 
-            List<Pedidos> lstProdutos = getComandaService().listarProdutosPorComanda(getPedidoLocker().getPedidos().getComanda());
+			for (Pedidos p : lstProdutos) {
+				EstoqueSaida es = new EstoqueSaida();
+				es.setProduto(p.getProduto());
+				es.setQtdSaida(p.getQtd());
+				es.getMotivoSaida().setMotivoSaida(FuraFilaConstants.MOTIVO_SAIDA_VENDA);
+				getEstoqueSaidaBusiness().gravar(es, pl.getPedidos().getComanda().getEstabelecimento());
+			}
 
-            if (FuraFilaConstants.COD_EM_ANALISE == getPedidoLocker().getPedidos().getComanda().getStatus().getIdStatus()) {
-                getPedidoLocker().getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_EM_SEPARACAO);
+			FuraFilaUtils.executarJavascript(
+					"alert('Pedido nº" + getPedidoLocker().getPedidos().getComanda().getIdComanda() + " entregue!')");
 
-                Double total = 0.0;
+			getComandaBusiness().alterarStatusComanda(getPedidoLocker().getPedidos().getComanda());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
 
-                for (Pedidos p : lstProdutos) {
-                    total += p.getSubTotal();
-                }
+	}
 
-                EnviarEmails.enviarEmailEmSeparacao(getPedidoLocker(), FuraFilaUtils.formatarMoeda(total), lstProdutos);
-            } else if (FuraFilaConstants.COD_EM_SEPARACAO == getPedidoLocker().getPedidos().getComanda().getStatus().getIdStatus()) {
-                getPedidoLocker().getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_ENCAMINHADO_LOCKER);
-                getComandaBusiness().atualizarDataVenda(getPedidoLocker().getPedidos().getComanda());
+	public void alterarStatusPedido(ActionEvent ae) {
+		try {
 
-                EnviarEmails.enviarEmailEncaminhadoLocker(getPedidoLocker());
+			List<Pedidos> lstProdutos = getComandaService()
+					.listarProdutosPorComanda(getPedidoLocker().getPedidos().getComanda());
 
-            } else if (FuraFilaConstants.COD_ENCAMINHADO_LOCKER == getPedidoLocker().getPedidos().getComanda().getStatus().getIdStatus()) {
-                getPedidoLocker().getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_PRODUTO_ENTREGUE);
-                getPedidoLocker().getLocker().getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_LIVRE);
-                getLockerBusiness().alterarStatus(getPedidoLocker().getLocker());
+			if (FuraFilaConstants.COD_EM_ANALISE == getPedidoLocker().getPedidos().getComanda().getStatus()
+					.getIdStatus()) {
+				getPedidoLocker().getPedidos().getComanda().getStatus().setIdStatus(FuraFilaConstants.COD_EM_SEPARACAO);
 
-                for (Pedidos p : lstProdutos) {
-                    EstoqueSaida es = new EstoqueSaida();
-                    es.setProduto(p.getProduto());
-                    es.setQtdSaida(p.getQtd());
-                    es.getMotivoSaida().setMotivoSaida(FuraFilaConstants.MOTIVO_SAIDA_VENDA);
-                    getEstoqueSaidaBusiness().gravar(es, getPedidoLocker().getPedidos().getComanda().getEstabelecimento());
-                }
+				Double total = 0.0;
 
-                FuraFilaUtils.executarJavascript("alert('Pedido nº" + getPedidoLocker().getPedidos().getComanda().getIdComanda() + " entregue!')");
+				for (Pedidos p : lstProdutos) {
+					total += p.getSubTotal();
+				}
 
-            }
+				EnviarEmails.enviarEmailEmSeparacao(getPedidoLocker(), FuraFilaUtils.formatarMoeda(total), lstProdutos);
+			} else if (FuraFilaConstants.COD_EM_SEPARACAO == getPedidoLocker().getPedidos().getComanda().getStatus()
+					.getIdStatus()) {
+				getPedidoLocker().getPedidos().getComanda().getStatus()
+						.setIdStatus(FuraFilaConstants.COD_ENCAMINHADO_LOCKER);
+				getComandaBusiness().atualizarDataVenda(getPedidoLocker().getPedidos().getComanda());
 
-            getComandaBusiness().alterarStatusComanda(getPedidoLocker().getPedidos().getComanda());
-            popularComandasAprovadas(null);
-        } catch (Exception ex) {
-        	logger.error(ex.getMessage(), ex);
-            FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
-        }
-    }
+				EnviarEmails.enviarEmailEncaminhadoLocker(getPedidoLocker());
 
-    public List<PedidoLocker> getLstComandasAprovadas() {
-        return lstComandasAprovadas;
-    }
+			} else if (FuraFilaConstants.COD_ENCAMINHADO_LOCKER == getPedidoLocker().getPedidos().getComanda()
+					.getStatus().getIdStatus()) {
+				getPedidoLocker().getPedidos().getComanda().getStatus()
+						.setIdStatus(FuraFilaConstants.COD_PRODUTO_ENTREGUE);
+				getPedidoLocker().getLocker().getStatus().setIdStatus(FuraFilaConstants.COD_LOCKER_LIVRE);
+				getLockerBusiness().alterarStatus(getPedidoLocker().getLocker());
 
-    public void setLstComandasAprovadas(List<PedidoLocker> lstComandasAprovadas) {
-        this.lstComandasAprovadas = lstComandasAprovadas;
-    }
+				for (Pedidos p : lstProdutos) {
+					EstoqueSaida es = new EstoqueSaida();
+					es.setProduto(p.getProduto());
+					es.setQtdSaida(p.getQtd());
+					es.getMotivoSaida().setMotivoSaida(FuraFilaConstants.MOTIVO_SAIDA_VENDA);
+					getEstoqueSaidaBusiness().gravar(es,
+							getPedidoLocker().getPedidos().getComanda().getEstabelecimento());
+				}
 
-    public ComandaService getComandaService() {
-        return comandaService;
-    }
+				FuraFilaUtils.executarJavascript("alert('Pedido nº"
+						+ getPedidoLocker().getPedidos().getComanda().getIdComanda() + " entregue!')");
 
-    public void setComandaService(ComandaService comandaService) {
-        this.comandaService = comandaService;
-    }
+			}
 
-    public PedidoLocker getPedidoLocker() {
-        return pedidoLocker;
-    }
+			getComandaBusiness().alterarStatusComanda(getPedidoLocker().getPedidos().getComanda());
+			popularComandasAprovadas(null);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			FuraFilaUtils.growlAviso(FuraFilaConstants.AVISO_GROWL_TITULO, ex.getMessage());
+		}
+	}
 
-    public void setPedidoLocker(PedidoLocker pedidoLocker) {
-        this.pedidoLocker = pedidoLocker;
-    }
+	private Estabelecimento pegarSessaoEstabelecimento() {
+		return (Estabelecimento) FuraFilaUtils.pegarDadosSessao(FuraFilaConstants.SESSAO_ESTABELECIMENTO);
+	}
 
-    public ComandaBusiness getComandaBusiness() {
-        return comandaBusiness;
-    }
+	public List<PedidoLocker> getLstComandasAprovadas() {
+		return lstComandasAprovadas;
+	}
 
-    public void setComandaBusiness(ComandaBusiness comandaBusiness) {
-        this.comandaBusiness = comandaBusiness;
-    }
+	public void setLstComandasAprovadas(List<PedidoLocker> lstComandasAprovadas) {
+		this.lstComandasAprovadas = lstComandasAprovadas;
+	}
 
-    public LockerBusiness getLockerBusiness() {
-        return lockerBusiness;
-    }
+	public ComandaServiceImpl getComandaService() {
+		return comandaService;
+	}
 
-    public void setLockerBusiness(LockerBusiness lockerBusiness) {
-        this.lockerBusiness = lockerBusiness;
-    }
+	public void setComandaService(ComandaServiceImpl comandaService) {
+		this.comandaService = comandaService;
+	}
 
-    public EstoqueSaidaBusiness getEstoqueSaidaBusiness() {
-        return estoqueSaidaBusiness;
-    }
+	public PedidoLocker getPedidoLocker() {
+		return pedidoLocker;
+	}
 
-    public void setEstoqueSaidaBusiness(EstoqueSaidaBusiness estoqueSaidaBusiness) {
-        this.estoqueSaidaBusiness = estoqueSaidaBusiness;
-    }
+	public void setPedidoLocker(PedidoLocker pedidoLocker) {
+		this.pedidoLocker = pedidoLocker;
+	}
+
+	public ComandaBusiness getComandaBusiness() {
+		return comandaBusiness;
+	}
+
+	public void setComandaBusiness(ComandaBusiness comandaBusiness) {
+		this.comandaBusiness = comandaBusiness;
+	}
+
+	public LockerBusiness getLockerBusiness() {
+		return lockerBusiness;
+	}
+
+	public void setLockerBusiness(LockerBusiness lockerBusiness) {
+		this.lockerBusiness = lockerBusiness;
+	}
+
+	public EstoqueSaidaBusiness getEstoqueSaidaBusiness() {
+		return estoqueSaidaBusiness;
+	}
+
+	public void setEstoqueSaidaBusiness(EstoqueSaidaBusiness estoqueSaidaBusiness) {
+		this.estoqueSaidaBusiness = estoqueSaidaBusiness;
+	}
 }

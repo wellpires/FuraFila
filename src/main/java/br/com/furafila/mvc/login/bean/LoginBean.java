@@ -23,6 +23,7 @@ import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.estabelecimentoLogin.service.EstabelecimentoLoginService;
 import br.com.furafila.mvc.login.model.Login;
 import br.com.furafila.mvc.login.service.LoginService;
+import br.com.furafila.mvc.login.service.impl.LoginServiceImpl;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
 
@@ -42,7 +43,7 @@ public class LoginBean implements Serializable {
 	private AuthenticationManager authenticationManager = null;
 
 	private Login login = new Login();
-	private LoginService loginService = new LoginService();
+	private LoginService loginService = new LoginServiceImpl();
 	private ClienteService clienteService = new ClienteService();
 	private EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
 	private EstabelecimentoLoginService estabelecimentoLoginService = new EstabelecimentoLoginService();
@@ -51,7 +52,7 @@ public class LoginBean implements Serializable {
 
 		try {
 
-			Login l = getLoginService().logarSe(getLogin());
+			Login l = this.loginService.logarSe(getLogin());
 
 			if (getLogin().getUsuario().equals(l.getUsuario())
 					&& getLogin().getSenhaCriptografada().equals(l.getSenha())) {
@@ -128,14 +129,6 @@ public class LoginBean implements Serializable {
 
 	public void setLogin(Login login) {
 		this.login = login;
-	}
-
-	public LoginService getLoginService() {
-		return loginService;
-	}
-
-	public void setLoginService(LoginService loginService) {
-		this.loginService = loginService;
 	}
 
 	public ClienteService getClienteService() {

@@ -30,8 +30,8 @@ import br.com.furafila.mvc.estoqueProdutos.model.EstoqueProdutos;
 import br.com.furafila.mvc.imagem.business.ImagemBusiness;
 import br.com.furafila.mvc.imagem.model.Imagem;
 import br.com.furafila.mvc.login.business.LoginBusiness;
-import br.com.furafila.mvc.login.service.ILoginService;
 import br.com.furafila.mvc.login.service.LoginService;
+import br.com.furafila.mvc.login.service.impl.LoginServiceImpl;
 import br.com.furafila.utils.EnviarEmails;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
@@ -64,7 +64,7 @@ public class EstabelecimentoBean implements Serializable {
 	private EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
 	private EstoqueService estoqueService = new EstoqueServiceImpl();
 	private ImagemService imagemService = new ImagemServiceImpl();
-	private ILoginService loginService = new LoginService();
+	private LoginService loginService = new LoginServiceImpl();
 
 	public void listarEstabelecimentos() {
 		try {

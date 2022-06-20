@@ -1,4 +1,4 @@
-package br.com.furafila.mvc.login.service;
+package br.com.furafila.mvc.login.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +28,9 @@ import br.com.furafila.mvc.login.response.EntregadoresResponse;
 import br.com.furafila.mvc.login.response.NovoLoginResponse;
 import br.com.furafila.utils.FuraFilaURLConstants;
 
-public class LoginApiService {
+public class LoginApiServiceImpl implements LoginApiService {
 
+	@Override
 	public CredenciaisDTO autenticarLogin(String usuario, String senha) {
 
 		Client client = ClientBuilder.newClient();
@@ -44,6 +45,7 @@ public class LoginApiService {
 		return response.readEntity(CredenciaisResponse.class).getCredenciaisDTO();
 	}
 
+	@Override
 	public boolean verificarDuplicidade(Integer idLogin, String usuario, boolean isAlteracao) {
 
 		Map<String, String> parameters = new HashMap<>();
@@ -63,6 +65,7 @@ public class LoginApiService {
 		return response.readEntity(DuplicidadeCredencialResponse.class).getCredencialDuplicada();
 	}
 
+	@Override
 	public List<EntregadorDTO> listarEntregadores() {
 
 		Client client = ClientBuilder.newClient();
@@ -75,6 +78,7 @@ public class LoginApiService {
 		return response.readEntity(EntregadoresResponse.class).getEntregadores();
 	}
 
+	@Override
 	public Long gravarLogin(NovoLoginDTO novoLoginDTO) {
 
 		Client client = ClientBuilder.newClient();
@@ -89,6 +93,7 @@ public class LoginApiService {
 				.getId();
 	}
 
+	@Override
 	public void alterar(Integer idLogin, EditarLoginDTO editarLoginDTO) {
 
 		HashMap<String, Object> param = new HashMap<>();
@@ -106,6 +111,7 @@ public class LoginApiService {
 
 	}
 
+	@Override
 	public void deletar(Integer idLogin) {
 
 		HashMap<String, Object> param = new HashMap<>();
@@ -120,6 +126,39 @@ public class LoginApiService {
 			throw new LoginServerApiException(response.getStatusInfo());
 		}
 
+	}
+
+	@Override
+	public void alterarStatus(Integer idLogin) {
+
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("loginId", idLogin);
+		String path = UriComponentsBuilder.fromHttpUrl(FuraFilaURLConstants.TOGGLE_COURIER_STATUS).buildAndExpand(param)
+				.toUriString();
+
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(path).request(MediaType.APPLICATION_JSON).delete();
+
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new LoginServerApiException(response.getStatusInfo());
+		}
+
+	}
+
+	@Override
+	public void alterarDisponibilidade(Integer idLogin) {
+
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("loginId", idLogin);
+		String path = UriComponentsBuilder.fromHttpUrl(FuraFilaURLConstants.TOGGLE_COURIER_DELIVERY_AVAILABILITY)
+				.buildAndExpand(param).toUriString();
+
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(path).request(MediaType.APPLICATION_JSON).put(Entity.json(""));
+
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new LoginServerApiException(response.getStatusInfo());
+		}
 	}
 
 }
