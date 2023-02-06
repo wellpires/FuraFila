@@ -57,6 +57,10 @@ public class Navegacao {
         return FuraFilaPaginas.PAGINA_NOVO_TIPO_PRODUTO;
     }
     
+    public static String irEditarTipoProduto(){
+        return FuraFilaPaginas.PAGINA_EDITAR_TIPO_PRODUTO;
+    }
+    
     public static String irEstabelecimentosCadastrados(){
         return FuraFilaPaginas.PAGINA_ESTABELECIMENTOS_CADASTRADOS;
     }

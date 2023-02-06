@@ -5,8 +5,10 @@ import java.util.List;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estoque.builder.NewEstoqueSaidaDTOBuilder;
 import br.com.furafila.mvc.estoque.business.EstoqueBusiness;
+import br.com.furafila.mvc.estoque.dto.NovoEstoqueDTO;
 import br.com.furafila.mvc.estoque.dto.NovoEstoqueSaidaDTO;
 import br.com.furafila.mvc.estoque.model.Estoque;
+import br.com.furafila.mvc.estoque.service.EstoqueApiService;
 import br.com.furafila.mvc.estoque.service.EstoqueSaidaApiService;
 import br.com.furafila.mvc.estoque.service.EstoqueService;
 import br.com.furafila.mvc.estoqueEntrada.builder.NovoEstoqueEntradaDTOBuilder;
@@ -29,19 +31,11 @@ public class EstoqueServiceImpl implements EstoqueService {
 
 	private EstoqueSaidaApiService estoqueSaidaApiService = new EstoqueSaidaApiServiceImpl();
 
+	private EstoqueApiService estoqueApiService = new EstoqueApiServiceImpl();
+
 	@Override
 	public boolean estoqueExiste(Estoque estoque) throws Exception {
-
-		List<String> lstDados = estoqueBusiness.verificarEstoqueExiste(estoque);
-
-		Boolean estoqueExiste = false;
-
-		if (!FuraFilaUtils.listaVaziaNula(lstDados)) {
-			estoqueExiste = Integer.parseInt(lstDados.get(0)) > 0;
-		}
-
-		return estoqueExiste;
-
+		return estoqueApiService.verificarEstoqueExiste(estoque.getEstabelecimento().getIdEstabelecimento());
 	}
 
 	@Override
@@ -77,6 +71,16 @@ public class EstoqueServiceImpl implements EstoqueService {
 
 		estoqueEntradaApiService.gravar(novoEstoqueEntradaDTO);
 
+	}
+
+	@Override
+	public void criarEstoque(Estoque estoque) {
+		
+		NovoEstoqueDTO novoEstoqueDTO = new NovoEstoqueDTO();
+		novoEstoqueDTO.setEstablishmentId(estoque.getEstabelecimento().getIdEstabelecimento().longValue());
+		
+		estoqueApiService.gravar(novoEstoqueDTO);
+		
 	}
 
 }

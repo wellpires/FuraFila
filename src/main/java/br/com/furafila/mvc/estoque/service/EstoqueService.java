@@ -15,4 +15,6 @@ public interface EstoqueService {
 
 	void gravarEstoqueEntrada(EstoqueEntrada estoqueEntrada, Estabelecimento estabelecimento);
 
+	void criarEstoque(Estoque estoque);
+
 }

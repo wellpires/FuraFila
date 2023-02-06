@@ -38,6 +38,7 @@ import br.com.furafila.mvc.produto.service.ProdutoService;
 import br.com.furafila.mvc.produto.service.impl.ProdutoServiceImpl;
 import br.com.furafila.mvc.tipoProduto.model.TipoProduto;
 import br.com.furafila.mvc.tipoProduto.service.TipoProdutoService;
+import br.com.furafila.mvc.tipoProduto.service.impl.TipoProdutoServiceImpl;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
 import br.com.furafila.utils.Navegacao;
@@ -65,7 +66,7 @@ public class ProdutoBean implements Serializable {
 	private EstoqueProdutosBusiness estoqueProdutosBusiness = new EstoqueProdutosBusiness();
 	private EstoqueSaidaBusiness estoqueSaidaBusiness = new EstoqueSaidaBusiness();
 
-	private TipoProdutoService tipoProdutoService = new TipoProdutoService();
+	private TipoProdutoService tipoProdutoService = new TipoProdutoServiceImpl();
 	private ProdutoService produtoService = new ProdutoServiceImpl();
 	private EstoqueService estoqueService = new EstoqueServiceImpl();
 	private EstoqueProdutosService estoqueProdutosService = new EstoqueProdutosService();
@@ -81,7 +82,7 @@ public class ProdutoBean implements Serializable {
 
 	public void popularTipoProduto() {
 		try {
-			setLstTipoProduto(getTipoProdutoService().listarTipoProduto(false));
+			setLstTipoProduto(tipoProdutoService.listarTipoProduto(false));
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -316,14 +317,6 @@ public class ProdutoBean implements Serializable {
 
 	public void setLstTipoProduto(List<TipoProduto> lstTipoProduto) {
 		this.lstTipoProduto = lstTipoProduto;
-	}
-
-	public TipoProdutoService getTipoProdutoService() {
-		return tipoProdutoService;
-	}
-
-	public void setTipoProdutoService(TipoProdutoService tipoProdutoService) {
-		this.tipoProdutoService = tipoProdutoService;
 	}
 
 	public StreamedContent getImagem() {

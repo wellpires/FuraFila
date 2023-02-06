@@ -13,6 +13,10 @@ import br.com.furafila.mvc.pedidos.model.Pedidos;
  */
 public class TemplateEmail {
 
+	public static void main(String[] args) {
+		System.out.println(getEmailBemVindo("teste"));
+	}
+	
     public static String getEmailBemVindo(String cliente) {
 
         String template_bem_vindo

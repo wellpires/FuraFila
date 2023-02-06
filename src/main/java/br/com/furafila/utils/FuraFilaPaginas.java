@@ -46,6 +46,7 @@ public class FuraFilaPaginas {
     // --> TIPO DE PRODUTO
     public static final String PAGINA_TIPO_PRODUTO = "/administrador/tipoProduto/tipoProduto.xhtml" + FACES_REDIRECT;
     public static final String PAGINA_NOVO_TIPO_PRODUTO = "/administrador/tipoProduto/novoTipoProduto.xhtml" + FACES_REDIRECT;
+    public static final String PAGINA_EDITAR_TIPO_PRODUTO = "/administrador/tipoProduto/editarTipoProduto.xhtml" + FACES_REDIRECT;
     public static final String PAGINA_GERENCIAR_LOCKER = "/administrador/gerenciarLockers.xhtml" + FACES_REDIRECT;
     
     // --> ESTABELECIMENTO CADASTRADOS

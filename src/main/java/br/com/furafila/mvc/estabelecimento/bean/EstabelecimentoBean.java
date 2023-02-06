@@ -32,7 +32,6 @@ import br.com.furafila.mvc.imagem.model.Imagem;
 import br.com.furafila.mvc.login.business.LoginBusiness;
 import br.com.furafila.mvc.login.service.LoginService;
 import br.com.furafila.mvc.login.service.impl.LoginServiceImpl;
-import br.com.furafila.utils.EnviarEmails;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
 import br.com.furafila.utils.Navegacao;
@@ -151,10 +150,8 @@ public class EstabelecimentoBean implements Serializable {
 
 			if (!getEstoqueService().estoqueExiste(getEstoque())) {
 				getEstoque().setEstabelecimento(getEstabelecimento());
-				getEstoqueBusiness().gravar(getEstoque());
+				estoqueService.criarEstoque(getEstoque());
 			}
-
-			EnviarEmails.enviarEmailBoasVindas(getEstabelecimento());
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -182,7 +179,7 @@ public class EstabelecimentoBean implements Serializable {
 
 		getEstabelecimento().setStatus(status);
 
-		getEstabelecimentoBusiness().alterarStatus(getEstabelecimento());
+		this.estabelecimentoService.alterarStatus(estabelecimento);
 
 	}
 

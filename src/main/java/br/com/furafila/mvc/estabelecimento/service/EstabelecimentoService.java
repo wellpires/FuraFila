@@ -2,7 +2,6 @@ package br.com.furafila.mvc.estabelecimento.service;
 
 import java.util.List;
 
-import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoUsuarioDTO;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.pedidos.model.Pedidos;
@@ -30,6 +29,8 @@ public interface EstabelecimentoService {
 	int verificarDuplicidadeInscricaoEstadual(Estabelecimento estabelecimento) throws Exception;
 
 	void adicionarUsuarioEstabelecimento(EstabelecimentoLogin estabelecimentoLogin);
+
+	void alterarStatus(Estabelecimento estabelecimento);
 
 
 }

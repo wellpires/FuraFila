@@ -3,6 +3,7 @@ package br.com.furafila.mvc.estabelecimento.service.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.furafila.mvc.cliente.service.ImagemService;
 import br.com.furafila.mvc.cliente.service.impl.ImagemServiceImpl;
@@ -11,14 +12,15 @@ import br.com.furafila.mvc.estabelecimento.business.EstabelecimentoBusiness;
 import br.com.furafila.mvc.estabelecimento.dto.EditarEstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoInformacoesIniciaisDTO;
+import br.com.furafila.mvc.estabelecimento.dto.EstablishmentStatusDTO;
 import br.com.furafila.mvc.estabelecimento.dto.NovoEstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.dto.NovoUsuarioEstabelecimentoDTO;
+import br.com.furafila.mvc.estabelecimento.function.EstabelecimentoDTO2EstabelecimentoFuncion;
 import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoApiService;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
 import br.com.furafila.mvc.estabelecimentoLogin.model.EstabelecimentoLogin;
 import br.com.furafila.mvc.pedidos.model.Pedidos;
-import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
 
 /**
@@ -35,33 +37,10 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
 	@Override
 	public List<Estabelecimento> listarEstabelecimentos() throws Exception {
 
-		List<Estabelecimento> lstEstabelecimentos = new ArrayList<>();
-		List<List<String>> lstDados = this.estabelecimentoBusiness.listarEstabelecimento();
+		List<EstabelecimentoDTO> estabelecimentos = estabelecimentoApiService.listarEstabelecimento();
 
-		if (!FuraFilaUtils.listaDuplaVaziaNula(lstDados)) {
-
-			for (List<String> valores : lstDados) {
-
-				Estabelecimento e = new Estabelecimento();
-				Integer indice = 0;
-
-				e.setIdEstabelecimento(Integer.parseInt(valores.get(indice++)));
-				e.setRazaoSocial(valores.get(indice++));
-				e.setCnpj(Long.parseLong(valores.get(indice++)));
-				e.setInscricaoEstadual(Long.parseLong(valores.get(indice++)));
-				e.setStatus(valores.get(indice++).equals(String.valueOf(FuraFilaConstants.COD_ATIVO)));
-				e.setEmail(valores.get(indice++));
-				String idImagem = valores.get(indice++);
-				e.getImagem().setIdImagem(Integer.parseInt(idImagem == null ? "0" : idImagem));
-				e.getImagem().setImagem(FuraFilaUtils.semImagem(e));
-
-				lstEstabelecimentos.add(e);
-
-			}
-
-		}
-
-		return lstEstabelecimentos;
+		return estabelecimentos.stream().map(new EstabelecimentoDTO2EstabelecimentoFuncion())
+				.collect(Collectors.toList());
 
 	}
 
@@ -178,6 +157,17 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
 	@Override
 	public int verificarDuplicidadeInscricaoEstadual(Estabelecimento estabelecimento) throws Exception {
 		return this.estabelecimentoBusiness.pegarInscricaoEstadual(estabelecimento).size();
+	}
+
+	@Override
+	public void alterarStatus(Estabelecimento estabelecimento) {
+
+		EstablishmentStatusDTO establishmentStatusDTO = new EstablishmentStatusDTO();
+		establishmentStatusDTO.setStatus(estabelecimento.getStatus());
+
+		estabelecimentoApiService.alterarStatus(establishmentStatusDTO,
+				estabelecimento.getIdEstabelecimento().longValue());
+
 	}
 
 }

@@ -19,7 +19,7 @@ public class EstoqueSaidaApiServiceImpl implements EstoqueSaidaApiService {
 	public void gravar(NovoEstoqueSaidaDTO newEstoqueSaidaDTO) {
 
 		Client client = ClientBuilder.newClient();
-		Response response = client.target(EstoqueUrlConstants.STOCK_OUTGOING).request()
+		Response response = client.target(EstoqueUrlConstants.CHECK_ESTABLISHMENT_HAS_STOCK).request()
 				.post(Entity.entity(new NovoEstoqueSaidaRequest(newEstoqueSaidaDTO), MediaType.APPLICATION_JSON));
 
 		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {

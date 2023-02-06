@@ -4,7 +4,8 @@ import br.com.furafila.mvc.estabelecimento.model.Estabelecimento;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoService;
 import br.com.furafila.mvc.estabelecimento.service.impl.EstabelecimentoServiceImpl;
 import br.com.furafila.mvc.login.model.Login;
-import br.com.furafila.mvc.login.service.LoginServiceImpl;
+import br.com.furafila.mvc.login.service.LoginService;
+import br.com.furafila.mvc.login.service.impl.LoginServiceImpl;
 import br.com.furafila.utils.FuraFilaConstants;
 import br.com.furafila.utils.FuraFilaUtils;
 
@@ -15,7 +16,7 @@ import br.com.furafila.utils.FuraFilaUtils;
 public class FuraFilaValidadores {
 
 	private final static EstabelecimentoService estabelecimentoService = new EstabelecimentoServiceImpl();
-	private final static LoginServiceImpl loginService = new LoginServiceImpl();
+	private final static LoginService loginService = new LoginServiceImpl();
 
 	public static boolean validarEstabelecimento(Estabelecimento estabelecimento) throws Exception {
 
@@ -99,19 +100,19 @@ public class FuraFilaValidadores {
 	}
 
 	private static boolean razaoSocialExiste(Estabelecimento estabelecimento) throws Exception {
-		return getEstabelecimentoService().verificarDuplicidadeRazaoSocial(estabelecimento) > 0;
+		return estabelecimentoService.verificarDuplicidadeRazaoSocial(estabelecimento) > 0;
 	}
 
 	private static boolean emailExiste(Estabelecimento estabelecimento) throws Exception {
-		return getEstabelecimentoService().verificarDuplicidadeEmail(estabelecimento) > 0;
+		return estabelecimentoService.verificarDuplicidadeEmail(estabelecimento) > 0;
 	}
 
 	private static boolean cnpjExiste(Estabelecimento estabelecimento) throws Exception {
-		return getEstabelecimentoService().verificarDuplicidadeCnpj(estabelecimento) > 0;
+		return estabelecimentoService.verificarDuplicidadeCnpj(estabelecimento) > 0;
 	}
 
 	private static boolean inscricaoSocialExiste(Estabelecimento estabelecimento) throws Exception {
-		return getEstabelecimentoService().verificarDuplicidadeInscricaoEstadual(estabelecimento) > 0;
+		return estabelecimentoService.verificarDuplicidadeInscricaoEstadual(estabelecimento) > 0;
 	}
 
 	private static boolean usuarioVazio(Login login) {
@@ -123,15 +124,7 @@ public class FuraFilaValidadores {
 	}
 
 	private static boolean usuarioExiste(Login login) throws Exception {
-		return getLoginService().verificarDuplicidade(login, false);
-	}
-
-	public static EstabelecimentoService getEstabelecimentoService() {
-		return estabelecimentoService;
-	}
-
-	public static LoginServiceImpl getLoginService() {
-		return loginService;
+		return loginService.verificarDuplicidade(login, false);
 	}
 
 }

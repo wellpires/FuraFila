@@ -16,15 +16,18 @@ import br.com.furafila.mvc.estabelecimento.dto.EditarEstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoInformacoesIniciaisDTO;
 import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoUsuarioDTO;
+import br.com.furafila.mvc.estabelecimento.dto.EstablishmentStatusDTO;
 import br.com.furafila.mvc.estabelecimento.dto.NovoEstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.dto.NovoUsuarioEstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.exception.EstabelecimentoServerApiException;
 import br.com.furafila.mvc.estabelecimento.request.EditarEstabelecimentoRequest;
+import br.com.furafila.mvc.estabelecimento.request.EstablishmentStatusRequest;
 import br.com.furafila.mvc.estabelecimento.request.NovoEstabelecimentoRequest;
 import br.com.furafila.mvc.estabelecimento.request.NovoUsuarioEstabelecimentoRequest;
 import br.com.furafila.mvc.estabelecimento.response.EstabelecimentoInformacoesIniciaisResponse;
 import br.com.furafila.mvc.estabelecimento.response.EstabelecimentoResponse;
 import br.com.furafila.mvc.estabelecimento.response.EstabelecimentoUsuarioResponse;
+import br.com.furafila.mvc.estabelecimento.response.EstabelecimentosResponse;
 import br.com.furafila.mvc.estabelecimento.service.EstabelecimentoApiService;
 import br.com.furafila.utils.EstabelecimentoUrlConstants;
 
@@ -144,6 +147,39 @@ public class EstabelecimentoApiServiceImpl implements EstabelecimentoApiService 
 
 		Client client = ClientBuilder.newClient();
 		Response response = client.target(path).request().delete();
+
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new EstabelecimentoServerApiException(response.getStatusInfo());
+		}
+
+	}
+
+	@Override
+	public List<EstabelecimentoDTO> listarEstabelecimento() {
+
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(EstabelecimentoUrlConstants.LIST_ESTABLISHMENTS).request().get();
+
+		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
+			throw new EstabelecimentoServerApiException(response.getStatusInfo());
+
+		}
+
+		return response.readEntity(EstabelecimentosResponse.class).getEstabelecimentoDTOs();
+	}
+
+	@Override
+	public void alterarStatus(EstablishmentStatusDTO establishmentStatusDTO, Long establishmentId) {
+
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("establishmentId", establishmentId);
+
+		String path = UriComponentsBuilder.fromHttpUrl(EstabelecimentoUrlConstants.EDIT_STATUS_ESTABLISHMENT)
+				.buildAndExpand(param).toUriString();
+
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(path).request()
+				.put(Entity.entity(new EstablishmentStatusRequest(establishmentStatusDTO), MediaType.APPLICATION_JSON));
 
 		if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {
 			throw new EstabelecimentoServerApiException(response.getStatusInfo());

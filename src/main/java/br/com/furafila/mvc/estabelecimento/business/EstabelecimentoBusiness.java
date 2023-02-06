@@ -27,25 +27,6 @@ public class EstabelecimentoBusiness {
 
 	}
 
-	public void alterarStatus(Estabelecimento estabelecimento) throws Exception {
-
-		String strQuery = "UPDATE " + "ESTABELECIMENTO " + "SET status = '" + estabelecimento.getStatusSQL() + "' "
-				+ "WHERE id_estabelecimento = " + estabelecimento.getIdEstabelecimento();
-
-		BancoDados.executaComando(strQuery);
-
-	}
-
-	public List<List<String>> listarEstabelecimento() throws Exception {
-
-		String strQuery = "SELECT " + "E.id_estabelecimento AS [CODIGO], " + "E.razao_social AS [RAZAO_SOCIAL], "
-				+ "E.cnpj AS [CNPJ], " + "E.inscricao_estadual AS [IE], " + "E.status AS [STATUS], "
-				+ "E.email AS [EMAIL]," + "E.id_imagem_FK AS [CODIGO_IMG] " + "FROM ESTABELECIMENTO E";
-
-		return BancoDados.retorna_N_Registros(strQuery);
-
-	}
-
 	public List<String> listarInformacoesEstabelecimento(Estabelecimento estabelecimento) throws Exception {
 
 		String strQuery = "SELECT " + "E.id_estabelecimento AS [CODIGO], " + "E.razao_social AS [RAZAO_SOCIAL], "

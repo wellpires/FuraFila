@@ -6,6 +6,7 @@ import br.com.furafila.mvc.estabelecimento.dto.EditarEstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoInformacoesIniciaisDTO;
 import br.com.furafila.mvc.estabelecimento.dto.EstabelecimentoUsuarioDTO;
+import br.com.furafila.mvc.estabelecimento.dto.EstablishmentStatusDTO;
 import br.com.furafila.mvc.estabelecimento.dto.NovoEstabelecimentoDTO;
 import br.com.furafila.mvc.estabelecimento.dto.NovoUsuarioEstabelecimentoDTO;
 
@@ -24,5 +25,9 @@ public interface EstabelecimentoApiService {
 	List<EstabelecimentoUsuarioDTO> listarUsuarios(Integer idEstabelecimento, Integer idLogin);
 
 	void deletarEstabelecimentoUsuario(Integer idLogin);
+
+	List<EstabelecimentoDTO> listarEstabelecimento();
+
+	void alterarStatus(EstablishmentStatusDTO establishmentStatusDTO, Long establishmentId);
 
 }
